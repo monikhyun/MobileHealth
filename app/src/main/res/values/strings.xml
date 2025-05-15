@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Resister</string>
+    <string-array name="majormjc">
+        <item>컴퓨터공학과</item>
+        <item>전자공학과</item>
+        <item>경영학과</item>
+        <item>심리학과</item>
+    </string-array>
+</resources>
