@@ -6,4 +6,11 @@
         <item>경영학과</item>
         <item>심리학과</item>
     </string-array>
+    <string-array name="menu_items">
+        <item>홈</item>
+        <item>운동</item>
+        <item>식단</item>
+        <item>친구</item>
+        <item>통계</item>
+    </string-array>
 </resources>
