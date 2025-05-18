@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!-- 상단 메뉴바 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <Spinner
+            android:id="@+id/topDropdownSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@android:color/black"
+            android:dropDownHorizontalOffset="0dp"
+            android:dropDownVerticalOffset="4dp"
+            android:entries="@array/menu_items"
+            android:gravity="start|center_vertical"
+            android:padding="4dp"
+            android:spinnerMode="dropdown" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:src="@android:drawable/ic_menu_info_details" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@android:drawable/ic_menu_preferences" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="80dp"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="식단 기록"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- 식사 시간 선택 버튼 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/btnBreakfast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#A0A0A0"
+                android:textColor="@color/white"
+                android:elevation="6dp"
+                android:translationZ="10dp"
+                android:text="아침" />
+
+            <Button
+                android:id="@+id/btnLunch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="점심"
+                android:backgroundTint="#A0A0A0"
+                android:textColor="@color/white"
+                android:elevation="6dp"
+                android:translationZ="10dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnDinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#A0A0A0"
+                android:elevation="6dp"
+                android:translationZ="10dp"
+                android:textColor="@color/white"
+                android:text="저녁" />
+        </LinearLayout>
+
+        <!-- 입력 폼 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="이름" android:textStyle="bold" />
+            <EditText android:id="@+id/editMealName" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/rounded_frame" />
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="칼로리" android:layout_marginTop="12dp" android:textStyle="bold"/>
+            <EditText android:id="@+id/editCalorie" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/rounded_frame" android:inputType="number"/>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="탄수화물" android:layout_marginTop="12dp" android:textStyle="bold"/>
+            <EditText android:id="@+id/editCarb" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/rounded_frame" android:inputType="number"/>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="단백질" android:layout_marginTop="12dp" android:textStyle="bold"/>
+            <EditText android:id="@+id/editProtein" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/rounded_frame" android:inputType="number"/>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="지방" android:layout_marginTop="12dp" android:textStyle="bold"/>
+            <EditText android:id="@+id/editFat" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/rounded_frame" android:inputType="number"/>
+        </LinearLayout>
+
+        <!-- 버튼 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="24dp">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:elevation="6dp"
+                android:translationZ="10dp"
+                android:backgroundTint="@color/white"
+                android:text="취소" />
+
+            <Button
+                android:id="@+id/buttonSubmit"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:elevation="6dp"
+                android:translationZ="10dp"
+                android:backgroundTint="#00FF00"
+                android:text="확인"
+                android:layout_marginStart="16dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- 하단 네비게이션 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/rounded_container"
+        android:elevation="6dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <!-- 아이콘들 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F0f0f0"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <!-- 예시 아이콘들 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_homeoff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="홈" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_homeoff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="운동" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_homeoff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="식단" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_homeoff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="친구" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_homeoff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="통계" />
+            </LinearLayout>
+
+            <!-- ... 추가 메뉴들 ... -->
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
