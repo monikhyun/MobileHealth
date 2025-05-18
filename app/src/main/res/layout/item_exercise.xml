@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    android:background="@drawable/exercise_item_bg"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:gravity="center_vertical"
+    >
+
+    <!-- 부위 표시 (ex: 등) -->
+    <TextView
+        android:id="@+id/text_part"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="등"
+        android:textSize="14sp"
+        android:background="@drawable/part_label_bg"
+        android:textColor="@android:color/black"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="4dp"
+        android:layout_marginEnd="12dp"/>
+
+    <!-- 운동 이름 -->
+    <TextView
+        android:id="@+id/text_exercise_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="원 암 덤벨 로우"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+    <!-- 완료 체크박스 -->
+    <CheckBox
+        android:id="@+id/checkbox_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:buttonTint="@color/pink"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:scaleX="1.3"
+        android:scaleY="1.3"/>
+</LinearLayout>
