@@ -22,7 +22,7 @@
             android:backgroundTint="@android:color/black"
             android:dropDownHorizontalOffset="0dp"
             android:dropDownVerticalOffset="4dp"
-            android:entries="@array/diet_menu_items"
+            android:entries="@array/menu_items"
             android:gravity="start|center_vertical"
             android:padding="4dp"
             android:spinnerMode="dropdown" />
