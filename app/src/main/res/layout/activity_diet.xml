@@ -248,7 +248,7 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/ic_homeoff" />
+                    android:src="@drawable/ic_exerciseon" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -266,7 +266,7 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/ic_homeoff" />
+                    android:src="@drawable/ic_dieton" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -284,7 +284,7 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/ic_homeoff" />
+                    android:src="@drawable/ic_friendoff" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -302,7 +302,7 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/ic_homeoff" />
+                    android:src="@drawable/ic_status" />
 
                 <TextView
                     android:layout_width="wrap_content"
