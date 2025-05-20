@@ -28,12 +28,10 @@ import com.example.resister.Request.ValidateRequest;
 
 public class RegisterActivity extends AppCompatActivity {
     private ArrayAdapter adapter;
-    private Spinner spinner;
     private String userID;
     private String userPassword;
     private String userGender;
-    private String userMajor;
-    private String userEmail;
+    private String username;
     private AlertDialog dialog;
     private boolean validate = false;
 
@@ -41,13 +39,9 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        spinner = findViewById(R.id.majorSpinner);
-        adapter = ArrayAdapter.createFromResource(this, R.array.majormjc, android.R.layout.
-                simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
         final EditText etId = findViewById(R.id.etId);
         final EditText etPasswd = findViewById(R.id.etPasswd);
-        final EditText emailTxt = findViewById(R.id.etEmail);
+        final EditText etName = findViewById(R.id.etName);
         final Button btnValidate = findViewById(R.id.btnValidate);
         RadioGroup rgroupGender = findViewById(R.id.rgroupGender);
         int genderGrpID = rgroupGender.getCheckedRadioButtonId();
@@ -117,12 +111,11 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String userID = etId.getText().toString();
                 String userPassword = etPasswd.getText().toString();
-                String userMajor = spinner.getSelectedItem().toString();
-                String userEmail = emailTxt.getText().toString();
+                String userName = etName.getText().toString();
 
                 //TODO. validate 값에 따라 중복체크 요청 후 종료 처리
-                if (userID.equals("") || userPassword.equals("") || userMajor.equals("") ||
-                        userEmail.equals("") || userGender.equals("")) {
+                if (userID.equals("") || userPassword.equals("") || userName.equals("")
+                       || userGender.equals("")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
                     dialog = builder.setMessage("모든 정보를 입력해주세요.")
                             .setNegativeButton("확인", null)
@@ -155,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     }
                 };
-                RegisterRequest registerRequest = new RegisterRequest(userID, userPassword, userGender, userMajor, userEmail, responseListener);
+                RegisterRequest registerRequest = new RegisterRequest(userID, userPassword, userGender, userName, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
             }

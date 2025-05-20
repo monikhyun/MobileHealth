@@ -187,7 +187,7 @@
                 android:id="@+id/icon_workout"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:src="@drawable/ic_exercise"
+                android:src="@drawable/ic_exercise_selected"
                 app:tint="#FF7C8C" />
 
             <TextView

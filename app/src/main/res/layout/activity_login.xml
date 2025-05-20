@@ -5,6 +5,29 @@
     android:padding="24dp"
     android:orientation="vertical">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:paddingTop="32dp"
+        android:src="@drawable/logo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="너도 할 수 있어!"
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        android:paddingBottom="12dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="나야 헬린이"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
+
     <!-- 아이디 입력 -->
     <EditText
         android:id="@+id/etId"
@@ -29,7 +52,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="로그인"
-        android:layout_marginBottom="24dp"/>
+        android:textColor="@color/black"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/pink"/>
 
     <!-- 회원가입으로 이동하는 텍스트 -->
     <TextView

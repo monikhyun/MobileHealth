@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         tvId = findViewById(R.id.tvId);
         Intent inIntent = getIntent();
-        String userID = inIntent.getStringExtra("userID");
+        String userID = SessionManager.getInstance().getUserId();
         tvId.setText(userID + "님 환영합니다.");
     }
 }
