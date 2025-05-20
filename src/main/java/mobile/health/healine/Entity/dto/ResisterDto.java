@@ -8,8 +8,7 @@ import mobile.health.healine.Entity.Gender;
 @Setter
 public class ResisterDto {
     private String userId;
-    private String userPassword;
-    private Gender userGender;
-    private String userMajor;
-    private String userEmail;
+    private String password;
+    private String username;
+    private Gender gender;
 }

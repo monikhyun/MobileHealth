@@ -40,9 +40,6 @@ public class Member {
     @Column(precision = 3, scale = 1)
     private BigDecimal weight;
 
-    @Column(nullable = false)
-    private String name;
-
     @OneToMany(mappedBy = "member")
     private List<Diet> diets;
 

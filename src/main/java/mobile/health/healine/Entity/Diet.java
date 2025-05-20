@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Builder
 @Entity
@@ -33,6 +34,9 @@ public class Diet {
 
     @Column(precision = 4, scale = 1, nullable = false)
     private BigDecimal calories;
+
+    @Column(nullable = false)
+    private LocalDate date;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

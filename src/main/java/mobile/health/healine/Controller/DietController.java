@@ -1,0 +1,36 @@
+package mobile.health.healine.Controller;
+
+
+import lombok.RequiredArgsConstructor;
+import mobile.health.healine.Entity.dto.DietDto;
+import mobile.health.healine.Service.DietService;
+import mobile.health.healine.Service.DietServiceImpl;
+import mobile.health.healine.Service.ResisterServiceImpl;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/diet")
+@RequiredArgsConstructor
+public class DietController {
+    private final DietServiceImpl dietService;
+    private final ResisterServiceImpl resisterService;
+
+
+    @PostMapping("/record/{userId}")
+    public ResponseEntity<String> record(@PathVariable String userId, @ModelAttribute DietDto dietDto){
+        if(!resisterService.validate(userId)){
+            return ResponseEntity.ok("등록된 회원이 아닙니다.");
+        }
+        dietService.dietSave(dietDto);
+        return ResponseEntity.ok("정상적으로 등록되었습니다.");
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<DietDto>> find(@PathVariable String userId, @RequestParam(required = false) LocalDate date){
+        return ResponseEntity.ok(dietService.dietFind(userId, date));
+    }
+}

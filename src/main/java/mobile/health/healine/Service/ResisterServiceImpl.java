@@ -30,8 +30,9 @@ public class ResisterServiceImpl implements ResisterService{
     public void save(ResisterDto resisterDto) {
         Member member = Member.builder()
                 .userId(resisterDto.getUserId())
-                .password(resisterDto.getUserPassword())
-                .gender(resisterDto.getUserGender())
+                .password(resisterDto.getPassword())
+                .username(resisterDto.getUsername())
+                .gender(resisterDto.getGender())
                 .build();
 
         memberRepository.save(member);
