@@ -1,23 +1,36 @@
 package com.example.resister;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.resister.R;
-
 public class MainActivity extends AppCompatActivity {
 
     TextView tvId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tvId = findViewById(R.id.tvId);
-        Intent inIntent = getIntent();
-        String userID = SessionManager.getInstance().getUserId();
-        tvId.setText(userID + "님 환영합니다.");
+
+        // 1) SharedPreferences 열기
+        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+
+        // 2) USER_ID 읽어오기 (없으면 null)
+        String userID = prefs.getString("USER_ID", null);
+
+        if (userID != null) {
+            // 3) 사용자 환영 메시지
+            tvId.setText(userID + "님 환영합니다.");
+        } else {
+            // 로그인 정보가 없으면 로그인 화면으로 이동
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 }

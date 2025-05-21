@@ -9,7 +9,7 @@ public class RegisterRequest extends StringRequest {
     private Map<String,String> parameters;
     public RegisterRequest(String userID, String password, String gender, String username,
             Response.Listener<String> listener) {
-        super(Method.POST, "http://10.0.2.2:8080/api/register/ok", listener, null);
+        super(Method.POST, "http://10.0.2.2:8080/api/auth/register", listener, null);
         parameters = new HashMap<>();
         parameters.put("userId", userID);
         parameters.put("password", password);
