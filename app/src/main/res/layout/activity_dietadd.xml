@@ -103,19 +103,19 @@
             android:orientation="vertical">
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="이름" android:textStyle="bold" />
-            <EditText android:id="@+id/editMealName" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/rounded_frame" />
+            <EditText android:id="@+id/editMealName" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/edit_box_bg" />
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="칼로리" android:layout_marginTop="12dp" android:textStyle="bold"/>
-            <EditText android:id="@+id/editCalorie" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/rounded_frame" android:inputType="number"/>
+            <EditText android:id="@+id/editCalorie" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/edit_box_bg" android:inputType="number"/>
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="탄수화물" android:layout_marginTop="12dp" android:textStyle="bold"/>
-            <EditText android:id="@+id/editCarb" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/rounded_frame" android:inputType="number"/>
+            <EditText android:id="@+id/editCarb" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/edit_box_bg" android:inputType="number"/>
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="단백질" android:layout_marginTop="12dp" android:textStyle="bold"/>
-            <EditText android:id="@+id/editProtein" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/rounded_frame" android:inputType="number"/>
+            <EditText android:id="@+id/editProtein" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/edit_box_bg" android:inputType="number"/>
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="지방" android:layout_marginTop="12dp" android:textStyle="bold"/>
-            <EditText android:id="@+id/editFat" android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@drawable/rounded_frame" android:inputType="number"/>
+            <EditText android:id="@+id/editFat" android:layout_width="match_parent" android:layout_height="40dp" android:background="@drawable/edit_box_bg" android:inputType="number"/>
         </LinearLayout>
 
         <!-- 버튼 -->
@@ -134,7 +134,6 @@
                 android:textColor="@color/black"
                 android:elevation="6dp"
                 android:translationZ="10dp"
-                android:backgroundTint="@color/white"
                 android:text="취소" />
 
             <Button
@@ -145,7 +144,6 @@
                 android:textColor="@color/black"
                 android:elevation="6dp"
                 android:translationZ="10dp"
-                android:backgroundTint="#00FF00"
                 android:text="확인"
                 android:layout_marginStart="16dp" />
         </LinearLayout>

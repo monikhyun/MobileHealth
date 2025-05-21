@@ -182,9 +182,8 @@
                 android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/rounded_container"
+                android:background="@drawable/button_card_bg"
                 android:clipToOutline="false"
-                android:elevation="6dp"
                 android:outlineProvider="bounds">
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
