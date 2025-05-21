@@ -1,0 +1,161 @@
+package mobile.health.healine.Service;
+
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import mobile.health.healine.Entity.*;
+import mobile.health.healine.Entity.dto.ExerciseDto;
+import mobile.health.healine.Entity.dto.ExerciseRecordDto;
+import mobile.health.healine.Repository.ExerciseRecordRepository;
+import mobile.health.healine.Repository.ExerciseRepository;
+import mobile.health.healine.Repository.MemberFavoriteRepository;
+import mobile.health.healine.Repository.MemberRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+@Transactional
+@Slf4j
+@RequiredArgsConstructor
+public class ExerciseServiceImpl implements ExerciseService{
+    private final ExerciseRepository exerciseRepository;
+    private final ExerciseRecordRepository exerciseRecordRepository;
+    private final MemberFavoriteRepository memberFavoriteRepository;
+    private final MemberRepository memberRepository;
+
+    // 기록할 운동 추가
+    @Override
+    public void addExercise(String userId, String exerciseName, LocalDate date) {
+        Exercise exercise = exerciseRepository.findByName(exerciseName);
+        exerciseRecordRepository.save(ExerciseRecord.builder()
+                        .member(memberRepository.findByUserId(userId))
+                        .bodyPart(exercise.getCategory())
+                        .exerciseName(exerciseName)
+                        .date(date)
+                .build());
+    }
+
+    // 운동 기록 저장
+    @Override
+    public void saveExercise(String userId, String exerciseName, ExerciseRecordDto exerciseRecordDto) {
+            Member member = memberRepository.findByUserId(userId);
+
+        int setNumber = exerciseRecordDto.getSetCount();
+
+        Optional<ExerciseRecord> existing = exerciseRecordRepository.findByMemberAndExerciseNameAndDateAndSetCount(
+                member, exerciseName, exerciseRecordDto.getDate(), setNumber
+        );
+        if (existing.isPresent()) {
+            ExerciseRecord exerciseRecord = existing.get();
+            exerciseRecord.setWeight(exerciseRecordDto.getWeight());
+            exerciseRecord.setCount(exerciseRecordDto.getCount());
+            exerciseRecord.setDone(exerciseRecordDto.getDone());
+            exerciseRecordRepository.save(exerciseRecord);
+        }else {
+            // ── 신규 생성 ──
+            Exercise exercise = exerciseRepository.findByName(exerciseName);
+            ExerciseRecord newRec = ExerciseRecord.builder()
+                    .member(member)
+                    .bodyPart(exercise.getCategory())
+                    .exerciseName(exerciseName)
+                    .date(exerciseRecordDto.getDate())
+                    .setCount(setNumber)
+                    .weight(exerciseRecordDto.getWeight())
+                    .count(exerciseRecordDto.getCount())
+                    .done(exerciseRecordDto.getDone())
+                    .build();
+            exerciseRecordRepository.save(newRec);
+        }
+    }
+
+    // 운동 기록 저장된 정보 조회
+    @Override
+    public List<ExerciseRecordDto> findRecord(String userId, String exerciseName,LocalDate date) {
+        Member member = memberRepository.findByUserId(userId);
+
+        List<ExerciseRecord> exerciseRecord = exerciseRecordRepository.findByMemberAndExerciseNameAndDate(member, exerciseName, date);
+
+        return exerciseRecord.stream()
+                .map(dto -> ExerciseRecordDto.builder()
+                        .setCount(dto.getSetCount())
+                        .count(dto.getCount())
+                        .weight(dto.getWeight())
+                        .done(dto.getDone())
+                        .date(dto.getDate())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    // 운동 기록 삭제
+    @Override
+    public void deleteRecord(String userId, String exerciseName,Integer setCount, LocalDate date) {
+        Member member = memberRepository.findByUserId(userId);
+
+        Optional<ExerciseRecord> exerciseRecord = exerciseRecordRepository.findByMemberAndExerciseNameAndDateAndSetCount
+                (member, exerciseName, date, setCount);
+
+        if (exerciseRecord.isPresent()) {
+            exerciseRecordRepository.delete(exerciseRecord.get());
+        }
+
+        List<ExerciseRecord> laterSets = exerciseRecordRepository
+                .findByMemberAndExerciseNameAndDateAndSetCountGreaterThan(
+                        member, exerciseName, date, setCount);
+
+        for (ExerciseRecord rec : laterSets) {
+            rec.setSetCount(rec.getSetCount() - 1);
+            exerciseRecordRepository.save(rec);
+        }
+    }
+
+    // 전체 운동 목록
+    @Override
+    public List<ExerciseDto> findAllExercises() {
+        return exerciseRepository.findAll().stream().map(v -> ExerciseDto.builder()
+                .exercise_name(v.getExercise_name())
+                .bodyPart(v.getCategory())
+                .build())
+                .collect(Collectors.toList());
+
+    }
+
+    // 운동 찜하기
+    @Override
+    public void likeExercise(String userId, String exerciseName) {
+        memberFavoriteRepository.save(MemberFavorite.builder()
+                .member(memberRepository.findByUserId(userId))
+                .exercise(exerciseRepository.findByName(exerciseName))
+                .build());
+  }
+
+  // 찜한 운동 조회
+    @Override
+    public List<ExerciseDto> findFavoriteExercise(String userId) {
+        List<MemberFavorite> memberFavorites = memberFavoriteRepository.findMemberFavoriteByMember
+                (memberRepository.findByUserId(userId));
+        return memberFavorites.stream()
+                .map(dto -> ExerciseDto.builder()
+                        .bodyPart(dto.getExercise().getCategory())
+                        .exercise_name(dto.getExercise().getExercise_name())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    // 운동 검색
+    @Override
+    public List<ExerciseDto> searchExercise(BodyPart bodyPart, String exerciseName) {
+        List<Exercise> exercises = exerciseRepository.findByNameAndCategory(exerciseName, bodyPart);
+        return exercises.stream()
+                .map(dto -> ExerciseDto.builder()
+                        .exercise_name(dto.getExercise_name())
+                        .bodyPart(dto.getCategory())
+                        .build())
+                .collect(Collectors.toList());
+    }
+}

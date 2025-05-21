@@ -22,18 +22,24 @@ public class ExerciseRecord {
     @Column(name = "exercise_record_id", unique = true, nullable = false, updatable = false)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
+
+    private String exerciseName;
+
+    private BodyPart bodyPart;
+
     @Column(nullable = false)
     private LocalDate date;
 
-    @Column(nullable = false)
-    private int setCount;
+    private Integer setCount;
 
-    @Column(nullable = false)
-    private int count;
+    private Integer count;
 
-    @Column(precision = 3, scale = 1, nullable = false)
+    @Column(precision = 3, scale = 1)
     private BigDecimal weight;
 
     @Column(nullable = false)
-    private boolean done;
+    private Boolean done = false;
 }
