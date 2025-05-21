@@ -33,6 +33,9 @@
         <!-- 회원가입 액티비티 -->
         <activity android:name=".RegisterActivity"
             android:exported="true"/>
+        <activity android:name=".ExerciseDetailActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

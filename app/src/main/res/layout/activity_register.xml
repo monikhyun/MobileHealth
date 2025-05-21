@@ -22,7 +22,9 @@
             android:id="@+id/btnValidate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="중복 확인" />
+            android:backgroundTint="@color/pink"
+            android:text="중복 확인"
+            android:textColor="@color/black"/>
 
         <!-- 비밀번호 입력 -->
         <EditText
@@ -34,11 +36,11 @@
 
         <!-- 이메일 입력 -->
         <EditText
-            android:id="@+id/etEmail"
+            android:id="@+id/etName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="이메일 입력"
-            android:inputType="textEmailAddress" />
+            android:hint="이름 입력"
+            android:inputType="textPersonName" />
 
         <!-- 성별 라디오 그룹 -->
         <RadioGroup
@@ -59,19 +61,14 @@
                 android:layout_height="wrap_content"
                 android:text="여성" />
         </RadioGroup>
-
-        <!-- 전공 선택 스피너 -->
-        <Spinner
-            android:id="@+id/majorSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <!-- 회원가입 버튼 -->
         <Button
             android:id="@+id/btnMembership"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="회원가입" />
+            android:text="회원가입"
+            android:backgroundTint="@color/pink"
+            android:textColor="@color/black"/>
 
     </LinearLayout>
 </ScrollView>
