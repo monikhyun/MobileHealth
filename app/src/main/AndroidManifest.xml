@@ -36,6 +36,14 @@
         <activity android:name=".ExerciseDetailActivity"
             android:exported="true">
         </activity>
+
+
+        <activity
+            android:name=".DietActivity"
+            android:exported="true" />
+        <activity
+            android:name=".DietAddActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

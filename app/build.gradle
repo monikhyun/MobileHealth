@@ -26,6 +26,16 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+    packagingOptions {
+        exclude 'META-INF/androidx.localbroadcastmanager_localbroadcastmanager.version'
+        exclude 'META-INF/androidx.appcompat_appcompat.version'
+        exclude 'META-INF/androidx.activity_activity.version'
+        exclude 'META-INF/androidx.lifecycle_lifecycle-viewmodel.version'
+    }
+    configurations.configureEach {
+        exclude group: 'com.android.support'
+        exclude group: 'com.android.support', module: 'support-compat'
+    }
 }
 
 dependencies {
@@ -38,4 +48,5 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+    implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
 }
