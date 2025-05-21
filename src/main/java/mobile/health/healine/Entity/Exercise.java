@@ -23,11 +23,11 @@ public class Exercise {
     private BodyPart category;
 
     @Column(nullable = false, length = 50)
-    private String exercise_name;
+    private String exerciseName;
 
-    @Column(name = "exercise_image_path", nullable = false)
+    @Column(name = "exercise_image_path")
     private String exerciseImagePath;
 
-    @Column(nullable = false, length = 120)
+    @Column(length = 120)
     private String description;
 }

@@ -1,11 +1,11 @@
 package mobile.health.healine.Controller;
 
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import mobile.health.healine.Entity.dto.DietDto;
-import mobile.health.healine.Service.DietService;
 import mobile.health.healine.Service.DietServiceImpl;
-import mobile.health.healine.Service.ResisterServiceImpl;
+import mobile.health.healine.Service.RegisterServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +14,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/diet")
+@Tag(name = "Diet", description = "식단 관련 API")
 @RequiredArgsConstructor
 public class DietController {
     private final DietServiceImpl dietService;
-    private final ResisterServiceImpl resisterService;
+    private final RegisterServiceImpl resisterService;
 
 
     @PostMapping("/record/{userId}")

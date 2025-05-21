@@ -1,5 +1,6 @@
 package mobile.health.healine.Controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import mobile.health.healine.Entity.BodyPart;
 import mobile.health.healine.Entity.Exercise;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/exercise")
+@Tag(name = "Exercise", description = "운동 관련 API")
 @RequiredArgsConstructor
 public class ExerciseController {
     private final ExerciseServiceImpl exerciseService;
@@ -49,8 +51,10 @@ public class ExerciseController {
         return ResponseEntity.ok(exerciseService.findAllExercises());
     }
     // 운동 검색
-    @GetMapping("/list/{bodypart}/{exerciseName}")
-    public ResponseEntity<List<ExerciseDto>> getSearchExercises(@PathVariable BodyPart bodypart, @PathVariable String exerciseName) {
+    @GetMapping("/list/search")
+    public ResponseEntity<List<ExerciseDto>> getSearchExercises( @RequestParam(required = false) BodyPart bodypart,
+                                                                 @RequestParam(required = false) String exerciseName
+    ) {
         return ResponseEntity.ok(exerciseService.searchExercise(bodypart, exerciseName));
     }
 

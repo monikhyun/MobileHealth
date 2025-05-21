@@ -7,7 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
-    Exercise findByName(String name);
+    Exercise findByExerciseName(String name);
 
-    List<Exercise> findByNameAndCategory(String exerciseName, BodyPart bodyPart);
+    // 카테고리(부위)만으로 검색
+    List<Exercise> findByCategory(BodyPart category);
+
+    // 운동 이름만으로 검색
+    List<Exercise> findByExerciseNameContainingIgnoreCase(String exerciseName);
+    List<Exercise> findByExerciseNameAndCategory(String exerciseName, BodyPart bodyPart);
 }

@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,7 +33,7 @@ public class ExerciseServiceImpl implements ExerciseService{
     // 기록할 운동 추가
     @Override
     public void addExercise(String userId, String exerciseName, LocalDate date) {
-        Exercise exercise = exerciseRepository.findByName(exerciseName);
+        Exercise exercise = exerciseRepository.findByExerciseName(exerciseName);
         exerciseRecordRepository.save(ExerciseRecord.builder()
                         .member(memberRepository.findByUserId(userId))
                         .bodyPart(exercise.getCategory())
@@ -59,7 +60,7 @@ public class ExerciseServiceImpl implements ExerciseService{
             exerciseRecordRepository.save(exerciseRecord);
         }else {
             // ── 신규 생성 ──
-            Exercise exercise = exerciseRepository.findByName(exerciseName);
+            Exercise exercise = exerciseRepository.findByExerciseName(exerciseName);
             ExerciseRecord newRec = ExerciseRecord.builder()
                     .member(member)
                     .bodyPart(exercise.getCategory())
@@ -118,7 +119,7 @@ public class ExerciseServiceImpl implements ExerciseService{
     @Override
     public List<ExerciseDto> findAllExercises() {
         return exerciseRepository.findAll().stream().map(v -> ExerciseDto.builder()
-                .exercise_name(v.getExercise_name())
+                .exercise_name(v.getExerciseName())
                 .bodyPart(v.getCategory())
                 .build())
                 .collect(Collectors.toList());
@@ -130,7 +131,7 @@ public class ExerciseServiceImpl implements ExerciseService{
     public void likeExercise(String userId, String exerciseName) {
         memberFavoriteRepository.save(MemberFavorite.builder()
                 .member(memberRepository.findByUserId(userId))
-                .exercise(exerciseRepository.findByName(exerciseName))
+                .exercise(exerciseRepository.findByExerciseName(exerciseName))
                 .build());
   }
 
@@ -142,7 +143,7 @@ public class ExerciseServiceImpl implements ExerciseService{
         return memberFavorites.stream()
                 .map(dto -> ExerciseDto.builder()
                         .bodyPart(dto.getExercise().getCategory())
-                        .exercise_name(dto.getExercise().getExercise_name())
+                        .exercise_name(dto.getExercise().getExerciseName())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -150,10 +151,27 @@ public class ExerciseServiceImpl implements ExerciseService{
     // 운동 검색
     @Override
     public List<ExerciseDto> searchExercise(BodyPart bodyPart, String exerciseName) {
-        List<Exercise> exercises = exerciseRepository.findByNameAndCategory(exerciseName, bodyPart);
+        List<Exercise> exercises;
+        boolean hasName = exerciseName != null && !exerciseName.isBlank();
+        boolean hasPart = bodyPart != null;
+
+        if (hasName && hasPart) {
+            // 이름 + 부위 검색 (정확 일치)
+            exercises = exerciseRepository.findByExerciseNameAndCategory(exerciseName, bodyPart);
+        } else if (hasName) {
+            // 이름만 검색 (포함 검색)
+            exercises = exerciseRepository.findByExerciseNameContainingIgnoreCase(exerciseName);
+        } else if (hasPart) {
+            // 부위만 검색
+            exercises = exerciseRepository.findByCategory(bodyPart);
+        } else {
+            // 둘 다 없으면 빈 리스트 반환하거나 전체 반환
+            exercises = Collections.emptyList();
+        }
+
         return exercises.stream()
                 .map(dto -> ExerciseDto.builder()
-                        .exercise_name(dto.getExercise_name())
+                        .exercise_name(dto.getExerciseName())
                         .bodyPart(dto.getCategory())
                         .build())
                 .collect(Collectors.toList());

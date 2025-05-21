@@ -16,3 +16,25 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
+
+springdoc:
+  api-docs:
+    path: /health/api-specs
+  swagger-ui:
+    path: /health-api.html
+    url: /health/api-specs
+    display-request-duration: true   # 요청/응답에 소요된 시간을 각 엔드포인트별로 표시
+    doc-expansion: list              # 기본적으로 보이는 태그(그룹) 확장 방식: none, list, full
+    deep-linking: true               # URL 해시(#) 기반으로 특정 API로 바로 링크
+    display-operation-id: true       # 각 Operation(Id)를 UI에 노출
+    default-model-expand-depth: 2    # 모델 스펙(JSON 스키마)의 기본 펼침 깊이
+    default-model-rendering: example # 모델(JSON) 출력 방식을 example 또는 model 중 선택
+    show-common-extensions: false    # OpenAPI 확장(extension) 필드 노출 여부
+    validator-url:                   # 외부 스펙 검증기 URL (빈칸이면 비활성화)
+
+
+security:
+  jwt:
+    secret: sdK12dhFlI/iH9EFjTcc6gB02hHS46F6GS4tyhUfs0w=  # Base64 인코딩된 32바이트 이상 문자열
+    expiration-ms: 3600000                # 1시간
+    refresh-expiration-ms: 604800000

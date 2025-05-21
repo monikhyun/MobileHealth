@@ -30,6 +30,9 @@ public class Member {
     @Column(nullable = false, length = 20)
     private String password;
 
+    @Column(nullable = false)
+    private ROLE role;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Gender gender;
@@ -48,4 +51,6 @@ public class Member {
 
     @OneToMany(mappedBy = "toMember", cascade = CascadeType.ALL)
     private List<Follow> followers;
+
+
 }
