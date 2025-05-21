@@ -14,9 +14,9 @@ public class DietDto {
     private String userId;
     private String name;
     private Mealtime mealtime;
-    private int carb;
-    private int protein;
-    private int fat;
+    private Integer carb;
+    private Integer protein;
+    private Integer fat;
     private BigDecimal calories;
     private LocalDate date;
 }

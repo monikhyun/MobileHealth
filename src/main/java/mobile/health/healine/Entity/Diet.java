@@ -24,13 +24,13 @@ public class Diet {
     private String name;
 
     @Column(nullable = false)
-    private int carbo;
+    private Integer carbo;
 
     @Column(nullable = false)
-    private int protein;
+    private Integer protein;
 
     @Column(nullable = false)
-    private int fat;
+    private Integer fat;
 
     @Column(precision = 4, scale = 1, nullable = false)
     private BigDecimal calories;
