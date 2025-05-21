@@ -3,9 +3,12 @@ package com.example.resister;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,7 +17,9 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.resister.Request.DietInsertRequest;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Locale;
 
@@ -48,23 +53,56 @@ public class DietAddActivity extends AppCompatActivity {
 
         btnSubmit.setOnClickListener(v -> {
             String name = editName.getText().toString();
-            String cal = editCal.getText().toString();
-            String carb = editCarb.getText().toString();
-            String protein = editProtein.getText().toString();
-            String fat = editFat.getText().toString();
+            BigDecimal cal = new BigDecimal(editCal.getText().toString());
+            int carb = Integer.parseInt(editCarb.getText().toString());
+            int protein = Integer.parseInt(editProtein.getText().toString());
+            int fat = Integer.parseInt(editFat.getText().toString());
+            LocalDate today = LocalDate.now();
+            String MealTime;
+            if (mealtime.equals("아침")) {
+                MealTime = "BREAKFAST";
+            } else if (mealtime.equals("점심")) {
+                MealTime = "LUNCH";
+            } else if (mealtime.equals("저녁")) {
+                MealTime = "DINNER";
+            } else {
+                MealTime = "";
+            }
+            Log.d("DIET_DEBUG", "carb: " + carb); // 개별 값 출력
 
-            String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+            // JSON 바디를 직접 생성
+            JSONObject jsonBody = new JSONObject();
+            try {
+                jsonBody.put("userId", "v");
+                jsonBody.put("name", name);
+                jsonBody.put("mealtime", MealTime);
+                jsonBody.put("calories", cal);
+                jsonBody.put("carb", carb);
+                jsonBody.put("protein", protein);
+                jsonBody.put("fat", fat);
+                jsonBody.put("date", today.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return; // JSON 생성 실패 시 종료
+            }
 
-            Response.Listener<String> listener = response -> {
+            Log.d("DIET_JSON_BODY", jsonBody.toString()); // 전체 JSON 확인용 로그
+
+            Response.Listener<org.json.JSONObject> listener = response -> {
                 setResult(RESULT_OK);
                 finish();
             };
 
-            DietInsertRequest request = new DietInsertRequest(userID, name, cal, carb, protein, fat, today, mealtime, listener);
+            com.android.volley.Response.ErrorListener errorListener = error -> {
+                error.printStackTrace();
+            };
+
+            // 이제 직접 만든 jsonBody를 넘김
+            DietInsertRequest request = new DietInsertRequest(jsonBody, listener, errorListener);
+
             RequestQueue queue = Volley.newRequestQueue(DietAddActivity.this);
             queue.add(request);
-        });
-        btnCancel.setOnClickListener(v -> {
+        });        btnCancel.setOnClickListener(v -> {
             finish(); // 현재 화면 닫고 이전 DietActivity로 돌아가기
         });
     }
