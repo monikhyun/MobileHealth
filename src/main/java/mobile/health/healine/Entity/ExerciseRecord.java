@@ -28,6 +28,8 @@ public class ExerciseRecord {
 
     private String exerciseName;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private BodyPart bodyPart;
 
     @Column(nullable = false)

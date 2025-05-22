@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mobile.health.healine.Entity.*;
+import mobile.health.healine.Entity.dto.AddedExerciseDto;
 import mobile.health.healine.Entity.dto.ExerciseDto;
 import mobile.health.healine.Entity.dto.ExerciseRecordDto;
 import mobile.health.healine.Repository.ExerciseRecordRepository;
@@ -30,6 +31,28 @@ public class ExerciseServiceImpl implements ExerciseService{
     private final MemberFavoriteRepository memberFavoriteRepository;
     private final MemberRepository memberRepository;
 
+    // 추가된 운동 목록 조회
+    @Override
+    public List<AddedExerciseDto> findAddedExercise(String userId, LocalDate date) {
+        Member member = memberRepository.findByUserId(userId);
+        List<ExerciseRecord> addExercises = exerciseRecordRepository.findByMemberAndDate(member, date);
+        return addExercises.stream()
+                .map(v -> AddedExerciseDto.builder()
+                        .bodyPart(v.getBodyPart())
+                        .exercise_name(v.getExerciseName())
+                        .done(false)
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    // 해당 운동 데이터 불러오기
+
+
+    @Override
+    public Exercise ExerciseData(String exerciseName) {
+        return exerciseRepository.findByExerciseName(exerciseName);
+    }
+
     // 기록할 운동 추가
     @Override
     public void addExercise(String userId, String exerciseName, LocalDate date) {
@@ -38,6 +61,7 @@ public class ExerciseServiceImpl implements ExerciseService{
                         .member(memberRepository.findByUserId(userId))
                         .bodyPart(exercise.getCategory())
                         .exerciseName(exerciseName)
+                        .done(false)
                         .date(date)
                 .build());
     }

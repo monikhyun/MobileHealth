@@ -15,4 +15,6 @@ public interface ExerciseRecordRepository extends JpaRepository<ExerciseRecord, 
     Optional<ExerciseRecord> findByMemberAndExerciseNameAndDateAndSetCount(Member member, String exerciseName, LocalDate date, int setNumber);
 
     List<ExerciseRecord> findByMemberAndExerciseNameAndDateAndSetCountGreaterThan(Member member, String exerciseName, LocalDate date, Integer setCount);
+
+    List<ExerciseRecord> findByMemberAndDate(Member member, LocalDate date);
 }

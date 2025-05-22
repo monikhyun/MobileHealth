@@ -1,9 +1,11 @@
 package mobile.health.healine.Controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import mobile.health.healine.Entity.BodyPart;
 import mobile.health.healine.Entity.Exercise;
+import mobile.health.healine.Entity.dto.AddedExerciseDto;
 import mobile.health.healine.Entity.dto.ExerciseDto;
 import mobile.health.healine.Entity.dto.ExerciseRecordDto;
 import mobile.health.healine.Service.ExerciseServiceImpl;
@@ -20,6 +22,13 @@ import java.util.List;
 public class ExerciseController {
     private final ExerciseServiceImpl exerciseService;
 
+
+    // 해야할 운동 목록 조회
+    @GetMapping("/add/todo/{userId}/{date}")
+    public ResponseEntity<List<AddedExerciseDto>> getAddedExercise(@PathVariable String userId, @PathVariable LocalDate date) {
+        return ResponseEntity.ok(exerciseService.findAddedExercise(userId, date));
+    }
+
     // 해야할 운동 추가
     @PostMapping("/add/{userId}/{date}/{exerciseName}")
     public ResponseEntity<String> addExercise(@PathVariable String userId, @PathVariable LocalDate date, @PathVariable String exerciseName) {
@@ -27,6 +36,11 @@ public class ExerciseController {
         exerciseService.addExercise(userId, exerciseName, date);
 
         return ResponseEntity.ok("운동 추가 완료");
+    }
+    // 해당 운동 데이터 불러오기
+    @GetMapping("/add/{userId}/{exerciseName}")
+    public ResponseEntity<Exercise> getExercise(@PathVariable String exerciseName) {
+        return ResponseEntity.ok(exerciseService.ExerciseData(exerciseName));
     }
     // 해당 운동 기록 조회
     @GetMapping("/add/{userId}/{date}/{exerciseName}")
