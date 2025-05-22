@@ -74,7 +74,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // POST /api/auth/register/validate/** 명시적으로 풀어주기
+/*                        // POST /api/auth/register/validate/** 명시적으로 풀어주기
                         .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/register/validate/**").permitAll()
 
@@ -82,9 +82,11 @@ public class SecurityConfig {
                         // POST /api/auth/login/validate/** 도 풀어주기
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login/validate/**").permitAll()
-                        .requestMatchers("/api/**").hasAuthority("ROLE_USER")
-                        .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                        .anyRequest().authenticated()
+                        *//*.requestMatchers("/api/**").hasAuthority("ROLE_USER")*//*
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("api/exercise/**").permitAll()
+                        .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")*/
+                        .anyRequest().permitAll()
                 )
                 .formLogin(form -> form.disable())
                 .logout(logout -> logout.permitAll())
