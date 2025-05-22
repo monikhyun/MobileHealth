@@ -49,8 +49,10 @@ public class ExerciseController {
     }
     // 해당 운동 기록 저장
     @PostMapping("/add/{userId}/{date}/{exerciseName}/record")
-    public ResponseEntity<String> recordExercise(@PathVariable String userId, @PathVariable LocalDate date, @PathVariable String exerciseName, @RequestBody ExerciseRecordDto recordDto) {
-        exerciseService.saveExercise(userId, exerciseName, recordDto);
+    public ResponseEntity<String> recordExercise(@PathVariable String userId, @PathVariable String exerciseName, @RequestBody ExerciseRecordDto recordDto) {
+        // "+" → " " 치환
+        String decodedName = exerciseName.replace("+", " ");
+        exerciseService.saveExercise(userId, decodedName, recordDto);
         return ResponseEntity.ok(recordDto.getSetCount().toString() +"세트 저장완료!");
     }
     // 해당 운동 기록 세트별 삭제

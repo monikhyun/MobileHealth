@@ -14,6 +14,7 @@ import mobile.health.healine.Repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,6 +61,9 @@ public class ExerciseServiceImpl implements ExerciseService{
         exerciseRecordRepository.save(ExerciseRecord.builder()
                         .member(memberRepository.findByUserId(userId))
                         .bodyPart(exercise.getCategory())
+                        .setCount(1)
+                        .weight(new BigDecimal(1))
+                        .count(0)
                         .exerciseName(exerciseName)
                         .done(false)
                         .date(date)

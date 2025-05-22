@@ -32,6 +32,7 @@ public class DietServiceImpl implements DietService{
                 .fat(dietDto.getFat())
                 .calories(dietDto.getCalories())
                 .mealtime(dietDto.getMealtime())
+                .date(dietDto.getDate())
                 .build();
         dietRepository.save(diet);
     }

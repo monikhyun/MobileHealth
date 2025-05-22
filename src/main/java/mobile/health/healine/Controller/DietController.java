@@ -22,8 +22,8 @@ public class DietController {
 
 
     @PostMapping("/record/{userId}")
-    public ResponseEntity<String> record(@PathVariable String userId, @ModelAttribute DietDto dietDto){
-        if(!resisterService.validate(userId)){
+    public ResponseEntity<String> record(@PathVariable String userId, @RequestBody DietDto dietDto){
+        if(resisterService.validate(userId)){
             return ResponseEntity.ok("등록된 회원이 아닙니다.");
         }
         dietService.dietSave(dietDto);
