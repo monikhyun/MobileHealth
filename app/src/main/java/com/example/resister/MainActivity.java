@@ -3,6 +3,8 @@ package com.example.resister;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,12 +13,14 @@ public class MainActivity extends AppCompatActivity {
 
     TextView tvId;
 
+    ImageView iconWorkout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tvId = findViewById(R.id.tvId);
 
+        iconWorkout = findViewById(R.id.icon_workout);
         // 1) SharedPreferences 열기
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
@@ -32,5 +36,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+
+        iconWorkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ExerciseListActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
