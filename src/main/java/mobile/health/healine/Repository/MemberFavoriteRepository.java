@@ -11,4 +11,7 @@ public interface MemberFavoriteRepository extends JpaRepository<MemberFavorite, 
     List<MemberFavorite> findMemberFavoriteByMemberAndExercise(Member byUserId, Exercise byName);
 
     List<MemberFavorite> findMemberFavoriteByMember(Member byUserId);
+
+    boolean existsByMemberUserIdAndExerciseExerciseName(String userId, String exerciseName);
+
 }

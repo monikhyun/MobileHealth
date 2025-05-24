@@ -2,6 +2,7 @@ package mobile.health.healine.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import mobile.health.healine.Config.BodyPartConverter;
 
 
 @Builder
@@ -18,8 +19,8 @@ public class Exercise {
     @Column(name = "exercise_id", unique = true, nullable = false, updatable = false)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Convert(converter = BodyPartConverter.class)
+    @Column(name = "body_part", columnDefinition = "VARCHAR(10)", nullable = false)
     private BodyPart category;
 
     @Column(nullable = false, length = 50)

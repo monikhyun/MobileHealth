@@ -32,6 +32,8 @@ public interface ExerciseService {
     List<ExerciseDto> findAllExercises();
     // 운동 찜하기
     void likeExercise(String userId, String exerciseName);
+    // 운동 찜 취소
+    void unlikeExercise(String userId, String exerciseName);
     // 찜한 운동 조회
     List<ExerciseDto> findFavoriteExercise(String userId);
     // 운동 검색

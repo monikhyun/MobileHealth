@@ -157,11 +157,22 @@ public class ExerciseServiceImpl implements ExerciseService{
     // 운동 찜하기
     @Override
     public void likeExercise(String userId, String exerciseName) {
+        if (memberFavoriteRepository.existsByMemberUserIdAndExerciseExerciseName(userId, exerciseName)) {
+            return;
+        }
         memberFavoriteRepository.save(MemberFavorite.builder()
                 .member(memberRepository.findByUserId(userId))
                 .exercise(exerciseRepository.findByExerciseName(exerciseName))
                 .build());
   }
+    // 운동 찜 하기 취소
+    @Override
+    public void unlikeExercise(String userId, String exerciseName) {
+        memberFavoriteRepository.delete(MemberFavorite.builder()
+                .member(memberRepository.findByUserId(userId))
+                .exercise(exerciseRepository.findByExerciseName(exerciseName))
+                .build());
+    }
 
   // 찜한 운동 조회
     @Override
@@ -185,7 +196,7 @@ public class ExerciseServiceImpl implements ExerciseService{
 
         if (hasName && hasPart) {
             // 이름 + 부위 검색 (정확 일치)
-            exercises = exerciseRepository.findByExerciseNameAndCategory(exerciseName, bodyPart);
+            exercises = exerciseRepository.findByCategoryAndExerciseNameContainingIgnoreCase(bodyPart,exerciseName);
         } else if (hasName) {
             // 이름만 검색 (포함 검색)
             exercises = exerciseRepository.findByExerciseNameContainingIgnoreCase(exerciseName);

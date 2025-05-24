@@ -74,6 +74,18 @@ public class ExerciseController {
         return ResponseEntity.ok(exerciseService.searchExercise(bodypart, exerciseName));
     }
 
+    // 운동 찜하기
+    @GetMapping("/list/favorite/{userId}")
+    public ResponseEntity<String> likeExercise(@PathVariable String userId, @RequestParam String exerciseName) {
+        exerciseService.likeExercise(userId, exerciseName);
+        return ResponseEntity.ok(exerciseName+" 찜 완료!!");
+    }
+    // 운동 찜하기 취소
+    @GetMapping("/list/unfavorite/{userId}")
+    public ResponseEntity<String> unlikeExercise(@PathVariable String userId, @RequestParam String exerciseName) {
+        exerciseService.unlikeExercise(userId, exerciseName);
+        return ResponseEntity.ok(exerciseName+" 찜 취소");
+    }
     // 찜한 운동 조회
     @GetMapping("/list/{userId}")
     public ResponseEntity<List<ExerciseDto>> getSearchFavoriteExercises(@PathVariable String userId) {

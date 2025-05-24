@@ -14,5 +14,6 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
 
     // 운동 이름만으로 검색
     List<Exercise> findByExerciseNameContainingIgnoreCase(String exerciseName);
-    List<Exercise> findByExerciseNameAndCategory(String exerciseName, BodyPart bodyPart);
+    // 부위 + 이름 부분 매칭 검색 (대소문자 무시)
+    List<Exercise> findByCategoryAndExerciseNameContainingIgnoreCase(BodyPart category, String exerciseName);
 }
