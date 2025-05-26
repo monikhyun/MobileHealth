@@ -21,4 +21,17 @@
         <item>가슴</item>
         <item>팔</item>
     </string-array>
+    <string-array name="inBody_items">
+        <item>전체</item>
+        <item>체중</item>
+        <item>골격근</item>
+        <item>체지방량</item>
+        <item>BMI</item>
+        <item>체지방률</item>
+    </string-array>
+    <string-array name="bar_chart_filter_items">
+        <item>일</item>
+        <item>월</item>
+        <item>주</item>
+    </string-array>
 </resources>
