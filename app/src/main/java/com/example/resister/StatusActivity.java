@@ -27,11 +27,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class StatusActivity extends AppCompatActivity {
+    private String userId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status);
 
+        userId = getIntent().getStringExtra("userId");
         BarChart barChart = findViewById(R.id.barChart);
         Spinner barChartFilterSpinner = findViewById(R.id.barChartFilterSpinner);
 
@@ -53,8 +55,7 @@ public class StatusActivity extends AppCompatActivity {
     }
 
     private void fetchChartData(String type) {
-        String userId = "mjc"; // 예시용, 필요 시 Intent 등에서 받아올 것
-        String url = "http://10.0.2.2:8080/api/exercise/summary?userId=" + userId + "&type=" + type;
+        String url = "http://10.0.2.2:8080/api/exercise/summary?userId=" + this.userId + "&type=" + type;
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
                 response -> {
