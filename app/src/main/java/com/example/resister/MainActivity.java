@@ -44,5 +44,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        findViewById(R.id.nav_meal).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, DietActivity.class);
+            startActivity(intent);
+        });
+        findViewById(R.id.nav_stats).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, StatusActivity.class);
+            startActivity(intent);
+        });
     }
 }
