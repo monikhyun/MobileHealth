@@ -25,11 +25,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
         // 2) USER_ID 읽어오기 (없으면 null)
-        String userID = prefs.getString("USER_ID", null);
+        String userId = prefs.getString("USER_ID", null);
 
-        if (userID != null) {
+        if (userId != null) {
             // 3) 사용자 환영 메시지
-            tvId.setText(userID + "님 환영합니다.");
+            tvId.setText(userId + "님 환영합니다.");
         } else {
             // 로그인 정보가 없으면 로그인 화면으로 이동
             Intent intent = new Intent(this, LoginActivity.class);
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         });
         findViewById(R.id.nav_stats).setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, StatusActivity.class);
+            intent.putExtra("userId",userId);
             startActivity(intent);
         });
     }
