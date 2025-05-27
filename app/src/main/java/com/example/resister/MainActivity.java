@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView tvId;
 
-    ImageView iconWorkout;
+    ImageView iconWorkout,icon_meal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         tvId = findViewById(R.id.tvId);
 
         iconWorkout = findViewById(R.id.icon_workout);
+        icon_meal = findViewById(R.id.icon_meal);
         // 1) SharedPreferences 열기
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
@@ -44,5 +45,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        icon_meal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, DietActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

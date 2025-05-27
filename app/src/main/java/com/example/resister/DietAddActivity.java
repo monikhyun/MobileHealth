@@ -1,5 +1,6 @@
 package com.example.resister;
 
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -88,10 +89,15 @@ public class DietAddActivity extends AppCompatActivity {
                     break;
             }
 
+            SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+
+            // 2) USER_ID 읽어오기 (없으면 null)
+            String userID = prefs.getString("USER_ID", null);
+
             // JSON body 만들기
             JSONObject jsonBody = new JSONObject();
             try {
-                jsonBody.put("userId", this.userId);
+                jsonBody.put("userId", userID);
                 jsonBody.put("name", name);
                 jsonBody.put("mealtime", mealTimeEnum);
                 jsonBody.put("calories", cal);
