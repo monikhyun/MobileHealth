@@ -131,7 +131,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
+                android:backgroundTint="#A0A0A0"
                 android:elevation="6dp"
                 android:translationZ="10dp"
                 android:text="취소" />
@@ -141,7 +142,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
+                android:backgroundTint="#FFB6C1"
                 android:elevation="6dp"
                 android:translationZ="10dp"
                 android:text="확인"
@@ -197,7 +199,7 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/ic_exerciseon" />
+                    android:src="@drawable/ic_exercise" />
 
                 <TextView
                     android:layout_width="wrap_content"

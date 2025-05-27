@@ -9,10 +9,10 @@ import java.util.Map;
 public class DietRequest extends StringRequest {
     private final Map<String, String> parameters;
 
-    public DietRequest(String userID, String date, Response.Listener<String> listener) {
-        super(Method.POST, "http://10.0.2.2:8080/DietData.jsp", listener, null);
+    public DietRequest(String userId, String date, Response.Listener<String> listener) {
+        super(Method.POST, "http://10.0.2.2:8080/api/diet/record/" + userId, listener, null);
         parameters = new HashMap<>();
-        parameters.put("userid", userID);
+        parameters.put("userId", userId);
         parameters.put("date", date);
     }
 

@@ -7,8 +7,11 @@ import android.widget.Toast;
 import android.widget.LinearLayout;
 import android.view.View;
 import android.widget.TextView;
+
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,7 +24,6 @@ import com.anychart.AnyChartView;
 import com.anychart.charts.Pie;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
-import com.example.resister.Request.DietRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,36 +33,59 @@ import java.util.Locale;
 
 public class DietActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        // DietActivity: 오늘 날짜의 식단 정보를 불러오고 차트 및 리스트로 표시
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diet);
+    private String userId;
 
-        // + 버튼 클릭 시 DietAddActivity로 이동
-        findViewById(R.id.buttonAddMeal).setOnClickListener(v -> {
-            Intent intent = new Intent(DietActivity.this, DietAddActivity.class);
-            startActivityForResult(intent, 100);
-        });
+    // Fetch diet data from server and update chart and meal list
+    private void fetchDietData(String userId, String today) {
+        String url = "http://10.0.2.2:8080/api/diet/" + userId + "?date=" + today;
 
-        // 로그인된 사용자 ID와 오늘 날짜 가져오기
-        String id = getIntent().getStringExtra("userID");
-        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-        Response.Listener<String> rListener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+        JsonArrayRequest request = new JsonArrayRequest(
+            Request.Method.GET,
+            url,
+            null,
+            response -> {
                 try {
-                    // 서버 응답으로부터 탄단지 값 추출하여 파이차트 구성
-                    JSONObject jResponse = new JSONObject(response);
-
-                    double carb = jResponse.getDouble("carb");
-                    double protein = jResponse.getDouble("protein");
-                    double fat = jResponse.getDouble("fat");
+                    // Prepare for summing nutrients and clearing previous views
+                    double totalCarb = 0;
+                    double totalProtein = 0;
+                    double totalFat = 0;
 
                     List<DataEntry> data = new ArrayList<>();
-                    data.add(new ValueDataEntry("탄수화물", carb));
-                    data.add(new ValueDataEntry("단백질", protein));
-                    data.add(new ValueDataEntry("지방", fat));
+                    LinearLayout mealContainer = findViewById(R.id.mealContainer);
+                    mealContainer.removeAllViews();
+
+                    // Parse each meal entry
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject meal = response.getJSONObject(i);
+                        String name = meal.getString("name");
+                        int carbMeal = meal.getInt("carb");
+                        int proteinMeal = meal.getInt("protein");
+                        int fatMeal = meal.getInt("fat");
+                        String mealtime = meal.getString("mealtime");
+
+                        // Accumulate totals
+                        totalCarb += carbMeal;
+                        totalProtein += proteinMeal;
+                        totalFat += fatMeal;
+
+                        // Inflate and populate meal item view
+                        View mealView = getLayoutInflater()
+                            .inflate(R.layout.diet_items, mealContainer, false);
+                        ((TextView) mealView.findViewById(R.id.mealTimeText)).setText(mealtime);
+                        ((TextView) mealView.findViewById(R.id.nameText)).setText(name);
+                        ((TextView) mealView.findViewById(R.id.carbText))
+                            .setText(String.valueOf(carbMeal));
+                        ((TextView) mealView.findViewById(R.id.proteinText))
+                            .setText(String.valueOf(proteinMeal));
+                        ((TextView) mealView.findViewById(R.id.fatText))
+                            .setText(String.valueOf(fatMeal));
+                        mealContainer.addView(mealView);
+                    }
+
+                    // Build chart data from totals
+                    data.add(new ValueDataEntry("탄수화물", totalCarb));
+                    data.add(new ValueDataEntry("단백질", totalProtein));
+                    data.add(new ValueDataEntry("지방", totalFat));
 
                     Pie pie = AnyChart.pie();
                     pie.data(data);
@@ -68,59 +93,43 @@ public class DietActivity extends AppCompatActivity {
                     AnyChartView anyChartView = findViewById(R.id.meal_chart_view);
                     anyChartView.setChart(pie);
 
-                    // mealContainer 내부 기존 뷰 제거 후 새로 받은 식단 정보로 뷰 동적 생성
-                    LinearLayout mealContainer = findViewById(R.id.mealContainer);
-                    mealContainer.removeAllViews();
-
-                    JSONArray meals = jResponse.getJSONArray("meals");
-                    for (int i = 0; i < meals.length(); i++) {
-                        // 각 식단 객체에서 정보 추출 후 diet_items.xml 레이아웃을 inflate 하여 표시
-                        JSONObject meal = meals.getJSONObject(i);
-                        String name = meal.getString("name");
-                        double carbMeal = meal.getDouble("carb");
-                        double proteinMeal = meal.getDouble("protein");
-                        double fatMeal = meal.getDouble("fat");
-                        String mealtime = meal.getString("mealtime");
-
-                        View mealView = getLayoutInflater().inflate(R.layout.diet_items, mealContainer, false);
-                        ((TextView) mealView.findViewById(R.id.mealTimeText)).setText(mealtime);
-                        ((TextView) mealView.findViewById(R.id.nameText)).setText(name);
-                        ((TextView) mealView.findViewById(R.id.carbText)).setText(String.valueOf(carbMeal));
-                        ((TextView) mealView.findViewById(R.id.proteinText)).setText(String.valueOf(proteinMeal));
-                        ((TextView) mealView.findViewById(R.id.fatText)).setText(String.valueOf(fatMeal));
-                        mealContainer.addView(mealView);
-                    }
-
                 } catch (JSONException e) {
-                    Log.d("diet", e.toString());
+                    Log.e("DietFetchError", e.toString());
                 }
-            }
-        };
+            },
+            error -> Log.e("DietFetchError", error.toString())
+        );
 
-        DietRequest request = new DietRequest(id, today, rListener);
-        RequestQueue queue = Volley.newRequestQueue(DietActivity.this);
+        RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(request);
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        // DietActivity: 오늘 날짜의 식단 정보를 불러오고 차트 및 리스트로 표시
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_diet);
+
+        // 로그인된 사용자 ID와 오늘 날짜 가져오기
+        this.userId = getIntent().getStringExtra("userId");
+        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+        // + 버튼 클릭 시 DietAddActivity로 이동
+        findViewById(R.id.buttonAddMeal).setOnClickListener(v -> {
+            Intent intent = new Intent(DietActivity.this, DietAddActivity.class);
+            intent.putExtra("userId", this.userId);
+            startActivityForResult(intent, 100);
+        });
+
+        fetchDietData(this.userId, today);
     }
     // DietAddActivity에서 돌아왔을 때 결과 처리
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
-            double carb = data.getDoubleExtra("carb", 0);
-            double protein = data.getDoubleExtra("protein", 0);
-            double fat = data.getDoubleExtra("fat", 0);
-
-            // 새로 추가된 식단의 탄단지 정보로 차트 갱신
-            List<DataEntry> newData = new ArrayList<>();
-            newData.add(new ValueDataEntry("탄수화물", carb));
-            newData.add(new ValueDataEntry("단백질", protein));
-            newData.add(new ValueDataEntry("지방", fat));
-
-            Pie pie = AnyChart.pie();
-            pie.data(newData);
-            pie.title("입력 기반 영양소 비율");
-            AnyChartView anyChartView = findViewById(R.id.meal_chart_view);
-            anyChartView.setChart(pie);
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+            fetchDietData(this.userId, today);
         }
     }
 }
