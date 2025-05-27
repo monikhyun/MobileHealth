@@ -111,7 +111,10 @@
             android:layout_height="36dp"
             android:layout_marginStart="24dp"
             android:layout_gravity="center"
-            android:background="@drawable/edit_box_bg">
+            android:background="@drawable/edit_box_bg"
+            android:descendantFocusability="blocksDescendants"
+            android:clickable="false"
+            android:focusable="false">
 
             <CheckBox
                 android:id="@+id/check_complete"
