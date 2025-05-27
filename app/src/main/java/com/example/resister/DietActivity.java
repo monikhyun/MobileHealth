@@ -125,6 +125,7 @@ public class DietActivity extends AppCompatActivity {
         // DietActivity: 오늘 날짜의 식단 정보를 불러오고 차트 및 리스트로 표시
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet);
+
         // 로그인된 사용자 ID와 오늘 날짜 가져오기
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         userId = prefs.getString("USER_ID", null);  // 클래스 필드에 저장
@@ -142,6 +143,7 @@ public class DietActivity extends AppCompatActivity {
         // + 버튼 클릭 시 DietAddActivity로 이동
         findViewById(R.id.buttonAddMeal).setOnClickListener(v -> {
             Intent intent = new Intent(DietActivity.this, DietAddActivity.class);
+            intent.putExtra("userId", this.userId);
             startActivityForResult(intent, 100);
         });
 
