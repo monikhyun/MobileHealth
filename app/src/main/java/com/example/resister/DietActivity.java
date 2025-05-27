@@ -1,5 +1,6 @@
 package com.example.resister;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.anychart.charts.Pie;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.text.SimpleDateFormat;
@@ -35,8 +37,10 @@ public class DietActivity extends AppCompatActivity {
 
     private String userId;
 
+
+
     // Fetch diet data from server and update chart and meal list
-    private void fetchDietData(String userId, String today) {
+    private void fetchDietData(String today) {
         String url = "http://10.0.2.2:8080/api/diet/" + userId + "?date=" + today;
 
         JsonArrayRequest request = new JsonArrayRequest(
@@ -49,6 +53,7 @@ public class DietActivity extends AppCompatActivity {
                     double totalCarb = 0;
                     double totalProtein = 0;
                     double totalFat = 0;
+                    BigDecimal totalkcal =BigDecimal.ZERO;
 
                     List<DataEntry> data = new ArrayList<>();
                     LinearLayout mealContainer = findViewById(R.id.mealContainer);
@@ -62,11 +67,13 @@ public class DietActivity extends AppCompatActivity {
                         int proteinMeal = meal.getInt("protein");
                         int fatMeal = meal.getInt("fat");
                         String mealtime = meal.getString("mealtime");
+                        BigDecimal kcalMeal = BigDecimal.valueOf(meal.getDouble("calories"));
 
                         // Accumulate totals
                         totalCarb += carbMeal;
                         totalProtein += proteinMeal;
                         totalFat += fatMeal;
+                        totalkcal = totalkcal.add(kcalMeal);
 
                         // Inflate and populate meal item view
                         View mealView = getLayoutInflater()
@@ -82,6 +89,7 @@ public class DietActivity extends AppCompatActivity {
                         mealContainer.addView(mealView);
                     }
 
+
                     // Build chart data from totals
                     data.add(new ValueDataEntry("탄수화물", totalCarb));
                     data.add(new ValueDataEntry("단백질", totalProtein));
@@ -92,6 +100,12 @@ public class DietActivity extends AppCompatActivity {
                     pie.title("영양소 비율");
                     AnyChartView anyChartView = findViewById(R.id.meal_chart_view);
                     anyChartView.setChart(pie);
+                    // Set total values to summary TextViews
+                    ((TextView) findViewById(R.id.valueCarb)).setText(String.valueOf((int) totalCarb));
+                    ((TextView) findViewById(R.id.valueProtein)).setText(String.valueOf((int) totalProtein));
+                    ((TextView) findViewById(R.id.valueFat)).setText(String.valueOf((int) totalFat));
+                    ((TextView) findViewById(R.id.valueCal)).setText(totalkcal.toPlainString());
+
 
                 } catch (JSONException e) {
                     Log.e("DietFetchError", e.toString());
@@ -102,6 +116,8 @@ public class DietActivity extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(this);
         queue.add(request);
+
+
     }
 
     @Override
@@ -109,27 +125,43 @@ public class DietActivity extends AppCompatActivity {
         // DietActivity: 오늘 날짜의 식단 정보를 불러오고 차트 및 리스트로 표시
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet);
-
         // 로그인된 사용자 ID와 오늘 날짜 가져오기
-        this.userId = getIntent().getStringExtra("userId");
+        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        userId = prefs.getString("USER_ID", null);  // 클래스 필드에 저장
+
+        if (userId != null) {
+            // 정상적으로 꺼내진 경우
+            Log.d("USER_ID", userId);
+        } else {
+            // 저장된 값이 없을 경우
+            Log.d("USER_ID", "No userId found");
+        }
+
         String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
         // + 버튼 클릭 시 DietAddActivity로 이동
         findViewById(R.id.buttonAddMeal).setOnClickListener(v -> {
             Intent intent = new Intent(DietActivity.this, DietAddActivity.class);
-            intent.putExtra("userId", this.userId);
             startActivityForResult(intent, 100);
         });
 
-        fetchDietData(this.userId, today);
+        fetchDietData(today);
     }
     // DietAddActivity에서 돌아왔을 때 결과 처리
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (userId != null) {
+            // 정상적으로 꺼내진 경우
+            Log.d("USER_ID", userId);
+        } else {
+            // 저장된 값이 없을 경우
+            Log.d("USER_ID", "No userId found");
+            return;
+        }
         if (requestCode == 100 && resultCode == RESULT_OK) {
             String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-            fetchDietData(this.userId, today);
+            fetchDietData(today);
         }
     }
 }

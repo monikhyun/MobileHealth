@@ -35,7 +35,7 @@ import java.util.Map;
 public class DietAddActivity extends AppCompatActivity {
     private EditText editName, editCal, editCarb, editProtein, editFat;
     private Button btnSubmit, btnCancel, btnBreakfast, btnLunch, btnDinner;
-    private String userId;
+
     private String mealtime = "";
 
     @Override
@@ -53,12 +53,17 @@ public class DietAddActivity extends AppCompatActivity {
         btnBreakfast = findViewById(R.id.btnBreakfast);
         btnLunch = findViewById(R.id.btnLunch);
         btnDinner = findViewById(R.id.btnDinner);
-        this.userId = getIntent().getStringExtra("userId");
-        if (this.userId == null || this.userId.isEmpty()) {
-            Log.e("DIET_ERROR", "userId is null!");
-            return;
-        }
 
+        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        String userID = prefs.getString("USER_ID", null);  // 없으면 null 반환
+
+        if (userID != null) {
+            // 정상적으로 꺼내진 경우
+            Log.d("USER_ID", userID);
+        } else {
+            // 저장된 값이 없을 경우
+            Log.d("USER_ID", "No userId found");
+        }
         btnBreakfast.setOnClickListener(v -> setMealtime("아침", btnBreakfast));
         btnLunch.setOnClickListener(v -> setMealtime("점심", btnLunch));
         btnDinner.setOnClickListener(v -> setMealtime("저녁", btnDinner));
@@ -89,10 +94,6 @@ public class DietAddActivity extends AppCompatActivity {
                     break;
             }
 
-            SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-
-            // 2) USER_ID 읽어오기 (없으면 null)
-            String userID = prefs.getString("USER_ID", null);
 
             // JSON body 만들기
             JSONObject jsonBody = new JSONObject();
@@ -114,7 +115,7 @@ public class DietAddActivity extends AppCompatActivity {
             Log.d("DIET_JSON_BODY", jsonBody.toString()); // 반드시 찍어줘
 
             DietInsertRequest request = new DietInsertRequest(
-                    this.userId,
+                    userID,
                     jsonBody,
                     response -> {
                         // response에는 서버가 보낸 plain text 메시지가 담김
