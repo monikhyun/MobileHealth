@@ -45,7 +45,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        findViewById(R.id.nav_stats).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, StatusActivity.class);
+            startActivity(intent);
+        });
         icon_meal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
