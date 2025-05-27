@@ -49,6 +49,7 @@ public class DietActivity extends AppCompatActivity {
                     double totalCarb = 0;
                     double totalProtein = 0;
                     double totalFat = 0;
+                    double totalCal = 0;
 
                     List<DataEntry> data = new ArrayList<>();
                     LinearLayout mealContainer = findViewById(R.id.mealContainer);
@@ -80,6 +81,8 @@ public class DietActivity extends AppCompatActivity {
                         ((TextView) mealView.findViewById(R.id.fatText))
                             .setText(String.valueOf(fatMeal));
                         mealContainer.addView(mealView);
+                        // Add calories for this meal
+                        totalCal += meal.getDouble("calories");
                     }
 
                     // Build chart data from totals
@@ -92,6 +95,12 @@ public class DietActivity extends AppCompatActivity {
                     pie.title("영양소 비율");
                     AnyChartView anyChartView = findViewById(R.id.meal_chart_view);
                     anyChartView.setChart(pie);
+
+                    // Update TextViews with totals
+                    ((TextView) findViewById(R.id.valueCarb)).setText(String.valueOf(totalCarb));
+                    ((TextView) findViewById(R.id.valueProtein)).setText(String.valueOf(totalProtein));
+                    ((TextView) findViewById(R.id.valueFat)).setText(String.valueOf(totalFat));
+                    ((TextView) findViewById(R.id.valueCal)).setText(String.valueOf(totalCal));
 
                 } catch (JSONException e) {
                     Log.e("DietFetchError", e.toString());
