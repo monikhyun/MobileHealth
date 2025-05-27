@@ -36,6 +36,17 @@ public class AuthController {
         );
     }
 
+    @PostMapping("/register/validate2/{username}")
+    public ResponseEntity<ValidateDto> validateRegister2(@PathVariable String username) {
+        boolean ok = registerService.nickValidate(username);
+        return ResponseEntity.ok(
+                ValidateDto.builder()
+                        .newId(ok)
+                        .userid(username)
+                        .build()
+        );
+    }
+
     /** 2) 실제 가입 (/api/auth/register) **/
     @PostMapping("/register")
     public ResponseEntity<RegisterValidateDto> doRegister(@ModelAttribute ResisterDto dto) {
