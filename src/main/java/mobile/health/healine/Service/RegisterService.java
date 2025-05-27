@@ -9,6 +9,9 @@ public interface RegisterService {
     // 회원 정보 저장
     void save(ResisterDto resisterDto);
 
+    // 회원 닉네임 검증
+    boolean nickValidate(String nick);
+
     // 아이디 검증
     boolean validate(String id);
 }

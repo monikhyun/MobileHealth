@@ -33,4 +33,9 @@ public class MemberDetailsService implements UserDetailsService {
                 .authorities(member.getRole().name()) // ROLE_... 포맷
                 .build();
     }
+
+
+    public String userIdByUsername(String username) {
+        return memberRepository.findMemberByUserId(username).orElseThrow().getUserId();
+    }
 }

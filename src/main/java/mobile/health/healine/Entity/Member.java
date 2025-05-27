@@ -44,6 +44,12 @@ public class Member {
     @Column(precision = 3, scale = 1)
     private BigDecimal weight;
 
+    @Column(nullable = true)
+    private String imageUrl;
+
+    @Column(nullable = false)
+    private String grade;
+
     @OneToMany(mappedBy = "member")
     private List<Diet> diets;
 

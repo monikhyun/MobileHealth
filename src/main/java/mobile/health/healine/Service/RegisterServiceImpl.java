@@ -28,12 +28,23 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
     @Override
+    public boolean nickValidate(String nick) {
+        if(memberRepository.findByUserId(nick) == null){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
     public void save(ResisterDto resisterDto) {
         Member member = Member.builder()
                 .userId(resisterDto.getUserId())
                 .password(resisterDto.getPassword())
                 .username(resisterDto.getUsername())
                 .gender(resisterDto.getGender())
+                .grade("R.drawable.ic_grade_1")
                 .role(ROLE.ROLE_USER)
                 .build();
 
