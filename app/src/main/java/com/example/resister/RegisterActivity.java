@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import com.example.resister.R;
 import com.example.resister.Request.RegisterRequest;
 import com.example.resister.Request.ValidateRequest;
+import com.example.resister.Request.ValidateRequest2;
 
 public class RegisterActivity extends AppCompatActivity {
     private ArrayAdapter adapter;
@@ -34,6 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
     private String username;
     private AlertDialog dialog;
     private boolean validate = false;
+    private boolean nickValidate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText etPasswd = findViewById(R.id.etPasswd);
         final EditText etName = findViewById(R.id.etName);
         final Button btnValidate = findViewById(R.id.btnValidate);
+        final Button btnValidate2 = findViewById(R.id.btnValidate2);
         RadioGroup rgroupGender = findViewById(R.id.rgroupGender);
         int genderGrpID = rgroupGender.getCheckedRadioButtonId();
         if (genderGrpID != -1) {
@@ -105,6 +108,56 @@ public class RegisterActivity extends AppCompatActivity {
                 queue.add(validteRequest);
             }
         });
+
+        btnValidate2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username = etName.getText().toString();
+                if (username.trim().equals("")) {
+                    Toast.makeText(RegisterActivity.this, "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    nickValidate = false;
+                    etName.setFocusable(true);
+                    return;
+                }
+                if (nickValidate) return;
+
+
+                Response.Listener responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            boolean newID = jsonResponse.getBoolean("newId");
+                            Log.d("mytest", jsonResponse.toString());
+                            if (newID) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                                dialog = builder.setMessage("사용할 수 있는 아이디입니다.")
+                                        .setPositiveButton("확인", null)
+                                        .create();
+                                dialog.show();
+                                etName.setEnabled(false);
+                                etName.setBackgroundColor(Color.GRAY);
+                                btnValidate2.setBackgroundColor(Color.GRAY);
+                                nickValidate = true;
+                            } else {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
+                                dialog = builder.setMessage("사용할 수 없는 아이디입니다.")
+                                        .setNegativeButton("확인", null)
+                                        .create();
+                                dialog.show();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                ValidateRequest2 validteRequest = new ValidateRequest2(username, responseListener);
+                RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
+                queue.add(validteRequest);
+
+            }
+        });
+
         Button btnMembership = findViewById(R.id.btnMembership);
         btnMembership.setOnClickListener(new View.OnClickListener() {
             @Override
