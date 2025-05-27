@@ -1,13 +1,13 @@
 package mobile.health.healine.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import mobile.health.healine.Entity.Member;
 
 @Entity
 @Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Follow {
@@ -23,4 +23,7 @@ public class Follow {
     @ManyToOne
     @JoinColumn(name = "to_member_id")
     private Member toMember;
+
+    @Enumerated(EnumType.STRING)
+    private FollowStatus status;
 }
