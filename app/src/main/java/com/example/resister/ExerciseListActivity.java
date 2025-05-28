@@ -5,7 +5,9 @@ import com.example.resister.ExerciseItem;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,11 +38,13 @@ public class ExerciseListActivity extends AppCompatActivity {
     private AddedExerciseAdapter adapter;
     TextView textDate;
 
+    ImageView icon_meal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_list);
 
+        icon_meal = findViewById(R.id.icon_meal);
         textDate = findViewById(R.id.text_date);
         // RecyclerView 설정
         recyclerExercise = findViewById(R.id.recycler_exercise);
@@ -72,6 +76,13 @@ public class ExerciseListActivity extends AppCompatActivity {
         btnAddSet.setOnClickListener(v ->
             startActivity(new Intent(this, ExerciseAddListActivity.class))
         );
+        icon_meal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ExerciseListActivity.this, DietActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

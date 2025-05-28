@@ -122,19 +122,19 @@ public class DietActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        // DietActivity: 오늘 날짜의 식단 정보를 불러오고 차트 및 리스트로 표시
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diet);
 
-        // 로그인된 사용자 ID와 오늘 날짜 가져오기
+
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         userId = prefs.getString("USER_ID", null);  // 클래스 필드에 저장
 
         if (userId != null) {
-            // 정상적으로 꺼내진 경우
+
             Log.d("USER_ID", userId);
         } else {
-            // 저장된 값이 없을 경우
+
             Log.d("USER_ID", "No userId found");
         }
 

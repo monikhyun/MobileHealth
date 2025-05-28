@@ -3,6 +3,7 @@ package com.example.resister;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -59,17 +60,16 @@ public class LoginActivity extends AppCompatActivity {
                             boolean success = jsonResponse.getBoolean("success");
 
                             if (success) {
-                                // 2) 헤더에서 JWT 토큰 꺼내기
-                                String authHeader = response.headers.get("Authorization");
-                                // 예: "Bearer eyJhbGciOiJI..."
 
-                                // 3) SharedPreferences에 저장
+                                String authHeader = response.headers.get("Authorization");
+
+
                                 SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putString("JWT_TOKEN", authHeader);
                                 editor.putString("USER_ID", userID);
                                 editor.apply();
-
+                                Log.d("jwt", authHeader);
                                 Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);

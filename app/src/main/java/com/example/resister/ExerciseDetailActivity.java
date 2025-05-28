@@ -1,5 +1,6 @@
 package com.example.resister;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,11 +26,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import org.json.JSONArray;
@@ -42,12 +39,17 @@ public class ExerciseDetailActivity extends AppCompatActivity {
     private String date;
     private String userId;
 
+    private ImageView iconWorkout, btn_back;
+
     TextView text_date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_detail);
+
+        btn_back = findViewById(R.id.btn_back);
+        iconWorkout = findViewById(R.id.icon_workout);
 
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         userId = prefs.getString("USER_ID", null);
@@ -120,6 +122,22 @@ public class ExerciseDetailActivity extends AppCompatActivity {
         });
 
         loadRecords();
+
+        iconWorkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ExerciseDetailActivity.this, ExerciseListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ExerciseDetailActivity.this, ExerciseListActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void addSetView() {
