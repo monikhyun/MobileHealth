@@ -84,7 +84,7 @@
                 android:layout_height="300dp"
                 android:layout_marginTop="8dp">
 
-                <com.anychart.AnyChartView
+                <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/meal_chart_view"
                     android:layout_width="250dp"
                     android:layout_height="300dp"
@@ -116,8 +116,9 @@
                         android:id="@+id/valueCarb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#FFA7A7"
                         android:text=""
-                        android:textSize="13sp"
+                        android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBaseline_toBaselineOf="@id/labelCarb"/>
 
@@ -136,8 +137,9 @@
                         android:id="@+id/valueProtein"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#B2EBF4"
                         android:text=""
-                        android:textSize="13sp"
+                        android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBaseline_toBaselineOf="@id/labelProtein"/>
 
@@ -156,8 +158,9 @@
                         android:id="@+id/valueFat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#FAED7D"
                         android:text=""
-                        android:textSize="13sp"
+                        android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBaseline_toBaselineOf="@id/labelFat"/>
 
@@ -176,8 +179,9 @@
                         android:id="@+id/valueCal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="#FFC19E"
                         android:text=""
-                        android:textSize="13sp"
+                        android:textSize="20sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBaseline_toBaselineOf="@id/labelCal"/>
 
