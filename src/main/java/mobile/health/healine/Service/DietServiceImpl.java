@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -47,6 +48,7 @@ public class DietServiceImpl implements DietService{
 
         return dietList.stream()
                 .map(diet -> DietDto.builder()
+                        .id(diet.getId())
                         .userId(diet.getMember().getUserId())
                         .name(diet.getName())
                         .mealtime(diet.getMealtime())
@@ -57,5 +59,28 @@ public class DietServiceImpl implements DietService{
                         .date(diet.getDate())
                         .build())
                 .toList();
+    }
+
+    @Override
+    public DietDto dietFindOne(Long id) {
+        Optional<Diet> diet = dietRepository.findById(id);
+        if(diet.isPresent()){
+            Diet findDiet = diet.get();
+            return DietDto.fromEntity(findDiet);
+        }
+        else return null;
+
+    }
+
+    @Override
+    public void dietUpdate(DietDto dietDto, Long id) {
+        Diet diet = dietRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("식단 정보 없음"));
+        diet.setName(dietDto.getName());
+        diet.setCarbo(dietDto.getCarb());
+        diet.setProtein(dietDto.getProtein());
+        diet.setFat(dietDto.getFat());
+        diet.setCalories(dietDto.getCalories());
+        diet.setMealtime(dietDto.getMealtime());
     }
 }

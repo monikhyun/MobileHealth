@@ -11,6 +11,12 @@ public interface DietService {
     // 식단 저장
     void dietSave(DietDto dietDto);
 
-    // 식단 조회
+    // 식단 목록 조회
     List<DietDto> dietFind(String userId, LocalDate date);
+
+    // 식단 수정
+    void dietUpdate(DietDto dietDto, Long id);
+
+    // 식단 조회
+    DietDto dietFindOne(Long id);
 }
