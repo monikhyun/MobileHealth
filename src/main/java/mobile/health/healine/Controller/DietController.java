@@ -34,4 +34,18 @@ public class DietController {
     public ResponseEntity<List<DietDto>> find(@PathVariable String userId, @RequestParam(required = false) LocalDate date){
         return ResponseEntity.ok(dietService.dietFind(userId, date));
     }
+
+    @GetMapping("/record/{userId}/{dietId}")
+    public ResponseEntity<DietDto> find(@PathVariable String userId, @PathVariable Long dietId){
+        if(resisterService.validate(userId)){
+            return ResponseEntity.ok(DietDto.builder().build());
+        }
+        return ResponseEntity.ok(dietService.dietFindOne(dietId));
+    }
+
+    @PutMapping("/record/{userId}/{dietId}/update")
+    public ResponseEntity<String> update(@PathVariable String userId, @PathVariable Long dietId, @RequestBody DietDto dietDto){
+        dietService.dietUpdate(dietDto, dietId);
+        return ResponseEntity.ok("저장되었습니다");
+    }
 }
