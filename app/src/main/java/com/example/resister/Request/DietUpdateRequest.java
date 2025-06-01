@@ -17,7 +17,8 @@ public class DietUpdateRequest extends StringRequest {
                              Response.Listener<String> listener,
                              Response.ErrorListener errorListener) {
         super(Method.PUT,
-                "http://10.0.2.2:8080/api/diet/record/" + userId + "/" + dietId,
+
+                "http://10.0.2.2:8080/api/diet/record/" + userId + "/" + dietId + "/update",
                 listener,
                 errorListener);
         this.jsonBody = jsonBody;

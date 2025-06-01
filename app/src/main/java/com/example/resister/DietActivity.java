@@ -132,10 +132,13 @@ public class DietActivity extends AppCompatActivity {
                                 ((TextView) mealView.findViewById(R.id.fatText)).setText(String.valueOf(fatMeal));
                                 ((TextView) mealView.findViewById(R.id.calText)).setText(kcal.toPlainString());
 
-                                mealView.setTag(diet);
+                                Long dietId = diet.getLong("id");
+                                mealView.setTag(dietId);
+
                                 mealView.setOnClickListener(v -> {
                                     Intent intent = new Intent(DietActivity.this, DietAddActivity.class);
                                     intent.putExtra("mode", "edit");
+                                    intent.putExtra("dietId",dietId);
                                     try {
                                         Log.d("DietDebug", "diet JSON: " + diet.toString());
                                         intent.putExtra("dietId", diet.getLong("id"));

@@ -47,7 +47,7 @@ public class DietAddActivity extends AppCompatActivity {
         Intent intent = getIntent();
         boolean isEdit = "edit".equals(intent.getStringExtra("mode"));
         Long dietId = intent.getLongExtra("dietId", -1);
-
+        Log.d("dietid",""+dietId);
         editName = findViewById(R.id.editMealName);
         editCal = findViewById(R.id.editCalorie);
         editCarb = findViewById(R.id.editCarb);
@@ -97,6 +97,7 @@ public class DietAddActivity extends AppCompatActivity {
             }
             JSONObject jsonBody = new JSONObject();
             try {
+                jsonBody.put("id",dietId);
                 jsonBody.put("userId", userID);
                 jsonBody.put("name", editName.getText().toString());
                 jsonBody.put("mealtime", mealTimeEnum);
@@ -113,7 +114,7 @@ public class DietAddActivity extends AppCompatActivity {
             // 수정 모드
             if (isEdit) {
                 Log.d("mealID",""+dietId);
-                String url = "http://10.0.2.2:8080/api/diet/record/" + userID + "/" + dietId;
+                String url = "http://10.0.2.2:8080/api/diet/record/" + userID + "/" + dietId + "/update";
                 DietUpdateRequest updateReq = new DietUpdateRequest(
                         userID, dietId, jsonBody,
                         resp -> { Toast.makeText(this, resp, Toast.LENGTH_SHORT).show(); setResult(RESULT_OK); finish(); },
