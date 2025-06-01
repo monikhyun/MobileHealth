@@ -181,16 +181,15 @@ public class DietActivity extends AppCompatActivity {
                         PieData pieData = new PieData(dataSet);
                         pieData.setValueFormatter(new PercentFormatter(pieChart));
 
-                        pieChart.setUsePercentValues(true);
-                        pieChart.setHoleRadius(45f);
-                        pieChart.setTransparentCircleRadius(50f);
-                        pieChart.setEntryLabelColor(Color.BLACK);
-                        pieChart.setEntryLabelTextSize(12f);
-                        pieChart.setData(pieData);
-                        pieChart.getDescription().setEnabled(false);
-                        pieChart.getLegend().setEnabled(false);
-                        pieChart.setCenterText("영양소 비율");
-                        pieChart.setCenterTextSize(16f);
+                        pieChart.setUsePercentValues(true);// 백분율(%)
+                        pieChart.setDrawCenterText(false);; // 가운데 텍스트
+                        pieChart.setHoleRadius(32f); // 가운데 구멍의 반지름
+                        pieChart.setTransparentCircleRadius(40f); // 구멍 주위의 투명 원 반지름
+                        pieChart.setEntryLabelColor(Color.BLACK); // 엔트리 라벨 색상
+                        pieChart.setEntryLabelTextSize(12f); // 엔트리 크기
+                        pieChart.setData(pieData); // 바인딩
+                        pieChart.getDescription().setEnabled(false); // 오른쪽 하단 Description 텍스트 제거
+                        pieChart.getLegend().setEnabled(false); // 범례(legend) 숨김
                         pieChart.invalidate(); // 다시 그리기
 
                         // 합계 텍스트 업데이트
