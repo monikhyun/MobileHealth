@@ -22,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.*;
 
 import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -53,47 +54,40 @@ public class SecurityConfig {
         return authConfig.getAuthenticationManager();
     }
 
+    private CorsConfigurationSource corsConfigSource() {
+        return request -> {
+            CorsConfiguration cfg = new CorsConfiguration();
+            // 개발 중에는 "*"로 모두 허용하고, 배포 시 실 도메인만 나열
+            cfg.setAllowedOrigins(List.of("http://localhost:8080"));
+            cfg.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
+            cfg.setAllowCredentials(true);
+            cfg.setAllowedHeaders(List.of("*"));
+            cfg.setMaxAge(3600L);
+            return cfg;
+        };
+    }
     // 4) SecurityFilterChain 설정, requestMatchers 부분은 그대로 유지
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // CORS 설정
-        http.cors(cors -> cors.configurationSource(new CorsConfigurationSource() {
-            @Override
-            public CorsConfiguration getCorsConfiguration(HttpServletRequest req) {
-                CorsConfiguration cfg = new CorsConfiguration();
-                cfg.setAllowedOrigins(Collections.singletonList("http://localhost:8080"));
-                cfg.setAllowedMethods(Collections.singletonList("*"));
-                cfg.setAllowCredentials(true);
-                cfg.setAllowedHeaders(Collections.singletonList("*"));
-                cfg.setMaxAge(3600L);
-                return cfg;
-            }
-        }));
-
         http
+                .cors(cors -> cors.configurationSource(corsConfigSource()))
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-/*                        // POST /api/auth/register/validate/** 명시적으로 풀어주기
-                        .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/register/validate/**").permitAll()
+                        // 1) 인증 관련 엔드포인트만 모두 열어 둠
+                        .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
 
-                        // POST /api/auth/login 와
-                        // POST /api/auth/login/validate/** 도 풀어주기
-                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/auth/login/validate/**").permitAll()
-                        *//*.requestMatchers("/api/**").hasAuthority("ROLE_USER")*//*
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("api/exercise/**").permitAll()
-                        .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")*/
+                        // 2) Swagger/OpenAPI용 경로(필요 시) 열어두기
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+
+                        // 3) 그 외 모든 요청은 반드시 인증이 되어야 함
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form.disable())
                 .logout(logout -> logout.permitAll())
-                // 5) 분리한 AuthenticationProvider 등록
                 .authenticationProvider(authenticationProvider());
 
-        // JWT 필터 등록
+        // JWT 필터 등록 (폼 로그인 필터 앞)
         http.addFilterBefore(
                 new JwtAuthenticationFilter(jwtTokenProvider),
                 UsernamePasswordAuthenticationFilter.class
