@@ -39,7 +39,7 @@ public class ExerciseRecord {
 
     private Integer count;
 
-    @Column(precision = 3, scale = 1)
+    @Column(precision = 4, scale = 1)
     private BigDecimal weight;
 
     @Column(nullable = false)

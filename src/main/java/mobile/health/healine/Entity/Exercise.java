@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import mobile.health.healine.Config.BodyPartConverter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Builder
 @Entity
@@ -31,4 +34,5 @@ public class Exercise {
 
     @Column(length = 120)
     private String description;
+
 }

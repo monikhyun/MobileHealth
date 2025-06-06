@@ -57,9 +57,20 @@ public class ExerciseServiceImpl implements ExerciseService{
     // 기록할 운동 추가
     @Override
     public void addExercise(String userId, String exerciseName, LocalDate date) {
+        Member member = memberRepository.findByUserId(userId);
+
         Exercise exercise = exerciseRepository.findByExerciseName(exerciseName);
+
+        boolean alreadyExists = exerciseRecordRepository
+                .existsByMemberAndExerciseNameAndDate(member, exerciseName, date);
+
+        if (alreadyExists) {
+            throw new IllegalStateException("이미 같은 운동이 등록되어 있습니다: "
+                    + userId + " / " + exerciseName + " / " + date);
+        }
+
         exerciseRecordRepository.save(ExerciseRecord.builder()
-                        .member(memberRepository.findByUserId(userId))
+                        .member(member)
                         .bodyPart(exercise.getCategory())
                         .setCount(1)
                         .weight(new BigDecimal(1))

@@ -9,10 +9,12 @@ import mobile.health.healine.Entity.dto.AddedExerciseDto;
 import mobile.health.healine.Entity.dto.ExerciseDto;
 import mobile.health.healine.Entity.dto.ExerciseRecordDto;
 import mobile.health.healine.Service.ExerciseServiceImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @RestController
@@ -33,9 +35,32 @@ public class ExerciseController {
     @PostMapping("/add/{userId}/{date}/{exerciseName}")
     public ResponseEntity<String> addExercise(@PathVariable String userId, @PathVariable LocalDate date, @PathVariable String exerciseName) {
 
-        exerciseService.addExercise(userId, exerciseName, date);
+        try {
 
-        return ResponseEntity.ok("운동 추가 완료");
+            // 서비스 호출
+            exerciseService.addExercise(userId, exerciseName, date);
+
+            // 정상적으로 추가되었거나, “이미 존재해 무시”된 경우 모두 200 OK
+            return ResponseEntity.ok("운동 추가 완료");
+        }
+        // 서비스에서 중복 시 IllegalStateException을 던지도록 했다면, 여기서 409로 매핑
+        catch (IllegalStateException ise) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("이미 같은 운동이 등록되어 있습니다: " + exerciseName + " / " + date);
+        }
+        // 날짜 형식 오류 등
+        catch (DateTimeParseException dtpe) {
+            return ResponseEntity
+                    .badRequest()
+                    .body("날짜 형식이 잘못되었습니다. YYYY-MM-DD 형식으로 보내주세요.");
+        }
+        // 사용자 자체가 없을 때 발생하는 IllegalArgumentException
+        catch (IllegalArgumentException iae) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(iae.getMessage());
+        }
     }
     // 해당 운동 데이터 불러오기
     @GetMapping("/add/{userId}/{exerciseName}")

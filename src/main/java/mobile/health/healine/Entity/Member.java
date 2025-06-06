@@ -38,10 +38,10 @@ public class Member {
     @Column(nullable = false)
     private Gender gender;
 
-    @Column(precision = 3, scale = 1)
+    @Column(precision = 4, scale = 1)
     private BigDecimal height;
 
-    @Column(precision = 3, scale = 1)
+    @Column(precision = 4, scale = 1)
     private BigDecimal weight;
 
     @Column(nullable = true)
@@ -59,5 +59,6 @@ public class Member {
     @OneToMany(mappedBy = "toMember", cascade = CascadeType.ALL)
     private List<Follow> followers;
 
-
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<ExerciseRecord> exerciseRecords = new ArrayList<>();
 }

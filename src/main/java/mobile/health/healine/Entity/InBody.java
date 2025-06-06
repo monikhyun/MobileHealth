@@ -18,21 +18,21 @@ public class InBody {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(precision = 3, scale = 1)
+    @Column(precision = 4, scale = 1)
     private BigDecimal weight;
 
     private LocalDate date;
 
-    @Column(precision = 2, scale = 1)
+    @Column(precision = 3, scale = 1)
     private BigDecimal SMM;
 
     @Column(precision = 3, scale = 1)
     private BigDecimal LBM;
 
-    @Column(precision = 2, scale = 1)
+    @Column(precision = 3, scale = 1)
     private BigDecimal BMI;
 
-    @Column(precision = 2, scale = 1)
+    @Column(precision = 3, scale = 1)
     private BigDecimal fat_percent;
 
     @ManyToOne
