@@ -1,4 +1,4 @@
-package com.example.resister;
+package com.example.health.DTO;
 
 import java.math.BigDecimal;
 

@@ -1,4 +1,4 @@
-package com.example.resister;
+package com.example.health.Diet;
 
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -15,22 +15,15 @@ import org.json.JSONObject;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.resister.Request.DietInsertRequest;
+import com.example.health.R;
+import com.example.health.Request.Diet.DietInsertRequest;
 
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 public class DietAddActivity extends AppCompatActivity {
     private EditText editName, editCal, editCarb, editProtein, editFat;
@@ -120,8 +113,6 @@ public class DietAddActivity extends AppCompatActivity {
                     response -> {
                         // response에는 서버가 보낸 plain text 메시지가 담김
                         Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
-                        setResult(RESULT_OK);
-                        finish();
                     },
                     error -> {
                         error.printStackTrace();
@@ -131,6 +122,10 @@ public class DietAddActivity extends AppCompatActivity {
 
             RequestQueue queue = Volley.newRequestQueue(this);
             queue.add(request);
+
+            setResult(RESULT_OK);
+            finish();
+
         });
 
         btnCancel.setOnClickListener(v -> finish());

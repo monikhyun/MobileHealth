@@ -1,22 +1,19 @@
-package com.example.resister;
+package com.example.health.Diet;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 import android.widget.LinearLayout;
 import android.view.View;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONArray;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +22,7 @@ import com.anychart.AnyChartView;
 import com.anychart.charts.Pie;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
+import com.example.health.R;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -100,6 +98,7 @@ public class DietActivity extends AppCompatActivity {
                     pie.title("영양소 비율");
                     AnyChartView anyChartView = findViewById(R.id.meal_chart_view);
                     anyChartView.setChart(pie);
+                    Log.d("Nutrients", "Carb: " + totalCarb + ", Protein: " + totalProtein + ", Fat: " + totalFat);
                     // Set total values to summary TextViews
                     ((TextView) findViewById(R.id.valueCarb)).setText(String.valueOf((int) totalCarb));
                     ((TextView) findViewById(R.id.valueProtein)).setText(String.valueOf((int) totalProtein));
@@ -143,7 +142,6 @@ public class DietActivity extends AppCompatActivity {
         // + 버튼 클릭 시 DietAddActivity로 이동
         findViewById(R.id.buttonAddMeal).setOnClickListener(v -> {
             Intent intent = new Intent(DietActivity.this, DietAddActivity.class);
-            intent.putExtra("userId", this.userId);
             startActivityForResult(intent, 100);
         });
 
@@ -153,6 +151,8 @@ public class DietActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("DietActivity", "onActivityResult 호출됨: " + requestCode + ", result: " + resultCode); // 추가
+
         if (userId != null) {
             // 정상적으로 꺼내진 경우
             Log.d("USER_ID", userId);
@@ -163,6 +163,7 @@ public class DietActivity extends AppCompatActivity {
         }
         if (requestCode == 100 && resultCode == RESULT_OK) {
             String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+            Log.d("today", today);
             fetchDietData(today);
         }
     }

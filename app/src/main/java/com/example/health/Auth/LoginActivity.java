@@ -1,4 +1,4 @@
-package com.example.resister;
+package com.example.health.Auth;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,8 +20,8 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
-import com.example.resister.R;
-import com.example.resister.Request.LoginRequest;
+import com.example.health.R;
+import com.example.health.Request.LoginRequest;
 
 import java.nio.charset.StandardCharsets;
 
@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = prefs.edit();
+                                editor.clear().apply();
                                 editor.putString("JWT_TOKEN", authHeader);
                                 editor.putString("USER_ID", userID);
                                 editor.apply();

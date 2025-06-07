@@ -1,4 +1,4 @@
-package com.example.resister;
+package com.example.health.Auth;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.IdRes;
@@ -22,10 +21,10 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
-import com.example.resister.R;
-import com.example.resister.Request.RegisterRequest;
-import com.example.resister.Request.ValidateRequest;
-import com.example.resister.Request.ValidateRequest2;
+import com.example.health.R;
+import com.example.health.Request.RegisterRequest;
+import com.example.health.Request.ValidateRequest;
+import com.example.health.Request.ValidateRequest2;
 
 public class RegisterActivity extends AppCompatActivity {
     private ArrayAdapter adapter;

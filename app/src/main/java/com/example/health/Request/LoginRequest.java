@@ -1,13 +1,9 @@
-package com.example.resister.Request;
-import com.android.volley.Network;
+package com.example.health.Request;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.StringRequest;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+
 public class LoginRequest extends Request<NetworkResponse> {
 
     private final Response.Listener<NetworkResponse> listener;

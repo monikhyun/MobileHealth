@@ -1,4 +1,4 @@
-package com.example.resister;
+package com.example.health.Exercise;
 
 public  class ExerciseItem {
     public final String bodyPart;

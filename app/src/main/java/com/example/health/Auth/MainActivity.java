@@ -1,4 +1,4 @@
-package com.example.resister;
+package com.example.health.Auth;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,19 +9,27 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.health.Diet.DietActivity;
+import com.example.health.Exercise.ExerciseListActivity;
+import com.example.health.Friend.FriendListActivity;
+import com.example.health.R;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView tvId;
 
-    ImageView iconWorkout,icon_meal;
+    ImageView iconWorkout,icon_meal, icon_freinds,icon_stats,icon_home;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tvId = findViewById(R.id.tvId);
 
+        icon_home = findViewById(R.id.icon_home);
+        icon_freinds = findViewById(R.id.icon_friends);
         iconWorkout = findViewById(R.id.icon_workout);
         icon_meal = findViewById(R.id.icon_meal);
+        icon_stats = findViewById(R.id.icon_stats);
         // 1) SharedPreferences 열기
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
@@ -53,6 +61,23 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        icon_freinds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FriendListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        icon_stats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, StatusActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 }

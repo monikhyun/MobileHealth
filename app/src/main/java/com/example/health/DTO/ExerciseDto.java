@@ -1,4 +1,4 @@
-package com.example.resister;
+package com.example.health.DTO;
 
 public class ExerciseDto {
     public final String bodyPart;

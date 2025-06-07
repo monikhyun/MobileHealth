@@ -1,32 +1,47 @@
-// AddedExerciseAdapter.java
-package com.example.resister;
+// src/main/java/com/example/health/Exercise/AddedExerciseAdapter.java
+package com.example.health.Exercise;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.CheckBox;
-import com.example.resister.R;
+
+import com.example.health.R;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
-import com.example.resister.ExerciseItem;
 
 public class AddedExerciseAdapter
         extends RecyclerView.Adapter<AddedExerciseAdapter.ViewHolder> {
 
-
-
+    // 화면에 표시할 데이터
     private final List<ExerciseItem> items = new ArrayList<>();
-    private final OnItemClickListener listener;
+
+    // 클릭 콜백: 운동 아이템 전체를 눌렀을 때
+    private final OnItemClickListener itemClickListener;
+
+    // 삭제 콜백: 각 행의 삭제 버튼을 눌렀을 때
+    private final OnDeleteClickListener deleteClickListener;
+
     public interface OnItemClickListener {
         void onItemClick(ExerciseItem item);
     }
 
-    public AddedExerciseAdapter(List<ExerciseItem> initialData, OnItemClickListener listener) {
+    public interface OnDeleteClickListener {
+        void onDeleteClick(ExerciseItem item);
+    }
+
+    public AddedExerciseAdapter(
+            List<ExerciseItem> initialData,
+            OnItemClickListener itemClickListener,
+            OnDeleteClickListener deleteClickListener
+    ) {
         items.addAll(initialData);
-        this.listener = listener;
+        this.itemClickListener = itemClickListener;
+        this.deleteClickListener = deleteClickListener;
     }
 
     public void updateData(List<ExerciseItem> newData) {
@@ -39,6 +54,7 @@ public class AddedExerciseAdapter
     @Override
     public AddedExerciseAdapter.ViewHolder onCreateViewHolder(
             @NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_exercise, parent, false);
         return new ViewHolder(view);
@@ -49,10 +65,12 @@ public class AddedExerciseAdapter
         ExerciseItem item = items.get(position);
         holder.textPart.setText(item.bodyPart);
         holder.textExerciseName.setText(item.exerciseName);
-        holder.checkboxDone.setChecked(item.done);
 
-        // 뷰 전체에 클릭 리스너 연결
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(item));
+        // ① 아이템 전체 클릭 시 (운동 상세 보기)
+        holder.itemView.setOnClickListener(v -> itemClickListener.onItemClick(item));
+
+        // ② 삭제 버튼 클릭 시
+        holder.btn_remove_set.setOnClickListener(v -> deleteClickListener.onDeleteClick(item));
     }
 
     @Override
@@ -64,12 +82,13 @@ public class AddedExerciseAdapter
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textPart;
         TextView textExerciseName;
-        CheckBox checkboxDone;
+        ImageButton btn_remove_set;
+
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             textPart = itemView.findViewById(R.id.text_part);
             textExerciseName = itemView.findViewById(R.id.text_exercise_name);
-            checkboxDone = itemView.findViewById(R.id.checkbox_done);
+            btn_remove_set = itemView.findViewById(R.id.btn_remove_set);
         }
     }
 }
