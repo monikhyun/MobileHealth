@@ -24,7 +24,7 @@
     <string-array name="inBody_items">
         <item>전체</item>
         <item>체중</item>
-        <item>골격근</item>
+        <item>골격근량</item>
         <item>체지방량</item>
         <item>BMI</item>
         <item>체지방률</item>
