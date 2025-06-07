@@ -69,7 +69,6 @@ public class FriendListActivity extends AppCompatActivity {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일");
         binding.textDate.setText(today.format(formatter) + " ▼");
 
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         binding.iconHome.setOnClickListener(v -> {
