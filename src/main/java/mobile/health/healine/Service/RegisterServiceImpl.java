@@ -3,6 +3,7 @@ package mobile.health.healine.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mobile.health.healine.Entity.Member;
+import mobile.health.healine.Entity.MemberGrade;
 import mobile.health.healine.Entity.ROLE;
 import mobile.health.healine.Entity.dto.ResisterDto;
 import mobile.health.healine.Repository.MemberRepository;
@@ -44,7 +45,7 @@ public class RegisterServiceImpl implements RegisterService {
                 .password(resisterDto.getPassword())
                 .username(resisterDto.getUsername())
                 .gender(resisterDto.getGender())
-                .grade("R.drawable.ic_grade_1")
+                .grade(MemberGrade.SPROUT)
                 .role(ROLE.ROLE_USER)
                 .build();
 

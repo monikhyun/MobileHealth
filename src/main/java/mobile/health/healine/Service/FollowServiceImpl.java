@@ -39,9 +39,19 @@ public class FollowServiceImpl implements FollowService {
     // 팔로우 요청
     @Override
     public void followRequest(String userId, String followerId) {
+        Member from = memberRepository.findMemberByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("보내는 유저 없음"));
+        Member to = memberRepository.findMemberByUserId(followerId)
+                .orElseThrow(() -> new IllegalArgumentException("받는 유저 없음"));
+
+        boolean alreadyExists = followRepository.existsByFromMemberAndToMember(from, to);
+        if (alreadyExists) {
+            throw new IllegalStateException("이미 팔로우 요청이 존재합니다.");
+        }
+
         Follow follow = Follow.builder()
-                .fromMember(memberRepository.findMemberByUserId(userId).get())
-                .toMember(memberRepository.findMemberByUserId(followerId).get())
+                .fromMember(from)
+                .toMember(to)
                 .status(FollowStatus.REQUESTED)
                 .build();
 
@@ -69,12 +79,25 @@ public class FollowServiceImpl implements FollowService {
     // 팔로우 승인
     @Override
     public void followAccept(String userId, String followingId) {
-        Follow follow = followRepository.findByFromMemberAndToMember(
-                memberRepository.findMemberByUserId(followingId).get(),
-                memberRepository.findMemberByUserId(userId).get()
-        );
+        Member toMember = memberRepository.findMemberByUserId(userId).orElseThrow();
+        Member fromMember = memberRepository.findMemberByUserId(followingId).orElseThrow();
+
+        // 1. 기존 요청을 ACCEPTED로 변경
+        Follow follow = followRepository.findByFromMemberAndToMember(fromMember, toMember);
         follow.setStatus(FollowStatus.ACCEPTED);
         followRepository.save(follow);
+
+        // 2. 역방향 팔로우가 이미 존재하는지 확인
+        boolean existsReverse = followRepository.existsByFromMemberAndToMember(toMember, fromMember);
+        if (!existsReverse) {
+            // 3. 역방향 팔로우 추가
+            Follow reverseFollow = Follow.builder()
+                    .fromMember(toMember)
+                    .toMember(fromMember)
+                    .status(FollowStatus.ACCEPTED)
+                    .build();
+            followRepository.save(reverseFollow);
+        }
     }
 
     // 팔로우 거절
@@ -90,7 +113,25 @@ public class FollowServiceImpl implements FollowService {
 
     // 유저 검색
     @Override
-    public List<Member> findUsers(String username) {
-        return memberRepository.findMemberByUsernameContaining(username);
+    public List<Member> findUsers(String userId, String username) {
+        return memberRepository.searchExcludingFollowed(username, userId);
+    }
+
+    // 팔로우 요청 취소
+    @Override
+    public void followCancel(String userId, String followerId) {
+        Member from = memberRepository.findMemberByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("보낸 유저 없음"));
+        Member to = memberRepository.findMemberByUserId(followerId)
+                .orElseThrow(() -> new IllegalArgumentException("받는 유저 없음"));
+
+        Follow follow = followRepository.findByFromMemberAndToMember(from, to);
+
+        // 요청 상태일 경우만 삭제
+        if (follow.getStatus() == FollowStatus.REQUESTED) {
+            followRepository.delete(follow);
+        } else {
+            throw new IllegalStateException("요청 상태가 아니므로 취소할 수 없습니다.");
+        }
     }
 }

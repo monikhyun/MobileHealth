@@ -47,8 +47,9 @@ public class Member {
     @Column(nullable = true)
     private String imageUrl;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String grade;
+    private MemberGrade grade;
 
     @OneToMany(mappedBy = "member")
     private List<Diet> diets;
@@ -61,4 +62,7 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<ExerciseRecord> exerciseRecords = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<DailyExerciseLog> dailyExerciseLogs = new ArrayList<>();
 }

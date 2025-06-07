@@ -1,19 +1,10 @@
 package mobile.health.healine.Service;
 
 import lombok.RequiredArgsConstructor;
+import mobile.health.healine.Entity.*;
+import mobile.health.healine.Repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import mobile.health.healine.Entity.BodyPart;
-import mobile.health.healine.Entity.Exercise;
-import mobile.health.healine.Entity.ExerciseRecord;
-import mobile.health.healine.Entity.InBody;
-import mobile.health.healine.Entity.Member;
-import mobile.health.healine.Entity.ROLE;
-import mobile.health.healine.Entity.Gender;
-import mobile.health.healine.Repository.ExerciseRepository;
-import mobile.health.healine.Repository.ExerciseRecordRepository;
-import mobile.health.healine.Repository.MemberRepository;
-import mobile.health.healine.Repository.InBodyRepository;
 
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
@@ -47,6 +38,7 @@ public class InitDataService {
     private final MemberRepository       memberRepository;
     private final ExerciseRecordRepository exerciseRecordRepository;
     private final InBodyRepository       inBodyRepository;
+    private final FollowRepository       followRepository;
 
     @Transactional
     public void initializeExercisesAndTestUser() {
@@ -68,6 +60,8 @@ public class InitDataService {
         if (inBodyRepository.countByMember(mjc) == 0) {
             seedInBodyForTestUser(mjc);
         }
+
+        seedFollowData();
     }
 
     /**
@@ -261,7 +255,7 @@ public class InitDataService {
                 .height(BigDecimal.valueOf(170.5))
                 .weight(BigDecimal.valueOf(65.3))
                 .imageUrl("https://picsum.photos/200")
-                .grade("브론즈")
+                .grade(MemberGrade.SPROUT)
                 .build();
 
         return memberRepository.save(testUser);
@@ -531,5 +525,160 @@ public class InitDataService {
         }
 
         inBodyRepository.saveAll(inBodies);
+    }
+
+    @Transactional
+    public void seedFollowData() {
+        Member mjc = memberRepository.findByUserId("mjc");
+
+        // 팔로우 요청 유저 3명
+        Member req1 = memberRepository.save(Member.builder()
+                .userId("req1")
+                .username("요청자1")
+                .password("1234")
+                .role(ROLE.ROLE_USER)
+                .gender(Gender.FEMALE)
+                .height(BigDecimal.valueOf(160))
+                .weight(BigDecimal.valueOf(50))
+                .grade(MemberGrade.SPROUT)
+                .build());
+
+        Member req2 = memberRepository.save(Member.builder()
+                .userId("req2")
+                .username("요청자2")
+                .password("1234")
+                .role(ROLE.ROLE_USER)
+                .gender(Gender.MALE)
+                .height(BigDecimal.valueOf(175))
+                .weight(BigDecimal.valueOf(70))
+                .grade(MemberGrade.SEED)
+                .build());
+
+        Member req3 = memberRepository.save(Member.builder()
+                .userId("req3")
+                .username("요청자3")
+                .password("1234")
+                .role(ROLE.ROLE_USER)
+                .gender(Gender.FEMALE)
+                .height(BigDecimal.valueOf(168))
+                .weight(BigDecimal.valueOf(55))
+                .grade(MemberGrade.SPROUT)
+                .build());
+
+        // 일반 유저 3명
+        memberRepository.save(Member.builder()
+                .userId("user1")
+                .username("유저1")
+                .password("1234")
+                .role(ROLE.ROLE_USER)
+                .gender(Gender.MALE)
+                .height(BigDecimal.valueOf(180))
+                .weight(BigDecimal.valueOf(80))
+                .grade(MemberGrade.STEMS)
+                .build());
+
+        memberRepository.save(Member.builder()
+                .userId("user2")
+                .username("유저2")
+                .password("1234")
+                .role(ROLE.ROLE_USER)
+                .gender(Gender.FEMALE)
+                .height(BigDecimal.valueOf(165))
+                .weight(BigDecimal.valueOf(52))
+                .grade(MemberGrade.SEED)
+                .build());
+
+        memberRepository.save(Member.builder()
+                .userId("user3")
+                .username("유저3")
+                .password("1234")
+                .role(ROLE.ROLE_USER)
+                .gender(Gender.MALE)
+                .height(BigDecimal.valueOf(172))
+                .weight(BigDecimal.valueOf(65))
+                .grade(MemberGrade.SEED)
+                .build());
+
+        // 요청 상태 팔로우 (3명 → mjc)
+        followRepository.save(Follow.builder().fromMember(req1).toMember(mjc).status(FollowStatus.REQUESTED).build());
+        followRepository.save(Follow.builder().fromMember(req2).toMember(mjc).status(FollowStatus.REQUESTED).build());
+        followRepository.save(Follow.builder().fromMember(req3).toMember(mjc).status(FollowStatus.REQUESTED).build());
+
+        // 상호 팔로우 유저
+        Member friend = memberRepository.save(Member.builder()
+                .userId("friend")
+                .username("친구")
+                .password("1234")
+                .role(ROLE.ROLE_USER)
+                .gender(Gender.FEMALE)
+                .height(BigDecimal.valueOf(167))
+                .weight(BigDecimal.valueOf(53))
+                .grade(MemberGrade.TREE)
+                .build());
+
+
+        followRepository.save(Follow.builder().fromMember(mjc).toMember(friend).status(FollowStatus.ACCEPTED).build());
+        followRepository.save(Follow.builder().fromMember(friend).toMember(mjc).status(FollowStatus.ACCEPTED).build());
+        Member friend1 = memberRepository.save(Member.builder()
+                .userId("friend1")
+                .username("친구1")
+                .password("1234")
+                .role(ROLE.ROLE_USER)
+                .gender(Gender.MALE)
+                .height(BigDecimal.valueOf(178))
+                .weight(BigDecimal.valueOf(75))
+                .grade(MemberGrade.SEED)
+                .build());
+
+        Member friend2 = memberRepository.save(Member.builder()
+                .userId("friend2")
+                .username("친구2")
+                .password("1234")
+                .role(ROLE.ROLE_USER)
+                .gender(Gender.FEMALE)
+                .height(BigDecimal.valueOf(160))
+                .weight(BigDecimal.valueOf(52))
+                .grade(MemberGrade.SEED)
+                .build());
+
+        Member friend3 = memberRepository.save(Member.builder()
+                .userId("friend3")
+                .username("친구3")
+                .password("1234")
+                .role(ROLE.ROLE_USER)
+                .gender(Gender.MALE)
+                .height(BigDecimal.valueOf(172))
+                .weight(BigDecimal.valueOf(68))
+                .grade(MemberGrade.SPROUT)
+                .build());
+
+        Member friend4 = memberRepository.save(Member.builder()
+                .userId("friend4")
+                .username("친구4")
+                .password("1234")
+                .role(ROLE.ROLE_USER)
+                .gender(Gender.FEMALE)
+                .height(BigDecimal.valueOf(165))
+                .weight(BigDecimal.valueOf(54))
+                .grade(MemberGrade.TREE)
+                .build());
+
+        Member friend5 = memberRepository.save(Member.builder()
+                .userId("friend5")
+                .username("친구5")
+                .password("1234")
+                .role(ROLE.ROLE_USER)
+                .gender(Gender.MALE)
+                .height(BigDecimal.valueOf(180))
+                .weight(BigDecimal.valueOf(78))
+                .grade(MemberGrade.TREE)
+                .build());
+
+// 상호 팔로우 저장
+        for (Member f : List.of(friend1, friend2, friend3, friend4, friend5)) {
+            followRepository.save(Follow.builder().fromMember(mjc).toMember(f).status(FollowStatus.ACCEPTED).build());
+            followRepository.save(Follow.builder().fromMember(f).toMember(mjc).status(FollowStatus.ACCEPTED).build());
+        }
+
     }
 }
