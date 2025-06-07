@@ -93,6 +93,8 @@ public class ExerciseListActivity extends AppCompatActivity {
         icon_meal = findViewById(R.id.icon_meal);
         btnStart = findViewById(R.id.btn_start);
         textTimer = findViewById(R.id.text_timer);
+        icon_home = findViewById(R.id.icon_home);
+        icon_freinds = findViewById(R.id.icon_friends);
 
         icon_home.setOnClickListener(new View.OnClickListener() {
             @Override
