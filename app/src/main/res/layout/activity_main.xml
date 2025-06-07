@@ -211,7 +211,7 @@
             <!-- 부위별 통계 -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="40dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 

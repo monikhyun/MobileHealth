@@ -119,29 +119,6 @@ public class ExerciseAddListActivity extends AppCompatActivity {
         textFriends    = findViewById(R.id.text_friends);
         textStats      = findViewById(R.id.text_stats);
 
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        binding.iconHome.setOnClickListener(v -> {
-            Intent intent = new Intent(ExerciseAddListActivity.this, MainActivity.class);
-            startActivity(intent);
-        });
-
-
-        binding.iconMeal.setOnClickListener(v -> {
-            Intent intent = new Intent(ExerciseAddListActivity.this, DietActivity.class);
-            startActivity(intent);
-        });
-
-        binding.iconFriends.setOnClickListener(v -> {
-            Intent intent = new Intent(ExerciseAddListActivity.this, FriendListActivity.class);
-            startActivity(intent);
-        });
-
-        binding.iconStats.setOnClickListener(v -> {
-            Intent intent = new Intent(ExerciseAddListActivity.this, StatusActivity.class);
-            startActivity(intent);
-        });
 
         // RecyclerView: 세로 목록 + 아이템 간격
         recyclerExercise.setLayoutManager(

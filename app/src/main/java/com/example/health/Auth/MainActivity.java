@@ -18,7 +18,6 @@ import com.example.health.Stats.StatusActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView tvId;
 
     ImageView iconWorkout,icon_meal, icon_freinds,icon_stats,icon_home;
     @Override
@@ -37,15 +36,6 @@ public class MainActivity extends AppCompatActivity {
         // 2) USER_ID 읽어오기 (없으면 null)
         String userID = prefs.getString("USER_ID", null);
 
-        if (userID != null) {
-            // 3) 사용자 환영 메시지
-            tvId.setText(userID + "님 환영합니다.");
-        } else {
-            // 로그인 정보가 없으면 로그인 화면으로 이동
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }
 
         iconWorkout.setOnClickListener(new View.OnClickListener() {
             @Override

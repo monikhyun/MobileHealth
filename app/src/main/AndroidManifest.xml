@@ -37,7 +37,8 @@
         <activity
             android:name=".Exercise.ExerciseDetailActivity"
             android:exported="true"></activity>
-        <activity android:name=".Exercise.ExerciseListActivity" />
+        <activity android:name=".Exercise.ExerciseListActivity"
+            android:exported="true"/>
         <activity android:name=".Exercise.ExerciseAddListActivity" />
         <activity
             android:name=".Diet.DietActivity"
@@ -45,7 +46,7 @@
         <activity
             android:name=".Diet.DietAddActivity"
             android:exported="true" />
-        <activity android:name=".StatusActivity"
+        <activity android:name=".Stats.StatusActivity"
             android:exported="true"/>
     </application>
 
