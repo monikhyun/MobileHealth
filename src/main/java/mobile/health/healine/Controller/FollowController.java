@@ -27,7 +27,7 @@ public class FollowController {
                 .map(member -> MemberDto.builder()
                         .userid(member.getUserId())
                         .username(member.getUsername())
-                        .grade(member.getGrade())
+                        .grade(String.valueOf(member.getGrade()))
                         .imageUrl(member.getImageUrl())
                         .build())
                 .collect(Collectors.toList());
@@ -41,7 +41,7 @@ public class FollowController {
                 .map(member -> MemberDto.builder()
                         .userid(member.getUserId())
                         .username(member.getUsername())
-                        .grade(member.getGrade())
+                        .grade(String.valueOf(member.getGrade()))
                         .imageUrl(member.getImageUrl())
                         .build())
                 .collect(Collectors.toList());
@@ -62,7 +62,7 @@ public class FollowController {
                 .map(member -> MemberDto.builder()
                         .userid(member.getUserId())
                         .username(member.getUsername())
-                        .grade(member.getGrade())
+                        .grade(String.valueOf(member.getGrade()))
                         .imageUrl(member.getImageUrl())
                         .build())
                 .collect(Collectors.toList());
@@ -82,18 +82,25 @@ public class FollowController {
         return ResponseEntity.ok(username + "님의 팔로우 요청 거절");
     }
     // 유저 찾기
-    @GetMapping("/search/{keyword}")
-    public ResponseEntity<List<MemberDto>> findUsers(@PathVariable String keyword){
-        List<Member> members = followService.findUsers(keyword);
+    @GetMapping("/search/{userId}/{keyword}")
+    public ResponseEntity<List<MemberDto>> findUsers(@PathVariable String userId,@PathVariable String keyword){
+        List<Member> members = followService.findUsers(userId,keyword);
         List<MemberDto> memberDtos = members.stream()
                 .map(member -> MemberDto.builder()
                         .userid(member.getUserId())
                         .username(member.getUsername())
-                        .grade(member.getGrade())
+                        .grade(String.valueOf(member.getGrade()))
                         .imageUrl(member.getImageUrl())
                         .build())
                 .collect(Collectors.toList());
         return ResponseEntity.ok(memberDtos);
+    }
+
+    // 팔로우 요청 취소
+    @DeleteMapping("/request/cancel/{userId}/{followId}")
+    public ResponseEntity<String> cancelFollow(@PathVariable String userId, @PathVariable String followId) {
+        followService.followCancel(userId, followId);
+        return ResponseEntity.ok(followService.getTargetName(followId));
     }
 
 }

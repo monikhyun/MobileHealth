@@ -20,7 +20,9 @@ public interface FollowService {
     // 팔로우 거절
     void followReject(String userId, String followerId);
     // 유저 검색
-    List<Member> findUsers(String username);
+    List<Member> findUsers(String userId,String username);
     // 팔로우 요청시 대상 닉네임 반환
     String getTargetName(String userId);
+    // 팔로우 요청 취소
+    void followCancel(String userId, String followerId);
 }
