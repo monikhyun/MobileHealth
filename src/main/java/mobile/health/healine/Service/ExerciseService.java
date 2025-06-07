@@ -17,6 +17,8 @@ public interface ExerciseService {
     List<AddedExerciseDto> findAddedExercise(String userId, LocalDate date);
     // 기록할 운동 추가
     void addExercise(String userId, String exerciseName, LocalDate date);
+    // 기록할 운동 제거
+    void removeExercise(String userId, String exerciseName, LocalDate date);
     // 해당 운동 데이터 불러오기
     Exercise ExerciseData(String exerciseName);
 

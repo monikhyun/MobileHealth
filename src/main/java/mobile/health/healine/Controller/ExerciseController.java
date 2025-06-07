@@ -6,14 +6,18 @@ import lombok.RequiredArgsConstructor;
 import mobile.health.healine.Entity.BodyPart;
 import mobile.health.healine.Entity.Exercise;
 import mobile.health.healine.Entity.dto.AddedExerciseDto;
+import mobile.health.healine.Entity.dto.DailyLogDto;
 import mobile.health.healine.Entity.dto.ExerciseDto;
 import mobile.health.healine.Entity.dto.ExerciseRecordDto;
+import mobile.health.healine.Service.DailyLogServiceImpl;
 import mobile.health.healine.Service.ExerciseServiceImpl;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
@@ -23,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExerciseController {
     private final ExerciseServiceImpl exerciseService;
-
+    private final DailyLogServiceImpl dailyLogService;
 
     // 해야할 운동 목록 조회
     @GetMapping("/add/todo/{userId}/{date}")
@@ -62,8 +66,14 @@ public class ExerciseController {
                     .body(iae.getMessage());
         }
     }
+    // 해야 할 운동 제거
+    @DeleteMapping("/remove/{userId}/{date}/{exerciseName}")
+    public ResponseEntity<String> removeExercise(@PathVariable String userId, @PathVariable LocalDate date, @PathVariable String exerciseName) {
+        exerciseService.removeExercise(userId, exerciseName, date);
+        return ResponseEntity.ok("운동 제거 완료");
+    }
     // 해당 운동 데이터 불러오기
-    @GetMapping("/add/{userId}/{exerciseName}")
+    @GetMapping("/add/{exerciseName}")
     public ResponseEntity<Exercise> getExercise(@PathVariable String exerciseName) {
         return ResponseEntity.ok(exerciseService.ExerciseData(exerciseName));
     }
@@ -117,4 +127,16 @@ public class ExerciseController {
         return ResponseEntity.ok(exerciseService.findFavoriteExercise(userId));
     }
 
+    // 운동 시간 저장
+    @PutMapping("/timer/{userId}/{date}/{time}")
+    public ResponseEntity<String> updateExercise(@PathVariable String userId, @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @PathVariable Integer time) {
+        dailyLogService.save(userId, date, time);
+        return ResponseEntity.ok("운동 시간 저장 완료");
+    }
+
+    // 운동 시간 불러오기
+    @GetMapping("/timer/load/{userId}/{date}")
+    public ResponseEntity<DailyLogDto> loadExerciseTime(@PathVariable String userId, @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return ResponseEntity.ok(dailyLogService.getDailyLog(userId, date));
+    }
 }

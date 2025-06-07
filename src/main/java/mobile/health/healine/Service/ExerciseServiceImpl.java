@@ -47,8 +47,6 @@ public class ExerciseServiceImpl implements ExerciseService{
     }
 
     // 해당 운동 데이터 불러오기
-
-
     @Override
     public Exercise ExerciseData(String exerciseName) {
         return exerciseRepository.findByExerciseName(exerciseName);
@@ -79,6 +77,25 @@ public class ExerciseServiceImpl implements ExerciseService{
                         .done(false)
                         .date(date)
                 .build());
+    }
+    // 기록할 운동 제거
+    @Override
+    @Transactional
+    public void removeExercise(String userId, String exerciseName, LocalDate date) {
+        Member member = memberRepository.findByUserId(userId);
+        if (member == null) {
+            throw new EntityNotFoundException("해당 유저를 찾을 수 없습니다: " + userId);
+        }
+
+        // 해당 유저·날짜·운동 이름에 매핑된 모든 ExerciseRecord 엔티티를 삭제
+        List<ExerciseRecord> recordsToDelete =
+                exerciseRecordRepository.findByMemberAndExerciseNameAndDate(member, exerciseName, date);
+        if (recordsToDelete.isEmpty()) {
+            throw new EntityNotFoundException(
+                    String.format("삭제할 운동 기록이 없습니다: %s / %s / %s", userId, exerciseName, date));
+        }
+
+        exerciseRecordRepository.deleteAll(recordsToDelete);
     }
 
     // 운동 기록 저장
