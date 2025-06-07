@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -16,36 +17,33 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
-        </activity>
-        <!-- 로그인 액티비티 -->
-        <activity android:name=".LoginActivity"
+            android:name=".Friend.FriendListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Auth.MainActivity"
+            android:exported="true"></activity> <!-- 로그인 액티비티 -->
+        <activity
+            android:name=".Auth.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-
-        <!-- 회원가입 액티비티 -->
-        <activity android:name=".RegisterActivity"
-            android:exported="true"/>
-        <activity android:name=".ExerciseDetailActivity"
-            android:exported="true">
-        </activity>
-
-
-        <activity android:name=".ExerciseListActivity" />
-        <activity android:name=".ExerciseAddListActivity" />
-
+        </activity> <!-- 회원가입 액티비티 -->
         <activity
-            android:name=".DietActivity"
+            android:name=".Auth.RegisterActivity"
             android:exported="true" />
         <activity
-            android:name=".DietAddActivity"
+            android:name=".Exercise.ExerciseDetailActivity"
+            android:exported="true"></activity>
+        <activity android:name=".Exercise.ExerciseListActivity" />
+        <activity android:name=".Exercise.ExerciseAddListActivity" />
+        <activity
+            android:name=".Diet.DietActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Diet.DietAddActivity"
             android:exported="true" />
     </application>
 
