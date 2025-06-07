@@ -27,6 +27,7 @@ import com.example.health.Request.Friend.FriendAddCancelRequest;
 import com.example.health.Request.Friend.FriendListRequest;
 import com.example.health.Request.Friend.FriendRequestsRequest;
 import com.example.health.Request.Friend.FriendSearchRequest;
+import com.example.health.Stats.StatusActivity;
 import com.example.health.databinding.ActivityFriendListBinding;
 import com.example.health.databinding.ActivityMainBinding;
 
@@ -68,7 +69,6 @@ public class FriendListActivity extends AppCompatActivity {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일");
         binding.textDate.setText(today.format(formatter) + " ▼");
 
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         binding.iconHome.setOnClickListener(v -> {

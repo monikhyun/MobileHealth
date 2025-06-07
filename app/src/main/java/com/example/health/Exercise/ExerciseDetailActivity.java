@@ -21,12 +21,14 @@ import com.android.volley.toolbox.Volley;
 import com.example.health.Auth.MainActivity;
 import com.example.health.DTO.ExerciseRecordDto;
 import com.example.health.Diet.DietActivity;
+import com.example.health.Stats.StatusActivity;
 import com.example.health.Friend.FriendListActivity;
 import com.example.health.R;
 import com.example.health.Request.Exercise.ExerciseDataRequest;
 import com.example.health.Request.Exercise.ExerciseRecordDeleteRequest;
 import com.example.health.Request.Exercise.ExerciseRecordLoadRequest;
 import com.example.health.Request.Exercise.ExerciseRecordRequest;
+import com.example.health.Stats.StatusActivity;
 import com.example.health.databinding.ActivityMainBinding;
 
 import org.json.JSONObject;

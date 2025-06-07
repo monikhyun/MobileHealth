@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.health.Diet.DietActivity;
 import com.example.health.Exercise.ExerciseListActivity;
 import com.example.health.Friend.FriendListActivity;
+import com.example.health.Stats.StatusActivity;
 import com.example.health.R;
+import com.example.health.Stats.StatusActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tvId = findViewById(R.id.tvId);
 
         icon_home = findViewById(R.id.icon_home);
         icon_freinds = findViewById(R.id.icon_friends);
@@ -53,7 +54,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        findViewById(R.id.nav_stats).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, StatusActivity.class);
+            startActivity(intent);
+        });
         icon_meal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

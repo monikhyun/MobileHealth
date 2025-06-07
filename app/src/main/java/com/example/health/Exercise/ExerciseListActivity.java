@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.health.Auth.MainActivity;
+import com.example.health.Stats.StatusActivity;
 import com.example.health.Diet.DietActivity;
 import com.example.health.Friend.FriendListActivity;
 import com.example.health.R;
@@ -31,6 +32,7 @@ import com.example.health.Request.Exercise.AddedExerciseDeleteRequest;
 import com.example.health.Request.Exercise.AddedExercisesRequest;
 import com.example.health.Request.Exercise.ExerciseTimeLogRecordRequest;
 import com.example.health.Request.Exercise.ExerciseTimeLogRequest;
+import com.example.health.Stats.StatusActivity;
 import com.example.health.databinding.ActivityMainBinding;
 
 import org.json.JSONException;

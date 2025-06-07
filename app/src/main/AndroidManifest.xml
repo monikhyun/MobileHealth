@@ -45,6 +45,8 @@
         <activity
             android:name=".Diet.DietAddActivity"
             android:exported="true" />
+        <activity android:name=".StatusActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>
