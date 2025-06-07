@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Auth.MainActivity"
+    android:paddingTop="?attr/actionBarSize">
 
     <LinearLayout
         android:id="@+id/topBar"
