@@ -5,8 +5,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mobile.health.healine.Entity.*;
 import mobile.health.healine.Entity.dto.AddedExerciseDto;
+import mobile.health.healine.Entity.dto.ExerciseBodyPartDto;
 import mobile.health.healine.Entity.dto.ExerciseDto;
 import mobile.health.healine.Entity.dto.ExerciseRecordDto;
+import mobile.health.healine.Filter.WeekRangeUtil;
 import mobile.health.healine.Repository.ExerciseRecordRepository;
 import mobile.health.healine.Repository.ExerciseRepository;
 import mobile.health.healine.Repository.MemberFavoriteRepository;
@@ -16,10 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -242,5 +241,51 @@ public class ExerciseServiceImpl implements ExerciseService{
                         .bodyPart(dto.getCategory())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    // 최근 2주 부위별 운동볼륨
+    @Override
+    public List<ExerciseBodyPartDto> getTotalVolumeByBodyPart(String userId) {
+        Member member = memberRepository.findByUserId(userId);
+        if (member == null) throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
+
+        // 이번주와 저번주 범위 가져오기
+        LocalDate[] thisWeek = WeekRangeUtil.getThisWeekRange();
+        LocalDate[] lastWeek = new LocalDate[] {
+                thisWeek[0].minusWeeks(1),  // 이전 주 일요일
+                thisWeek[1].minusWeeks(1)   // 이전 주 토요일
+        };
+
+        List<ExerciseBodyPartDto> result = new ArrayList<>();
+
+        result.addAll(getWeeklyVolumeForRange(member, thisWeek[0], thisWeek[1]));
+        result.addAll(getWeeklyVolumeForRange(member, lastWeek[0], lastWeek[1]));
+
+        return result;
+    }
+
+    private List<ExerciseBodyPartDto> getWeeklyVolumeForRange(Member member, LocalDate start, LocalDate end) {
+        List<ExerciseRecord> records = exerciseRecordRepository
+                .findByMemberAndDateBetweenAndDoneTrue(member, start, end);
+
+        Map<BodyPart, Integer> volumeByBodyPart = new HashMap<>();
+
+        for (ExerciseRecord record : records) {
+            int volume = 0;
+            if (record.getSetCount() != null && record.getCount() != null && record.getWeight() != null) {
+                volume = record.getSetCount() * record.getCount() * record.getWeight().intValue();
+            }
+
+            volumeByBodyPart.merge(record.getBodyPart(), volume, Integer::sum);
+        }
+
+        return volumeByBodyPart.entrySet().stream()
+                .map(entry -> ExerciseBodyPartDto.builder()
+                        .bodyPart(entry.getKey())
+                        .totalVolume(entry.getValue())
+                        .startDate(start)
+                        .endDate(end)
+                        .build()
+                ).toList();
     }
 }

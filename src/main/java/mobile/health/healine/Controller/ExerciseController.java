@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import mobile.health.healine.Entity.BodyPart;
 import mobile.health.healine.Entity.Exercise;
-import mobile.health.healine.Entity.dto.AddedExerciseDto;
-import mobile.health.healine.Entity.dto.DailyLogDto;
-import mobile.health.healine.Entity.dto.ExerciseDto;
-import mobile.health.healine.Entity.dto.ExerciseRecordDto;
+import mobile.health.healine.Entity.dto.*;
 import mobile.health.healine.Service.DailyLogServiceImpl;
 import mobile.health.healine.Service.ExerciseServiceImpl;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -138,5 +135,11 @@ public class ExerciseController {
     @GetMapping("/timer/load/{userId}/{date}")
     public ResponseEntity<DailyLogDto> loadExerciseTime(@PathVariable String userId, @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return ResponseEntity.ok(dailyLogService.getDailyLog(userId, date));
+    }
+
+    // 최근 2주 부위별 운동 볼륨 불러오기
+    @GetMapping("/part/{userId}")
+    public ResponseEntity<List<ExerciseBodyPartDto>> getExerciseVolumeByBodyPart(@PathVariable String userId) {
+        return ResponseEntity.ok(exerciseService.getTotalVolumeByBodyPart(userId));
     }
 }

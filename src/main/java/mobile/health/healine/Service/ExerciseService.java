@@ -3,6 +3,7 @@ package mobile.health.healine.Service;
 import mobile.health.healine.Entity.BodyPart;
 import mobile.health.healine.Entity.Exercise;
 import mobile.health.healine.Entity.dto.AddedExerciseDto;
+import mobile.health.healine.Entity.dto.ExerciseBodyPartDto;
 import mobile.health.healine.Entity.dto.ExerciseDto;
 import mobile.health.healine.Entity.dto.ExerciseRecordDto;
 import org.springframework.stereotype.Service;
@@ -40,4 +41,7 @@ public interface ExerciseService {
     List<ExerciseDto> findFavoriteExercise(String userId);
     // 운동 검색
     List<ExerciseDto> searchExercise(BodyPart bodyPart, String exerciseName);
+    // 최근 2주 부위별 운동 볼륨
+    List<ExerciseBodyPartDto> getTotalVolumeByBodyPart(String userId);
+
 }

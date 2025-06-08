@@ -27,4 +27,6 @@ public interface ExerciseRecordRepository extends JpaRepository<ExerciseRecord, 
     List<ExerciseRecord> findByMemberAndDateBetween(Member member, LocalDate start, LocalDate end);
 
     int countByMember(Member mjc);
+
+    List<ExerciseRecord> findByMemberAndDateBetweenAndDoneTrue(Member member, LocalDate start, LocalDate end);
 }
