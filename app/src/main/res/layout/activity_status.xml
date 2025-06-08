@@ -3,31 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:paddingTop="20dp">
 
-    <!-- 상단 날짜 및 아이콘 영역 -->
     <LinearLayout
         android:id="@+id/topBar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFF0F8FF"
-        android:padding="12dp"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/text_date"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        android:background="#FEF7FF"
+        android:paddingVertical="8dp"
+        android:paddingLeft="26dp"
+        android:paddingRight="4dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="28dp"
+        android:orientation="horizontal">
+        <Spinner
+            android:id="@+id/topDropdownSpinner"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2025년 5월 6일 ▼"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#000000"/>
+            android:minHeight="40dp"
+            android:layout_marginEnd="11dp"
+            android:backgroundTint="@android:color/black"
+            android:dropDownHorizontalOffset="0dp"
+            android:dropDownVerticalOffset="4dp"
+            android:gravity="center"
+            android:spinnerMode="dropdown" />
 
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+        </LinearLayout>
         <ImageView
             android:id="@+id/btn_profile"
             android:layout_width="24dp"
@@ -46,9 +55,9 @@
             android:id="@+id/btn_setting"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:src="@drawable/ic_setting"
-            android:layout_marginStart="8dp"/>
+            android:src="@drawable/ic_setting"/>
     </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -69,9 +78,8 @@
                 android:layout_height="300dp"
                 android:orientation="vertical"
                 android:layout_marginTop="40dp"
-                android:elevation="6dp"
-                android:background="@drawable/rounded_container"
-                >
+                android:elevation="8dp"
+                android:background="@drawable/rounded_container">
 
                 <Spinner
                     android:id="@+id/barChartFilterSpinner"
@@ -97,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:elevation="6dp"
+                android:elevation="8dp"
                 android:background="@drawable/rounded_container"
                 android:layout_marginTop="40dp"
                 android:padding="12dp"
@@ -159,9 +167,9 @@
             <LinearLayout
                 android:id="@+id/avgLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_marginTop="28dp"
-                android:elevation="6dp"
+                android:elevation="8dp"
                 android:background="@drawable/rounded_container"
                 android:orientation="horizontal">
 
@@ -169,27 +177,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="소모 칼로리 "
-                    android:textSize="14sp" />
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="/일"
                     android:textColor="#FF0000"
-                    android:textSize="14sp" />
+                    android:textSize="24sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="  활동 시간 "
-                    android:textSize="14sp" />
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:text="1212"
                     android:textColor="#FF0000"
-                    android:textSize="14sp" />
+                    android:textSize="24sp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
@@ -250,7 +260,7 @@
                 android:id="@+id/icon_workout"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:src="@drawable/ic_exercise_selected"
+                android:src="@drawable/ic_exercise"
                 app:tint="#FF7C8C" />
 
             <TextView
@@ -335,7 +345,7 @@
                 android:id="@+id/icon_stats"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:src="@drawable/ic_stats"
+                android:src="@drawable/ic_stats_selected"
                 app:tint="#A0A0A0" />
 
             <TextView
