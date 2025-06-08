@@ -293,12 +293,12 @@ public class ExerciseServiceImpl implements ExerciseService{
                 ).toList();
     }
 
-    private void updateMemberGrade(Member member) {
+    public void updateMemberGrade(Member member) {
         long activeDays = exerciseRecordRepository.countDistinctByDate(member);
 
         MemberGrade newGrade;
 
-        if (activeDays >= 60) {
+        if (activeDays >= 150) {
             newGrade = MemberGrade.TREE;
         } else if (activeDays >= 40) {
             newGrade = MemberGrade.STEMS;
@@ -310,6 +310,9 @@ public class ExerciseServiceImpl implements ExerciseService{
 
         if (member.getGrade() != newGrade) {
             member.setGrade(newGrade);
+            memberRepository.save(member);
         }
     }
+
+
 }

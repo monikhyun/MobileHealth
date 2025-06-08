@@ -2,8 +2,11 @@ package mobile.health.healine.Controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import mobile.health.healine.Entity.Member;
 import mobile.health.healine.Entity.dto.*;
 import mobile.health.healine.Entity.dto.JwtToken;
+import mobile.health.healine.Service.ExerciseService;
+import mobile.health.healine.Service.ExerciseServiceImpl;
 import mobile.health.healine.Service.LoginServiceImpl;
 import mobile.health.healine.Service.RegisterServiceImpl;
 import mobile.health.healine.Config.JwtTokenProvider;
@@ -23,6 +26,7 @@ public class AuthController {
     private final RegisterServiceImpl registerService;
     private final LoginServiceImpl    loginService;
     private final JwtTokenProvider     jwtProvider;
+    private final ExerciseServiceImpl exerciseService;
 
     /** 1) 가입 전 ID 중복 검증 (/api/auth/register/validate/{userid}) **/
     @PostMapping("/register/validate/{userid}")
@@ -101,6 +105,9 @@ public class AuthController {
         // 3) JWT 생성
         JwtToken token = jwtProvider.generateToken(auth);
 
+        // 로그인 성공 시 등급 자동 업데이트
+        Member member = loginService.findMemberByUserId(req.getUsername());
+        exerciseService.updateMemberGrade(member);
         return ResponseEntity.ok(
                 AuthResponse.builder()
                         .success(true)

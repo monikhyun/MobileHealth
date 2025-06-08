@@ -45,9 +45,7 @@ public class InBodyServiceImpl implements InBodyService {
         List<InBodyResponseDto> inBodyResponseDtos = new ArrayList<>();
         if (list.isPresent()) {
             for (InBody inBody : list.get()) {
-                InBodyResponseDto inBodyResponseDto = new InBodyResponseDto();
-                inBodyResponseDto.toDto(inBody);
-                inBodyResponseDtos.add(inBodyResponseDto);
+                inBodyResponseDtos.add(new InBodyResponseDto().toDto(inBody));
             }
             return inBodyResponseDtos;
         }

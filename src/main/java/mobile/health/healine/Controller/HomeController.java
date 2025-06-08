@@ -2,14 +2,16 @@ package mobile.health.healine.Controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import mobile.health.healine.Entity.dto.DailyLogDto;
-import mobile.health.healine.Entity.dto.GradeDto;
-import mobile.health.healine.Entity.dto.ProfileDto;
+import mobile.health.healine.Entity.dto.*;
 import mobile.health.healine.Service.DailyLogService;
 import mobile.health.healine.Service.HomeService;
+import mobile.health.healine.Service.InBodyService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/home")
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class HomeController {
 
     private final HomeService homeService;
+    private final InBodyService inBodyService;
 
     // 오늘 활동량 정보 가져오기
     @GetMapping("/activity/{userId}")
@@ -27,8 +30,11 @@ public class HomeController {
     }
 
     // 회원정보 수정
-    @PutMapping("/edit/profile/{userId}")
-    public ResponseEntity<String> updateProfile(@PathVariable String userId, @RequestBody ProfileDto profileDto) {
+    @PutMapping(
+            value    = "/edit/profile/{userId}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public ResponseEntity<String> updateProfile(@PathVariable String userId, @ModelAttribute ProfileDto profileDto) {
         homeService.updateProfile(userId, profileDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -37,5 +43,18 @@ public class HomeController {
     public ResponseEntity<GradeDto> getGrade(@PathVariable String userId) {
         GradeDto gradeDto = homeService.getGrade(userId);
         return new ResponseEntity<>(gradeDto, HttpStatus.OK);
+    }
+
+    // 회원 기본정보 가져오기
+    @GetMapping("/profile/{userId}")
+    public ResponseEntity<ProfileResponseDto> getProfile(@PathVariable String userId) {
+        ProfileResponseDto profileDto = homeService.getProfile(userId);
+        return new ResponseEntity<>(profileDto, HttpStatus.OK);
+    }
+
+    // 인바디 목록 불러오기
+    @GetMapping("/profile/inbody/{userId}")
+    public ResponseEntity<List<InBodyResponseDto>> getInBodyList(@PathVariable String userId) {
+        return ResponseEntity.ok(inBodyService.getInBodyByUserId(userId));
     }
 }

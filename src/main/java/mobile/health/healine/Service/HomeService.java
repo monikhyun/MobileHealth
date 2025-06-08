@@ -3,6 +3,7 @@ package mobile.health.healine.Service;
 import mobile.health.healine.Entity.dto.DailyLogDto;
 import mobile.health.healine.Entity.dto.GradeDto;
 import mobile.health.healine.Entity.dto.ProfileDto;
+import mobile.health.healine.Entity.dto.ProfileResponseDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,4 +14,6 @@ public interface HomeService {
     void updateProfile(String userId, ProfileDto profileDto);
     // 등급 정보 가져오기 (현재 등급, 다음 등급)
     GradeDto getGrade(String userId);
+    // 회원 정보 가져오기
+    ProfileResponseDto getProfile(String userId);
 }

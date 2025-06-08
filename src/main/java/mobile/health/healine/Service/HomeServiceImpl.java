@@ -8,7 +8,9 @@ import mobile.health.healine.Entity.MemberGrade;
 import mobile.health.healine.Entity.dto.DailyLogDto;
 import mobile.health.healine.Entity.dto.GradeDto;
 import mobile.health.healine.Entity.dto.ProfileDto;
+import mobile.health.healine.Entity.dto.ProfileResponseDto;
 import mobile.health.healine.Repository.DailyExerciseLogRepository;
+import mobile.health.healine.Repository.ExerciseRecordRepository;
 import mobile.health.healine.Repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +28,7 @@ public class HomeServiceImpl implements HomeService {
     private final DailyExerciseLogRepository dailyExerciseLogRepository;
     private final MemberRepository memberRepository;
     private final CloudinaryService cloudinaryService;
+    private final ExerciseRecordRepository exerciseRecordRepository;
 
     @Override
     public DailyLogDto getDailyLog(String userId) {
@@ -64,24 +67,43 @@ public class HomeServiceImpl implements HomeService {
     @Override
     public GradeDto getGrade(String userId) {
         Member member = memberRepository.findByUserId(userId);
+        long days = exerciseRecordRepository.countDistinctByDate(member); // 누적 운동일 수
 
-        // 운동 완료한 일수 조회
-        long days = dailyExerciseLogRepository.countByMember(member); // done=True 기록을 가진 날짜 수
-
-        MemberGrade currentGrade = member.getGrade();
+        MemberGrade currentGrade = MemberGrade.fromDays(days);
         MemberGrade nextGrade = currentGrade.getNext();
 
-        Long count = null;
+        Long count;
         if (nextGrade != null) {
-            long required = MemberGrade.requiredDays(nextGrade);
+            long required = nextGrade.getRequiredDaysToReach();
             count = required - days;
             if (count < 0) count = 0L;
+        } else {
+            count = 0L; // 마지막 등급이므로 추가 필요 없음
+        }
+
+        // 현재 등급 갱신
+        if (member.getGrade() != currentGrade) {
+            member.setGrade(currentGrade);
         }
 
         return GradeDto.builder()
                 .memberGrade(currentGrade)
                 .nextGrade(nextGrade)
                 .count(count)
+                .build();
+    }
+
+    @Override
+    public ProfileResponseDto getProfile(String userId) {
+        Member member = memberRepository.findByUserId(userId);
+        return ProfileResponseDto.builder()
+                .name(member.getUsername())
+                .age(member.getAge())
+                .gender(member.getGender())
+                .height(member.getHeight())
+                .weight(member.getWeight())
+                .image(member.getImageUrl())
+                .grade(member.getGrade())
                 .build();
     }
 }

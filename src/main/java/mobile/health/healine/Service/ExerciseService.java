@@ -2,6 +2,7 @@ package mobile.health.healine.Service;
 
 import mobile.health.healine.Entity.BodyPart;
 import mobile.health.healine.Entity.Exercise;
+import mobile.health.healine.Entity.Member;
 import mobile.health.healine.Entity.dto.AddedExerciseDto;
 import mobile.health.healine.Entity.dto.ExerciseBodyPartDto;
 import mobile.health.healine.Entity.dto.ExerciseDto;
@@ -43,5 +44,6 @@ public interface ExerciseService {
     List<ExerciseDto> searchExercise(BodyPart bodyPart, String exerciseName);
     // 최근 2주 부위별 운동 볼륨
     List<ExerciseBodyPartDto> getTotalVolumeByBodyPart(String userId);
+
 
 }

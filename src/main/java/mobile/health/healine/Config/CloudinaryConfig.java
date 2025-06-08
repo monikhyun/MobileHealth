@@ -20,6 +20,14 @@ public class CloudinaryConfig {
     @Value("${cloudinary.api-secret}")
     private String apiSecret;
 
+    @Value("${cloudinary.upload-preset}")
+    private String uploadPreset;
+
+    @Bean
+    public String uploadPreset() {
+        return uploadPreset;
+    }
+
     @Bean
     public Cloudinary cloudinary() {
         Map<String, String> config = new HashMap<>();

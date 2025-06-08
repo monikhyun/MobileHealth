@@ -2,6 +2,7 @@ package mobile.health.healine.Service;
 
 import com.cloudinary.Cloudinary;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,10 +17,13 @@ public class CloudinaryService {
 
     private final Cloudinary cloudinary;
 
+    @Value("${cloudinary.upload-preset}")
+    private String uploadPreset;
+
     public String uploadImage(MultipartFile file) {
         try {
             Map<String, Object> uploadOptions = new HashMap<>();
-            uploadOptions.put("upload_preset", "your_upload_preset");
+            uploadOptions.put("upload_preset", uploadPreset);
 
             File tempFile = File.createTempFile("temp", file.getOriginalFilename());
             file.transferTo(tempFile);
