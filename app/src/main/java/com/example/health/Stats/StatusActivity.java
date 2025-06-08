@@ -2,12 +2,14 @@ package com.example.health.Stats;
 import java.util.Collections;
 import java.util.Locale;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -18,6 +20,10 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.health.Auth.MainActivity;
+import com.example.health.Diet.DietActivity;
+import com.example.health.Exercise.ExerciseListActivity;
+import com.example.health.Friend.FriendListActivity;
 import com.example.health.R;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -40,6 +46,7 @@ import java.util.List;
 
 public class StatusActivity extends AppCompatActivity {
     private String userId;
+    ImageView iconWorkout,icon_meal, icon_freinds,icon_stats,icon_home;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +55,46 @@ public class StatusActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         String userID = prefs.getString("USER_ID", null);  // 없으면 null 반환
         userId = userID;
+
+        icon_home = findViewById(R.id.icon_home);
+        icon_freinds = findViewById(R.id.icon_friends);
+        iconWorkout = findViewById(R.id.icon_workout);
+        icon_meal = findViewById(R.id.icon_meal);
+        icon_stats = findViewById(R.id.icon_stats);
+
+        Spinner topDropdownSpinner = findViewById(R.id.topDropdownSpinner);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.menu_items,
+                R.layout.spinner_item_bold
+        );
+        adapter.setDropDownViewResource(R.layout.spinner_item_bold);
+        topDropdownSpinner.setAdapter(adapter);
+        topDropdownSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0: // 홈
+                        startActivity(new Intent(StatusActivity.this, MainActivity.class));
+                        break;
+                    case 1: // 운동
+                        startActivity(new Intent(StatusActivity.this, ExerciseListActivity.class));;
+                        break;
+                    case 2: // 식단
+                        startActivity(new Intent(StatusActivity.this, DietActivity.class));
+                        break;
+                    case 3: // 친구
+                        startActivity(new Intent(StatusActivity.this, FriendListActivity.class));
+                        break;
+                    case 4: // 통계
+                        break;
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         Spinner barChartFilterSpinner = findViewById(R.id.barChartFilterSpinner);
         Spinner InBodyChartSpinner = findViewById(R.id.inBodyOptionSpinner);
@@ -77,6 +124,36 @@ public class StatusActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+        iconWorkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StatusActivity.this, ExerciseListActivity.class);
+                startActivity(intent);
+            }
+        });
+        icon_meal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StatusActivity.this, DietActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        icon_freinds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StatusActivity.this, FriendListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        icon_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StatusActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
