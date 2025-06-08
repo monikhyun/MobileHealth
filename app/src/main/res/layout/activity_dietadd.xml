@@ -89,6 +89,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_horizontal"
+                android:elevation="4dp"
+                android:background="@drawable/rounded_container"
                 android:layout_marginBottom="16dp">
 
                 <Button
@@ -125,7 +127,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:background="@drawable/rounded_container"
+                android:elevation="4dp">
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -218,103 +223,163 @@
                     android:backgroundTint="#FFB6C1"
                     android:text="확인"
                     android:textColor="@android:color/white"
-                    android:elevation="6dp"/>
+                    android:elevation="6p"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-    <!-- 하단 네비게이션 (diet screen과 동일하게) -->
+    <!-- 하단 네비게이션 바: 기존 navigationBar 재활용 -->
     <LinearLayout
         android:id="@+id/navigationBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="#F9F9F9"
+        android:paddingVertical="8dp"
         android:gravity="center"
-        android:background="@drawable/rounded_container"
-        android:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <!-- 홈 -->
         <LinearLayout
+            android:id="@+id/nav_home"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:orientation="vertical"
             android:gravity="center"
-            android:orientation="vertical">
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="4dp">
+
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_homeoff" />
+                android:id="@+id/icon_home"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_home"
+                app:tint="#A0A0A0" />
+
             <TextView
+                android:id="@+id/text_home"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="홈" />
+                android:text="홈"
+                android:textSize="12sp"
+                android:textColor="#000000"/>
         </LinearLayout>
+
         <!-- 운동 -->
         <LinearLayout
+            android:id="@+id/nav_workout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:orientation="vertical"
             android:gravity="center"
-            android:orientation="vertical">
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="4dp">
+
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_exercise" />
+                android:id="@+id/icon_workout"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_exercise"
+                app:tint="#FF7C8C" />
+
             <TextView
+                android:id="@+id/text_workout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="운동" />
+                android:text="운동"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#000000"/>
         </LinearLayout>
-        <!-- 식단 (on) -->
+
+        <!-- 식단 -->
         <LinearLayout
+            android:id="@+id/nav_meal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:orientation="vertical"
             android:gravity="center"
-            android:orientation="vertical">
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="4dp">
+
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_dieton" />
+                android:id="@+id/icon_meal"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_diet_selected"
+                app:tint="#A0A0A0" />
+
             <TextView
+                android:id="@+id/text_meal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="식단" />
+                android:text="식단"
+                android:textSize="12sp"
+                android:textColor="#000000"/>
         </LinearLayout>
+
         <!-- 친구 -->
         <LinearLayout
+            android:id="@+id/nav_friends"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:orientation="vertical"
             android:gravity="center"
-            android:orientation="vertical">
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="4dp">
+
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_friendoff" />
+                android:id="@+id/icon_friends"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_friends"
+                app:tint="#A0A0A0" />
+
             <TextView
+                android:id="@+id/text_friends"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="친구" />
+                android:text="친구"
+                android:textSize="12sp"
+                android:textColor="#000000"/>
         </LinearLayout>
+
         <!-- 통계 -->
         <LinearLayout
+            android:id="@+id/nav_stats"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:orientation="vertical"
             android:gravity="center"
-            android:orientation="vertical">
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="4dp">
+
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_status" />
+                android:id="@+id/icon_stats"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_stats"
+                app:tint="#A0A0A0" />
+
             <TextView
+                android:id="@+id/text_stats"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="통계" />
+                android:text="통계"
+                android:textSize="12sp"
+                android:textColor="#000000"/>
         </LinearLayout>
     </LinearLayout>
 
