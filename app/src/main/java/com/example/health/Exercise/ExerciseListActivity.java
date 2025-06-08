@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -144,8 +145,14 @@ public class ExerciseListActivity extends AppCompatActivity {
                     String jwtToken = prefs.getString("JWT_TOKEN", null);
                     String userId = prefs.getString("USER_ID", null);
                     if (jwtToken == null || userId == null) {
-                        Toast.makeText(ExerciseListActivity.this,
-                                "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
+                        View toastView = LayoutInflater.from(this)
+                                .inflate(R.layout.toast_friend_request, null);
+                        TextView tv = toastView.findViewById(R.id.text_toast_message);
+                        tv.setText("로그인이 필요합니다.");
+                        Toast t = new Toast(this);
+                        t.setView(toastView);
+                        t.setDuration(Toast.LENGTH_SHORT);
+                        t.show();
                         return;
                     }
                     try {
@@ -155,21 +162,38 @@ public class ExerciseListActivity extends AppCompatActivity {
                                 selectedDateIso,
                                 item.exerciseName,
                                 response -> {
-                                    Toast.makeText(ExerciseListActivity.this,
-                                            "운동이 제거되었습니다.", Toast.LENGTH_SHORT).show();
+                                    View toastView = LayoutInflater.from(this)
+                                            .inflate(R.layout.toast_friend_request, null);
+                                    TextView tv = toastView.findViewById(R.id.text_toast_message);
+                                    tv.setText("운동이 제거되었습니다.");
+                                    Toast t = new Toast(this);
+                                    t.setView(toastView);
+                                    t.setDuration(Toast.LENGTH_SHORT);
+                                    t.show();
                                     loadAddedExercises();
                                 },
                                 error -> {
-                                    Toast.makeText(ExerciseListActivity.this,
-                                            "삭제 실패: " + error.getMessage(),
-                                            Toast.LENGTH_SHORT).show();
+                                    View toastView = LayoutInflater.from(this)
+                                            .inflate(R.layout.toast_friend_request, null);
+                                    TextView tv = toastView.findViewById(R.id.text_toast_message);
+                                    tv.setText("삭제 실패");
+                                    Toast t = new Toast(this);
+                                    t.setView(toastView);
+                                    t.setDuration(Toast.LENGTH_SHORT);
+                                    t.show();
                                 }
                         );
                         requestQueue.add(deleteReq);
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        Toast.makeText(ExerciseListActivity.this,
-                                "URL 생성 오류", Toast.LENGTH_SHORT).show();
+                        View toastView = LayoutInflater.from(this)
+                                .inflate(R.layout.toast_friend_request, null);
+                        TextView tv = toastView.findViewById(R.id.text_toast_message);
+                        tv.setText("URL 생성 오류");
+                        Toast t = new Toast(this);
+                        t.setView(toastView);
+                        t.setDuration(Toast.LENGTH_SHORT);
+                        t.show();
                     }
                 }
         );
@@ -287,7 +311,14 @@ public class ExerciseListActivity extends AppCompatActivity {
                         updateTimerText();
                     },
                     err -> {
-                        Toast.makeText(this, "운동 시간 로드 실패", Toast.LENGTH_SHORT).show();
+                        View toastView = LayoutInflater.from(this)
+                                .inflate(R.layout.toast_friend_request, null);
+                        TextView tv = toastView.findViewById(R.id.text_toast_message);
+                        tv.setText("운동 시간 로드 실패");
+                        Toast t = new Toast(this);
+                        t.setView(toastView);
+                        t.setDuration(Toast.LENGTH_SHORT);
+                        t.show();
                     }
             );
             requestQueue.add(req);
@@ -306,12 +337,24 @@ public class ExerciseListActivity extends AppCompatActivity {
             ExerciseTimeLogRecordRequest req = new ExerciseTimeLogRecordRequest(
                     jwt, userId, selectedDateIso, elapsedSeconds,
                     response -> {
-                        Toast.makeText(this,
-                                "운동 시간 저장 완료", Toast.LENGTH_SHORT).show();
+                        View toastView = LayoutInflater.from(this)
+                                .inflate(R.layout.toast_friend_request, null);
+                        TextView tv = toastView.findViewById(R.id.text_toast_message);
+                        tv.setText("운동 시간 저장 완료");
+                        Toast t = new Toast(this);
+                        t.setView(toastView);
+                        t.setDuration(Toast.LENGTH_SHORT);
+                        t.show();
                     },
                     error -> {
-                        Toast.makeText(this,
-                                "운동 시간 저장 실패", Toast.LENGTH_SHORT).show();
+                        View toastView = LayoutInflater.from(this)
+                                .inflate(R.layout.toast_friend_request, null);
+                        TextView tv = toastView.findViewById(R.id.text_toast_message);
+                        tv.setText("운동 시간 저장 실패");
+                        Toast t = new Toast(this);
+                        t.setView(toastView);
+                        t.setDuration(Toast.LENGTH_SHORT);
+                        t.show();
                     }
             );
             requestQueue.add(req);
@@ -330,8 +373,14 @@ public class ExerciseListActivity extends AppCompatActivity {
         String jwtToken = prefs.getString("JWT_TOKEN", null);
 
         if (userId == null || jwtToken == null) {
-            Toast.makeText(this,
-                    "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
+            View toastView = LayoutInflater.from(this)
+                    .inflate(R.layout.toast_friend_request, null);
+            TextView tv = toastView.findViewById(R.id.text_toast_message);
+            tv.setText("로그인이 필요합니다.");
+            Toast t = new Toast(this);
+            t.setView(toastView);
+            t.setDuration(Toast.LENGTH_SHORT);
+            t.show();
             return;
         }
 
@@ -358,8 +407,14 @@ public class ExerciseListActivity extends AppCompatActivity {
                     adapter.updateData(items);
                 },
                 error -> {
-                    Toast.makeText(this,
-                            "추가된 운동 불러오기 실패", Toast.LENGTH_SHORT).show();
+                    View toastView = LayoutInflater.from(this)
+                            .inflate(R.layout.toast_friend_request, null);
+                    TextView tv = toastView.findViewById(R.id.text_toast_message);
+                    tv.setText("추가된 운동 불러오기 실패");
+                    Toast t = new Toast(this);
+                    t.setView(toastView);
+                    t.setDuration(Toast.LENGTH_SHORT);
+                    t.show();
                 }
         );
         requestQueue.add(request);

@@ -4,6 +4,8 @@ package com.example.health.Friend;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,7 +102,14 @@ public class FriendListActivity extends AppCompatActivity {
         if (jwtToken != null && userId != null) {
             fetchFriendList(userId, "Bearer " + jwtToken);
         } else {
-            Toast.makeText(this, "사용자 정보를 불러올 수 없습니다.", Toast.LENGTH_SHORT).show();
+            View toastView = LayoutInflater.from(this)
+                    .inflate(R.layout.toast_friend_request, null);
+            TextView tv = toastView.findViewById(R.id.text_toast_message);
+            tv.setText("사용자 정보를 불러올 수 없습니다.");
+            Toast t = new Toast(this);
+            t.setView(toastView);
+            t.setDuration(Toast.LENGTH_SHORT);
+            t.show();
         }
 
         binding.btnAddFriend.setOnClickListener(v -> showFriendSearchDialog());
@@ -126,12 +135,26 @@ public class FriendListActivity extends AppCompatActivity {
                         adapter.updateData(items);
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Toast.makeText(this, "JSON 파싱 오류", Toast.LENGTH_SHORT).show();
+                        View toastView = LayoutInflater.from(this)
+                                .inflate(R.layout.toast_friend_request, null);
+                        TextView tv = toastView.findViewById(R.id.text_toast_message);
+                        tv.setText("데이터 파싱 오류");
+                        Toast t = new Toast(this);
+                        t.setView(toastView);
+                        t.setDuration(Toast.LENGTH_SHORT);
+                        t.show();
                     }
                 },
                 error -> {
                     error.printStackTrace();
-                    Toast.makeText(this, "친구 목록 불러오기 실패", Toast.LENGTH_SHORT).show();
+                    View toastView = LayoutInflater.from(this)
+                            .inflate(R.layout.toast_friend_request, null);
+                    TextView tv = toastView.findViewById(R.id.text_toast_message);
+                    tv.setText("친구 목록 불러오기 실패");
+                    Toast t = new Toast(this);
+                    t.setView(toastView);
+                    t.setDuration(Toast.LENGTH_SHORT);
+                    t.show();
                 }
         );
         Volley.newRequestQueue(this).add(request);
@@ -139,6 +162,7 @@ public class FriendListActivity extends AppCompatActivity {
 
     private void showFriendRequestDialog() {
         Dialog dialog = new Dialog(this);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.dialog_add_friend_list);
 
         RecyclerView recyclerView = dialog.findViewById(R.id.recycler_search);
@@ -165,12 +189,26 @@ public class FriendListActivity extends AppCompatActivity {
                             friendRequestAdapter.updateData(new ArrayList<>(requestList));
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(this, "요청 목록 파싱 오류", Toast.LENGTH_SHORT).show();
+                            View toastView = LayoutInflater.from(this)
+                                    .inflate(R.layout.toast_friend_request, null);
+                            TextView tv = toastView.findViewById(R.id.text_toast_message);
+                            tv.setText("요청 목록 파싱 오류");
+                            Toast t = new Toast(this);
+                            t.setView(toastView);
+                            t.setDuration(Toast.LENGTH_SHORT);
+                            t.show();
                         }
                     },
                     error -> {
                         error.printStackTrace();
-                        Toast.makeText(this, "친구 요청 목록 불러오기 실패", Toast.LENGTH_SHORT).show();
+                        View toastView = LayoutInflater.from(this)
+                                .inflate(R.layout.toast_friend_request, null);
+                        TextView tv = toastView.findViewById(R.id.text_toast_message);
+                        tv.setText("친구 요청 목록 불러오기 실패");
+                        Toast t = new Toast(this);
+                        t.setView(toastView);
+                        t.setDuration(Toast.LENGTH_SHORT);
+                        t.show();
                     }
             );
             Volley.newRequestQueue(this).add(request);
@@ -180,6 +218,7 @@ public class FriendListActivity extends AppCompatActivity {
 
     private void showFriendSearchDialog() {
         Dialog dialog = new Dialog(this);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.dialog_add_friend);
 
         EditText editSearch = dialog.findViewById(R.id.edit_search);
@@ -227,12 +266,26 @@ public class FriendListActivity extends AppCompatActivity {
                             searchAdapter.updateData(list);
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(this, "파싱 오류", Toast.LENGTH_SHORT).show();
+                            View toastView = LayoutInflater.from(this)
+                                    .inflate(R.layout.toast_friend_request, null);
+                            TextView tv = toastView.findViewById(R.id.text_toast_message);
+                            tv.setText("파싱 오류");
+                            Toast t = new Toast(this);
+                            t.setView(toastView);
+                            t.setDuration(Toast.LENGTH_SHORT);
+                            t.show();
                         }
                     },
                     error -> {
                         error.printStackTrace();
-                        Toast.makeText(this, "검색 실패", Toast.LENGTH_SHORT).show();
+                        View toastView = LayoutInflater.from(this)
+                                .inflate(R.layout.toast_friend_request, null);
+                        TextView tv = toastView.findViewById(R.id.text_toast_message);
+                        tv.setText("검색 실패");
+                        Toast t = new Toast(this);
+                        t.setView(toastView);
+                        t.setDuration(Toast.LENGTH_SHORT);
+                        t.show();
                     }
             );
             Volley.newRequestQueue(this).add(request);
@@ -263,7 +316,14 @@ public class FriendListActivity extends AppCompatActivity {
                 },
                 error -> {
                     error.printStackTrace();
-                    Toast.makeText(this, "요청 수락 실패", Toast.LENGTH_SHORT).show();
+                    View toastView = LayoutInflater.from(this)
+                            .inflate(R.layout.toast_friend_request, null);
+                    TextView tv = toastView.findViewById(R.id.text_toast_message);
+                    tv.setText("요청 수락 실패");
+                    Toast t = new Toast(this);
+                    t.setView(toastView);
+                    t.setDuration(Toast.LENGTH_SHORT);
+                    t.show();
                 }
         );
         Volley.newRequestQueue(this).add(request);

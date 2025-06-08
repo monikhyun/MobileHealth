@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:paddingTop="?attr/actionBarSize">
+    android:paddingTop="20dp">
 
     <!-- 상단 바 -->
     <LinearLayout
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="12dp"
-        android:background="#FFF0F8FF"
+        android:background="#FEF7FF"
         android:gravity="center_vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,20 +37,24 @@
             android:gravity="center"/>
 
         <ImageView
+            android:id="@+id/btn_profile"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_profile"
             android:layout_marginStart="8dp"/>
+
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:id="@+id/btn_alarm"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:src="@drawable/ic_alarm"
             android:layout_marginStart="8dp"/>
+
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_setting"
-            android:layout_marginStart="8dp"/>
+            android:id="@+id/btn_setting"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_setting"/>
     </LinearLayout>
 
     <!-- 내용 스크롤 -->
