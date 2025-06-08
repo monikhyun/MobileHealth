@@ -133,7 +133,11 @@ public class StatusActivity extends AppCompatActivity {
                             } else if (mappedType.equals("monthly")) {
                                 label = parsedDate.getMonthValue() + "월";
                             } else {
-                                label = parsedDate.getMonthValue() + "/" + parsedDate.getDayOfMonth();  // MM/dd
+                                // 요일(월/화/수...)로 라벨 표시
+                                java.time.DayOfWeek dayOfWeek = parsedDate.getDayOfWeek();
+                                java.time.format.TextStyle style = java.time.format.TextStyle.SHORT;
+                                java.util.Locale locale = java.util.Locale.KOREAN;
+                                label = dayOfWeek.getDisplayName(style, locale);
                             }
 
                             entries.add(new BarEntry(i, value));
@@ -209,6 +213,9 @@ public class StatusActivity extends AppCompatActivity {
 
     private void fetchInBodyBarChart(String type) {
         // 인바디 API URL 구성 및 View 초기화
+        if (type.equals("fat_percent")){
+            type = "fat";
+        }
         String url = "http://10.0.2.2:8080/api/stats/inbody/" + type + "/" + userId;
         HorizontalBarChart inbodyBarChart = findViewById(R.id.inBodyBarChart);
         LineChart inbodyLineChart = findViewById(R.id.inBodyLineChart);
@@ -227,114 +234,114 @@ public class StatusActivity extends AppCompatActivity {
             inbodyLineChart.setVisibility(View.GONE);
             // 전체 데이터 단일 JSON 응답 요청
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                response -> {
-                    try {
-                        JSONObject obj = response;
-                        obj.remove("date");
-                        // 원본 값, 한글 레이블, 색상, 키 목록 준비
-                        List<Float> rawValues = new ArrayList<>();
-                        List<String> labels = new ArrayList<>();
-                        List<Integer> colors = new ArrayList<>();
-                        // 키 목록 저장
-                        List<String> keyList = new ArrayList<>();
-                        JSONArray keys = obj.names();
-                        if (keys != null) {
-                            for (int i = 0; i < keys.length(); i++) {
-                                String key = keys.getString(i);
-                                float value = (float) obj.optDouble(key, 0.0);
-                                rawValues.add(value);
-                                labels.add(getKoreanLabel(key));
-                                colors.add(i % 3 == 0
-                                    ? Color.parseColor("#FF7C8C")
-                                    : i % 3 == 1
-                                        ? Color.parseColor("#FFD700")
-                                        : Color.parseColor("#87CEFA"));
-                                keyList.add(key);
-                            }
-                        }
-
-                        // kg 단위 항목(weight, SMM, LBM) 중 최댓값 계산
-                        float maxKg = rawValues.stream()
-                            .filter(v -> {
-                                String k = keyList.get(rawValues.indexOf(v));
-                                return k.equals("weight") || k.equals("SMM") || k.equals("LBM");
-                            })
-                            .max(Float::compare)
-                            .orElse(1f);
-
-                        // 정규화 및 BarEntry 생성 (BMI/체지방률은 2배 스케일)
-                        List<BarEntry> entries = new ArrayList<>();
-                        for (int i = 0; i < rawValues.size(); i++) {
-                            float raw = rawValues.get(i);
-                            String key = keyList.get(i);
-                            float normalized;
-                            if (key.equals("BMI") || key.equals("fat_percent")) {
-                                // BMI와 체지방률은 데이터 값 그대로, 길이는 2배 확장
-                                normalized = (raw / 100f) * 2f;
-                            } else {
-                                normalized = maxKg == 0f ? 0f : raw / maxKg;
-                            }
-                            entries.add(new BarEntry(i, normalized));
-                        }
-                        // BarDataSet 생성 및 값 라벨 포맷터 설정
-                        BarDataSet dataSet = new BarDataSet(entries, "");
-                        dataSet.setColors(colors);
-                        dataSet.setDrawValues(true);// 막대 위 값 표시 활성화
-                        dataSet.setValueTextSize(12f);
-                        dataSet.setValueTextColor(Color.BLACK);
-                        // 실제 값으로 라벨 표시 (BMI, 체지방률은 %)
-                        dataSet.setValueFormatter(new ValueFormatter() {
-                            @Override
-                            public String getBarLabel(BarEntry barEntry) {
-                                int idx = (int) barEntry.getX();
-                                float actual = rawValues.get(idx);
-                                String key = keyList.get(idx);
-                                if (key.equals("fat_percent")) {
-                                    // 체지방률: 소수 첫째 자리까지, 뒤에 % 기호
-                                    return String.format(Locale.getDefault(), "%.1f%%", actual);
-                                } else if (key.equals("BMI")) {
-                                    // BMI: 소수 첫째 자리까지, 뒤에 kg/m² 단위
-                                    return String.format(Locale.getDefault(), "%.1fkg/m\u00B2", actual);
-                                } else {
-                                    // 그 외: 소수 첫째 자리까지
-                                    return String.format(Locale.getDefault(), "%.1f", actual);
+                    response -> {
+                        try {
+                            JSONObject obj = response;
+                            obj.remove("date");
+                            // 원본 값, 한글 레이블, 색상, 키 목록 준비
+                            List<Float> rawValues = new ArrayList<>();
+                            List<String> labels = new ArrayList<>();
+                            List<Integer> colors = new ArrayList<>();
+                            // 키 목록 저장
+                            List<String> keyList = new ArrayList<>();
+                            JSONArray keys = obj.names();
+                            if (keys != null) {
+                                for (int i = 0; i < keys.length(); i++) {
+                                    String key = keys.getString(i);
+                                    float value = (float) obj.optDouble(key, 0.0);
+                                    rawValues.add(value);
+                                    labels.add(getKoreanLabel(key));
+                                    colors.add(i % 3 == 0
+                                            ? Color.parseColor("#FF7C8C")
+                                            : i % 3 == 1
+                                            ? Color.parseColor("#FFD700")
+                                            : Color.parseColor("#87CEFA"));
+                                    keyList.add(key);
                                 }
                             }
-                        });
 
-                        BarData data = new BarData(dataSet);
-                        data.setDrawValues(true);
-                        data.setValueTextSize(12f);
-                        data.setValueTextColor(Color.BLACK);
-                        data.setBarWidth(0.6f);
+                            // kg 단위 항목(weight, SMM, LBM) 중 최댓값 계산
+                            float maxKg = rawValues.stream()
+                                    .filter(v -> {
+                                        String k = keyList.get(rawValues.indexOf(v));
+                                        return k.equals("weight") || k.equals("SMM") || k.equals("LBM");
+                                    })
+                                    .max(Float::compare)
+                                    .orElse(1f);
 
-                        // X축 객체 가져오기 (가로 막대 차트에서 카테고리 레이블 축)
-                        XAxis xAxis = inbodyBarChart.getXAxis();
-                        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels)); // X축 레이블 포맷터 설정 (한글 카테고리명)
-                        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE); // X축 위치를 차트 내부 하단으로 설정
-                        xAxis.setGranularity(1f);// X축 눈금 간격을 1로 고정 (막대 하나당 하나의 눈금)
-                        xAxis.setGranularityEnabled(true); // X축 간격 설정 활성화
-                        xAxis.setDrawGridLines(false); // X축 그리드 라인 숨기기
-                        // 카테고리 레이블과 바 사이 간격 조정
-                        xAxis.setXOffset(-5f);
+                            // 정규화 및 BarEntry 생성 (BMI/체지방률은 2배 스케일)
+                            List<BarEntry> entries = new ArrayList<>();
+                            for (int i = 0; i < rawValues.size(); i++) {
+                                float raw = rawValues.get(i);
+                                String key = keyList.get(i);
+                                float normalized;
+                                if (key.equals("BMI") || key.equals("fat")) {
+                                    // BMI와 체지방률은 데이터 값 그대로, 길이는 2배 확장
+                                    normalized = (raw / 100f) * 2f;
+                                } else {
+                                    normalized = maxKg == 0f ? 0f : raw / maxKg;
+                                }
+                                entries.add(new BarEntry(i, normalized));
+                            }
+                            // BarDataSet 생성 및 값 라벨 포맷터 설정
+                            BarDataSet dataSet = new BarDataSet(entries, "");
+                            dataSet.setColors(colors);
+                            dataSet.setDrawValues(true);// 막대 위 값 표시 활성화
+                            dataSet.setValueTextSize(12f);
+                            dataSet.setValueTextColor(Color.BLACK);
+                            // 실제 값으로 라벨 표시 (BMI, 체지방률은 %)
+                            dataSet.setValueFormatter(new ValueFormatter() {
+                                @Override
+                                public String getBarLabel(BarEntry barEntry) {
+                                    int idx = (int) barEntry.getX();
+                                    float actual = rawValues.get(idx);
+                                    String key = keyList.get(idx);
+                                    if (key.equals("fat")) {
+                                        // 체지방률: 소수 첫째 자리까지, 뒤에 % 기호
+                                        return String.format(Locale.getDefault(), "%.1f%%", actual);
+                                    } else if (key.equals("BMI")) {
+                                        // BMI: 소수 첫째 자리까지, 뒤에 kg/m² 단위
+                                        return String.format(Locale.getDefault(), "%.1fkg/m\u00B2", actual);
+                                    } else {
+                                        // 그 외: 소수 첫째 자리까지
+                                        return String.format(Locale.getDefault(), "%.1f", actual);
+                                    }
+                                }
+                            });
 
-                        // Y축 그리드/레이블 숨기기
-                        YAxis yAxis = inbodyBarChart.getAxisLeft();
-                        yAxis.setDrawGridLines(false);
-                        yAxis.setAxisMinimum(0f); // 0부터 값 시작
-                        // 상단에 그려지는 값 눈금 레이블 숨기기
-                        yAxis.setDrawLabels(false);
+                            BarData data = new BarData(dataSet);
+                            data.setDrawValues(true);
+                            data.setValueTextSize(12f);
+                            data.setValueTextColor(Color.BLACK);
+                            data.setBarWidth(0.6f);
 
-                        //  데이터 적용 및 차트 갱신
-                        inbodyBarChart.setData(data);
-                        // 막대 옆에 값 표시
-                        inbodyBarChart.setDrawValueAboveBar(true);
-                        inbodyBarChart.invalidate();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                },
-                error -> Toast.makeText(this, "인바디 종합 데이터 로드 실패", Toast.LENGTH_SHORT).show());
+                            // X축 객체 가져오기 (가로 막대 차트에서 카테고리 레이블 축)
+                            XAxis xAxis = inbodyBarChart.getXAxis();
+                            xAxis.setValueFormatter(new IndexAxisValueFormatter(labels)); // X축 레이블 포맷터 설정 (한글 카테고리명)
+                            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE); // X축 위치를 차트 내부 하단으로 설정
+                            xAxis.setGranularity(1f);// X축 눈금 간격을 1로 고정 (막대 하나당 하나의 눈금)
+                            xAxis.setGranularityEnabled(true); // X축 간격 설정 활성화
+                            xAxis.setDrawGridLines(false); // X축 그리드 라인 숨기기
+                            // 카테고리 레이블과 바 사이 간격 조정
+                            xAxis.setXOffset(-5f);
+
+                            // Y축 그리드/레이블 숨기기
+                            YAxis yAxis = inbodyBarChart.getAxisLeft();
+                            yAxis.setDrawGridLines(false);
+                            yAxis.setAxisMinimum(0f); // 0부터 값 시작
+                            // 상단에 그려지는 값 눈금 레이블 숨기기
+                            yAxis.setDrawLabels(false);
+
+                            //  데이터 적용 및 차트 갱신
+                            inbodyBarChart.setData(data);
+                            // 막대 옆에 값 표시
+                            inbodyBarChart.setDrawValueAboveBar(true);
+                            inbodyBarChart.invalidate();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    },
+                    error -> Toast.makeText(this, "인바디 종합 데이터 로드 실패", Toast.LENGTH_SHORT).show());
             Volley.newRequestQueue(this).add(request);
         } else {
             // 개별 타입 모드: LineChart 설정 및 데이터 처리
@@ -351,59 +358,63 @@ public class StatusActivity extends AppCompatActivity {
                 jsonKey = "lbm";
             } else if (type.equals("BMI")) {
                 jsonKey = "bmi";
-            } else if (type.equals("fat_percent")) {
+            } else if (type.equals("fat")) {
                 jsonKey = "fat_percent";
             } else {
                 jsonKey = type.toLowerCase();
             }
             // 개별 항목 조회: JSONArray 엔드 포인트, 최근 4개 데이터 표시
             JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-                response -> {
-                    List<BarEntry> entries = new ArrayList<>();
-                    List<String> labels = new ArrayList<>();
-                    List<Integer> colors = new ArrayList<>();
-                    int limit = Math.min(4, response.length());
-                    try {
-                        for (int i = 0; i < limit; i++) {
-                            JSONObject obj = response.getJSONObject(i);
-                            float value = (float) obj.optDouble(jsonKey, 0.0);
-                            String date = obj.getString("date");
-                            entries.add(new BarEntry(i, value));
-                            labels.add(formatDate(date));
-                            colors.add(i % 3 == 0 ? Color.parseColor("#FF7C8C")
-                                : i % 3 == 1 ? Color.parseColor("#FFD700")
-                                : Color.parseColor("#87CEFA"));
+                    response -> {
+                        List<BarEntry> entries = new ArrayList<>();
+                        List<String> labels = new ArrayList<>();
+                        List<Integer> colors = new ArrayList<>();
+                        int limit = Math.min(4, response.length());
+                        try {
+                            JSONArray reversed = new JSONArray();
+                            for (int i = response.length() - 1; i >= 0; i--) {
+                                reversed.put(response.getJSONObject(i));
+                            }
+                            for (int i = 0; i < limit; i++) {
+                                JSONObject obj = reversed.getJSONObject(i);
+                                float value = (float) obj.optDouble(jsonKey, 0.0);
+                                String date = obj.getString("date");
+                                entries.add(new BarEntry(i, value));
+                                labels.add(formatDate(date));
+                                colors.add(i % 3 == 0 ? Color.parseColor("#FF7C8C")
+                                        : i % 3 == 1 ? Color.parseColor("#FFD700")
+                                        : Color.parseColor("#87CEFA"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    String labelName = getKoreanLabel(jsonKey);
-                    // LineChart 설정
-                    List<com.github.mikephil.charting.data.Entry> lineEntries = new ArrayList<>();
-                    for (int i = 0; i < limit; i++) {
-                        lineEntries.add(new com.github.mikephil.charting.data.Entry(i, entries.get(i).getY()));
-                    }
-                    com.github.mikephil.charting.data.LineDataSet lineDataSet = new com.github.mikephil.charting.data.LineDataSet(lineEntries, labelName);
-                    lineDataSet.setDrawValues(true);// 꺾은선 차트 점 위 값 표시 활성화
-                    lineDataSet.setValueTextSize(12f);
-                    lineDataSet.setColor(Color.parseColor("#FF7C8C"));
-                    lineDataSet.setLineWidth(2f);// 선 두께 설정
-                    lineDataSet.setCircleColor(Color.parseColor("#FF7C8C"));// 점 색상 설정
-                    lineDataSet.setCircleRadius(6f);// 점의 크기를 키우고, 내부 흰 점(hole)을 제거
-                    lineDataSet.setDrawCircleHole(false);
-                    com.github.mikephil.charting.data.LineData lineData = new com.github.mikephil.charting.data.LineData(lineDataSet);
-                    inbodyLineChart.getDescription().setEnabled(false); // LineChart 설명 텍스트 숨기기
-                    inbodyLineChart.getAxisRight().setEnabled(false);// 오른쪽 Y축 숨기기
-                    XAxis lx = inbodyLineChart.getXAxis();
-                    lx.setValueFormatter(new IndexAxisValueFormatter(labels));
-                    lx.setPosition(XAxis.XAxisPosition.BOTTOM);
-                    lx.setGranularity(1f);
-                    inbodyLineChart.getAxisLeft().setDrawGridLines(false);
-                    inbodyLineChart.setData(lineData);  // 꺾은선 차트 데이터 적용 및 갱신
-                    inbodyLineChart.invalidate();
+                        String labelName = getKoreanLabel(jsonKey);
+                        // LineChart 설정
+                        List<com.github.mikephil.charting.data.Entry> lineEntries = new ArrayList<>();
+                        for (int i = 0; i < limit; i++) {
+                            lineEntries.add(new com.github.mikephil.charting.data.Entry(i, entries.get(i).getY()));
+                        }
+                        com.github.mikephil.charting.data.LineDataSet lineDataSet = new com.github.mikephil.charting.data.LineDataSet(lineEntries, labelName);
+                        lineDataSet.setDrawValues(true);// 꺾은선 차트 점 위 값 표시 활성화
+                        lineDataSet.setValueTextSize(12f);
+                        lineDataSet.setColor(Color.parseColor("#FF7C8C"));
+                        lineDataSet.setLineWidth(2f);// 선 두께 설정
+                        lineDataSet.setCircleColor(Color.parseColor("#FF7C8C"));// 점 색상 설정
+                        lineDataSet.setCircleRadius(6f);// 점의 크기를 키우고, 내부 흰 점(hole)을 제거
+                        lineDataSet.setDrawCircleHole(false);
+                        com.github.mikephil.charting.data.LineData lineData = new com.github.mikephil.charting.data.LineData(lineDataSet);
+                        inbodyLineChart.getDescription().setEnabled(false); // LineChart 설명 텍스트 숨기기
+                        inbodyLineChart.getAxisRight().setEnabled(false);// 오른쪽 Y축 숨기기
+                        XAxis lx = inbodyLineChart.getXAxis();
+                        lx.setValueFormatter(new IndexAxisValueFormatter(labels));
+                        lx.setPosition(XAxis.XAxisPosition.BOTTOM);
+                        lx.setGranularity(1f);
+                        inbodyLineChart.getAxisLeft().setDrawGridLines(false);
+                        inbodyLineChart.setData(lineData);  // 꺾은선 차트 데이터 적용 및 갱신
+                        inbodyLineChart.invalidate();
 
-                },
-                error -> Toast.makeText(this, "인바디 데이터 로드 실패", Toast.LENGTH_SHORT).show());
+                    },
+                    error -> Toast.makeText(this, "인바디 데이터 로드 실패", Toast.LENGTH_SHORT).show());
             Volley.newRequestQueue(this).add(request);
         }
     }
@@ -427,7 +438,7 @@ public class StatusActivity extends AppCompatActivity {
             case "BMI":
                 return "BMI";
             case "체지방률":
-                return "fat_percent";
+                return "fat";
             default:
                 return "all";
         }
@@ -440,9 +451,10 @@ public class StatusActivity extends AppCompatActivity {
             case "SMM": return "골격근량";
             case "LBM": return "제지방량";
             case "BMI": return "BMI";
-            case "fat_percent": return "체지방률";
+            case "fat": return "체지방률";
             default: return key;
         }
     }
 
 }
+
