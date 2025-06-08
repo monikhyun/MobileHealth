@@ -126,16 +126,6 @@
                         android:entries="@array/inBody_items"
                         app:layout_constraintStart_toEndOf="@id/inBodyLabel"
                         app:layout_constraintTop_toTopOf="@id/inBodyLabel" />
-
-                    <TextView
-                        android:id="@+id/lastRecordDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-                        android:text="2025.05.06"
-                        android:textSize="12sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/inBodyLabel" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <FrameLayout
