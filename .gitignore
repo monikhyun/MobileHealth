@@ -35,3 +35,9 @@ out/
 
 ### VS Code ###
 .vscode/
+# macOS 시스템 파일
+.DS_Store
+src/.DS_Store
+
+# 특정 문서 파일
+image/logo.docx

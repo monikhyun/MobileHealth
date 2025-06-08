@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface DailyExerciseLogRepository extends JpaRepository<DailyExerciseLog, Long> {
 
     Optional<DailyExerciseLog> findByMemberAndDate(Member member, LocalDate date);
+
+    long countByMember(Member member);
 }

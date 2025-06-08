@@ -113,6 +113,7 @@ public class ExerciseServiceImpl implements ExerciseService{
             exerciseRecord.setCount(exerciseRecordDto.getCount());
             exerciseRecord.setDone(exerciseRecordDto.getDone());
             exerciseRecordRepository.save(exerciseRecord);
+            updateMemberGrade(member);
         }else {
             // ── 신규 생성 ──
             Exercise exercise = exerciseRepository.findByExerciseName(exerciseName);
@@ -127,6 +128,7 @@ public class ExerciseServiceImpl implements ExerciseService{
                     .done(exerciseRecordDto.getDone())
                     .build();
             exerciseRecordRepository.save(newRec);
+            updateMemberGrade(member);
         }
     }
 
@@ -168,6 +170,8 @@ public class ExerciseServiceImpl implements ExerciseService{
             rec.setSetCount(rec.getSetCount() - 1);
             exerciseRecordRepository.save(rec);
         }
+
+        updateMemberGrade(member);
     }
 
     // 전체 운동 목록
@@ -287,5 +291,25 @@ public class ExerciseServiceImpl implements ExerciseService{
                         .endDate(end)
                         .build()
                 ).toList();
+    }
+
+    private void updateMemberGrade(Member member) {
+        long activeDays = exerciseRecordRepository.countDistinctByDate(member);
+
+        MemberGrade newGrade;
+
+        if (activeDays >= 60) {
+            newGrade = MemberGrade.TREE;
+        } else if (activeDays >= 40) {
+            newGrade = MemberGrade.STEMS;
+        } else if (activeDays >= 20) {
+            newGrade = MemberGrade.SPROUT;
+        } else {
+            newGrade = MemberGrade.SEED;
+        }
+
+        if (member.getGrade() != newGrade) {
+            member.setGrade(newGrade);
+        }
     }
 }

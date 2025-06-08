@@ -45,7 +45,7 @@ public class RegisterServiceImpl implements RegisterService {
                 .password(resisterDto.getPassword())
                 .username(resisterDto.getUsername())
                 .gender(resisterDto.getGender())
-                .grade(MemberGrade.SPROUT)
+                .grade(MemberGrade.SEED)
                 .role(ROLE.ROLE_USER)
                 .build();
 

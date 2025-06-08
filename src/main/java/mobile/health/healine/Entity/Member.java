@@ -51,6 +51,9 @@ public class Member {
     @Column(nullable = false)
     private MemberGrade grade;
 
+    @Column(nullable = true)
+    private Integer age;
+
     @OneToMany(mappedBy = "member")
     private List<Diet> diets;
 

@@ -17,6 +17,12 @@ logging:
   level:
     org.hibernate.SQL: debug
 
+cloudinary:
+  cloud-name: de9xq9br5
+  api-key: 144982518626913
+  api-secret: wmY3tL2czM3t4MDugd0-_5gwE1Y
+  upload-preset: healthapp
+
 springdoc:
   api-docs:
     path: /health/api-specs

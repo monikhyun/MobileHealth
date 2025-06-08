@@ -3,6 +3,8 @@ package mobile.health.healine.Repository;
 import mobile.health.healine.Entity.ExerciseRecord;
 import mobile.health.healine.Entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,6 +29,9 @@ public interface ExerciseRecordRepository extends JpaRepository<ExerciseRecord, 
     List<ExerciseRecord> findByMemberAndDateBetween(Member member, LocalDate start, LocalDate end);
 
     int countByMember(Member mjc);
+
+    @Query("SELECT COUNT(DISTINCT e.date) FROM ExerciseRecord e WHERE e.member = :member")
+    long countDistinctByDate(@Param("member") Member member);
 
     List<ExerciseRecord> findByMemberAndDateBetweenAndDoneTrue(Member member, LocalDate start, LocalDate end);
 }
