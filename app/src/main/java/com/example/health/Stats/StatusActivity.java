@@ -46,6 +46,7 @@ import java.util.List;
 
 public class StatusActivity extends AppCompatActivity {
     private String userId;
+    boolean isFirst = true;
     ImageView iconWorkout,icon_meal, icon_freinds,icon_stats,icon_home;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,16 +65,21 @@ public class StatusActivity extends AppCompatActivity {
 
         Spinner topDropdownSpinner = findViewById(R.id.topDropdownSpinner);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+        ArrayAdapter<CharSequence> topAdapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.menu_items,
                 R.layout.spinner_item_bold
         );
-        adapter.setDropDownViewResource(R.layout.spinner_item_bold);
-        topDropdownSpinner.setAdapter(adapter);
+        topAdapter.setDropDownViewResource(R.layout.spinner_item_bold);
+        topDropdownSpinner.setAdapter(topAdapter);
+        topDropdownSpinner.setSelection(4);
         topDropdownSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (isFirst){
+                    isFirst = false;
+                    return;
+                }
                 switch (position) {
                     case 0: // 홈
                         startActivity(new Intent(StatusActivity.this, MainActivity.class));
