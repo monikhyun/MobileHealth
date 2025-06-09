@@ -43,7 +43,7 @@
             android:id="@+id/weight"
             android:layout_width="40dp"
             android:layout_height="24dp"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:background="@drawable/edit_box_bg"
             android:gravity="center"
             android:text=""
@@ -64,7 +64,7 @@
 
         <TextView
             android:id="@+id/smm"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:layout_width="44dp"
             android:layout_height="24dp"
             android:background="@drawable/edit_box_bg"
@@ -89,7 +89,7 @@
             android:id="@+id/fat"
             android:layout_width="44dp"
             android:layout_height="24dp"
-            android:textSize="12sp"
+            android:textSize="10sp"
             android:background="@drawable/edit_box_bg"
             android:gravity="center"
             android:text=""

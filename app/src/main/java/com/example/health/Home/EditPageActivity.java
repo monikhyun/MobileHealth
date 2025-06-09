@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -105,7 +106,9 @@ public class EditPageActivity extends AppCompatActivity {
         btnCancel       = findViewById(R.id.btnCancel);
         buttonSubmit    = findViewById(R.id.buttonSubmit);
 
-
+        int decimalFlags = InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL;
+        heightEt.setInputType(decimalFlags);
+        weightEt.setInputType(decimalFlags);
 
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         jwtToken = prefs.getString("JWT_TOKEN", null);

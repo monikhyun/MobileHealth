@@ -1,10 +1,11 @@
 package com.example.health.DTO;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class InbodyResponseDto {
-
+public class InbodyResponseDto implements Serializable {
+    private static final long serialVersionUID = 1L;
     private BigDecimal weight;
     private LocalDate date;
     private BigDecimal SMM;

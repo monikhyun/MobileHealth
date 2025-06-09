@@ -42,6 +42,8 @@
         <activity android:name=".Exercise.ExerciseAddListActivity" />
         <activity android:name=".Home.MyPageActivity"/>
         <activity android:name=".Home.EditPageActivity"/>
+        <activity android:name=".Home.InBodyRecordActivity"/>
+        <activity android:name=".Home.InBodyEditActivity"/>
         <activity
             android:name=".Diet.DietActivity"
             android:exported="true" />

@@ -33,6 +33,7 @@ import com.example.health.DTO.InbodyResponseDto;
 import com.example.health.Home.InbodyListAdapter;
 import com.example.health.R;
 import com.example.health.Request.Home.InBodyListRequest;
+import com.example.health.Request.Home.InBodyLoadRequest;
 import com.example.health.Request.Home.MyGradeRequest;
 import com.example.health.Request.Home.MyPageRequest;
 
@@ -61,7 +62,7 @@ public class MyPageActivity extends AppCompatActivity {
     private RecyclerView recyclerInbody;
     private TextView inbodyList;
     // FAB
-    private ImageButton btnAddSet;
+    private Button btnAddSet;
     // Navigation bar icons
     private ImageView iconHome, iconWorkout, iconMeal, iconFriends, iconStats;
 
@@ -100,6 +101,7 @@ public class MyPageActivity extends AppCompatActivity {
         iconMeal      = findViewById(R.id.icon_meal);
         iconFriends   = findViewById(R.id.icon_friends);
         iconStats     = findViewById(R.id.icon_stats);
+
 
         Spinner spinner = findViewById(R.id.topDropdownSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -211,7 +213,7 @@ public class MyPageActivity extends AppCompatActivity {
                         if ("TREE".equals(gradeStr)) {
                             goalText.setText("헬린이 탈출!");
                         } else {
-                            String text = remaining + "번만 더 운동가자!";
+                            String text = remaining + "일만 더 운동가자!";
                             SpannableStringBuilder ssb = new SpannableStringBuilder(text);
                             String numStr = String.valueOf(remaining);
                             int start = text.indexOf(numStr);
@@ -274,7 +276,32 @@ public class MyPageActivity extends AppCompatActivity {
                             list.add(new InbodyResponseDto(weight, date, smm, null, null, fat));
                         }
                         recyclerInbody.setLayoutManager(new LinearLayoutManager(this));
-                        recyclerInbody.setAdapter(new InbodyListAdapter(list));
+                        recyclerInbody.setAdapter(new InbodyListAdapter(list, item -> {
+                            // 클릭한 날짜로 InBodyLoadRequest 호출
+                            String dateStr = item.getDate().toString();
+                            InBodyLoadRequest loadReq = new InBodyLoadRequest(
+                                    jwtToken, userId, dateStr,
+                                    resp -> {
+                                        // 서버가 내려준 JSON 예시:
+                                        // { "weight":70.0, "date":"2025-06-07", "fat_percent":17.5, "smm":32.5, "lbm":60.2, "bmi":24.2 }
+                                        try {
+                                            Intent intent = new Intent(this, InBodyEditActivity.class);
+                                            intent.putExtra("edit_date",       resp.optString("date"));
+                                            intent.putExtra("edit_weight",     resp.optString("weight"));
+                                            intent.putExtra("edit_smm",        resp.optString("smm"));
+                                            intent.putExtra("edit_lbm",        resp.optString("lbm"));
+                                            intent.putExtra("edit_bmi",        resp.optString("bmi"));
+                                            intent.putExtra("edit_fat_percent",resp.optString("fat_percent"));
+                                            startActivity(intent);
+                                        } catch (Exception ex) {
+                                            ex.printStackTrace();
+                                            Toast.makeText(this, "불러온 데이터 파싱 오류", Toast.LENGTH_SHORT).show();
+                                        }
+                                    },
+                                    error -> Toast.makeText(this, "기록 불러오기 실패", Toast.LENGTH_SHORT).show()
+                            );
+                            Volley.newRequestQueue(this).add(loadReq);
+                        }));
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Toast.makeText(this, "인바디 데이터 파싱 오류", Toast.LENGTH_SHORT).show();
@@ -303,5 +330,9 @@ public class MyPageActivity extends AppCompatActivity {
                 startActivity(new Intent(this, com.example.health.Friend.FriendListActivity.class)));
         iconStats  .setOnClickListener(v ->
                 startActivity(new Intent(this, com.example.health.Stats.StatusActivity.class)));
+
+        btnAddSet.setOnClickListener(v -> {
+           startActivity(new Intent(this, InBodyRecordActivity.class));
+        });
     }
 }
