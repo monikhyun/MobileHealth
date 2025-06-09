@@ -3,55 +3,61 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:paddingTop="?attr/actionBarSize">
+    android:paddingTop="20dp"
+    android:background="@color/white">
 
-    <!-- 상단 메뉴바 -->
     <LinearLayout
+        android:id="@+id/topBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFF0F8FF"
-        android:elevation="4dp"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:id="@+id/topBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
+        android:gravity="center_vertical"
+        android:background="#FEF7FF"
+        android:paddingVertical="8dp"
+        android:paddingLeft="26dp"
+        android:paddingRight="4dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="28dp"
+        android:orientation="horizontal">
         <Spinner
             android:id="@+id/topDropdownSpinner"
             android:layout_width="wrap_content"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
+            android:layout_marginEnd="11dp"
             android:backgroundTint="@android:color/black"
             android:dropDownHorizontalOffset="0dp"
             android:dropDownVerticalOffset="4dp"
-            android:entries="@array/menu_items"
-            android:gravity="center_vertical"
-            android:padding="2dp"
+            android:gravity="center"
             android:spinnerMode="dropdown" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+        </LinearLayout>
         <ImageView
             android:id="@+id/btn_profile"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_profile"
             android:layout_marginStart="8dp"/>
+
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:id="@+id/btn_alarm"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:src="@drawable/ic_alarm"
             android:layout_marginStart="8dp"/>
+
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_setting"
-            android:layout_marginStart="8dp" />
+            android:id="@+id/btn_setting"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_setting"/>
     </LinearLayout>
+
 
     <!-- 스크롤 가능한 본문 -->
     <ScrollView
@@ -77,13 +83,16 @@
                 android:layout_marginTop="16dp"
                 android:text="오늘 식단"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:background="@drawable/rounded_container"/>
 
             <!-- 파이차트와 요약 -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:background="@drawable/rounded_container"
+                android:elevation="4dp">
 
                 <TextView
                     android:id="@+id/nutritionTitle"
@@ -109,6 +118,8 @@
                     android:layout_width="130dp"
                     android:layout_height="match_parent"
                     android:id="@+id/labelConst"
+                    android:background="@drawable/rounded_container"
+                    android:elevation="4dp"
                     app:layout_constraintLeft_toRightOf="@+id/meal_chart_view"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -217,6 +228,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="24dp"
                 android:background="@drawable/button_card_bg"
+                android:elevation="4dp"
                 android:clipToOutline="false"
                 android:outlineProvider="bounds">
 
@@ -234,8 +246,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- 하단 네비게이션 -->
-<!-- 하단 네비게이션 바 -->
+    <!-- 하단 네비게이션 바: 기존 navigationBar 재활용 -->
     <LinearLayout
         android:id="@+id/navigationBar"
         android:layout_width="0dp"
@@ -293,7 +304,7 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/ic_exercise"
-                app:tint="#A0A0A0" />
+                app:tint="#FF7C8C" />
 
             <TextView
                 android:id="@+id/text_workout"
@@ -321,7 +332,7 @@
                 android:id="@+id/icon_meal"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:src="@drawable/ic_diet"
+                android:src="@drawable/ic_diet_selected"
                 app:tint="#A0A0A0" />
 
             <TextView
@@ -349,8 +360,8 @@
                 android:id="@+id/icon_friends"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:src="@drawable/ic_friends_selected"
-              />
+                android:src="@drawable/ic_friends"
+                app:tint="#A0A0A0" />
 
             <TextView
                 android:id="@+id/text_friends"
