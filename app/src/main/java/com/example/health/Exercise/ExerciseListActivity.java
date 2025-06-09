@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
@@ -50,7 +51,7 @@ public class ExerciseListActivity extends AppCompatActivity {
     private RecyclerView recyclerExercise;
     private AddedExerciseAdapter adapter;
     private ImageButton btnAddSet;
-    private ImageView icon_meal;
+    ImageView iconWorkout,icon_meal, icon_freinds,icon_stats,icon_home;
     private TextView textDate;
     private Button btnStart;
     private TextView textTimer;
@@ -92,31 +93,37 @@ public class ExerciseListActivity extends AppCompatActivity {
         icon_meal = findViewById(R.id.icon_meal);
         btnStart = findViewById(R.id.btn_start);
         textTimer = findViewById(R.id.text_timer);
+        icon_home = findViewById(R.id.icon_home);
+        icon_freinds = findViewById(R.id.icon_friends);
 
-
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        binding.iconHome.setOnClickListener(v -> {
-            Intent intent = new Intent(ExerciseListActivity.this, MainActivity.class);
-            startActivity(intent);
+        icon_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ExerciseListActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
         });
 
-
-        binding.iconMeal.setOnClickListener(v -> {
-            Intent intent = new Intent(ExerciseListActivity.this, DietActivity.class);
-            startActivity(intent);
-        });
-
-        binding.iconFriends.setOnClickListener(v -> {
-            Intent intent = new Intent(ExerciseListActivity.this, FriendListActivity.class);
-            startActivity(intent);
-        });
-
-        binding.iconStats.setOnClickListener(v -> {
+        findViewById(R.id.nav_stats).setOnClickListener(v -> {
             Intent intent = new Intent(ExerciseListActivity.this, StatusActivity.class);
             startActivity(intent);
         });
+        icon_meal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ExerciseListActivity.this, DietActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        icon_freinds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ExerciseListActivity.this, FriendListActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         // RecyclerView 설정
         recyclerExercise.setLayoutManager(new LinearLayoutManager(this));

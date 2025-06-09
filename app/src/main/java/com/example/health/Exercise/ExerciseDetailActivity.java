@@ -67,29 +67,7 @@ public class ExerciseDetailActivity extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(this);
 
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
 
-        binding.iconHome.setOnClickListener(v -> {
-            Intent intent = new Intent(ExerciseDetailActivity.this, MainActivity.class);
-            startActivity(intent);
-        });
-
-
-        binding.iconMeal.setOnClickListener(v -> {
-            Intent intent = new Intent(ExerciseDetailActivity.this, DietActivity.class);
-            startActivity(intent);
-        });
-
-        binding.iconFriends.setOnClickListener(v -> {
-            Intent intent = new Intent(ExerciseDetailActivity.this, FriendListActivity.class);
-            startActivity(intent);
-        });
-
-        binding.iconStats.setOnClickListener(v -> {
-            Intent intent = new Intent(ExerciseDetailActivity.this, StatusActivity.class);
-            startActivity(intent);
-        });
 
         // 로그인 체크
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
