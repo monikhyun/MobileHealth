@@ -167,10 +167,11 @@
             <LinearLayout
                 android:id="@+id/avgLayout"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="60dp"
                 android:layout_marginTop="28dp"
                 android:elevation="8dp"
                 android:background="@drawable/rounded_container"
+                android:padding="12dp"
                 android:orientation="horizontal">
 
                 <TextView
