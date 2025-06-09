@@ -42,7 +42,7 @@ import com.google.android.gms.fitness.data.Field;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONArray;
+
 import java.math.BigDecimal;
 
 import java.util.ArrayList;
