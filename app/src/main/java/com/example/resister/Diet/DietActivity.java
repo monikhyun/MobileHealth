@@ -90,10 +90,10 @@ public class DietActivity extends AppCompatActivity {
                     case 2: // 식단
                         break;
                     case 3: // 친구
-                        startActivity(new Intent(DietAddActivity.this, FriendListActivity.class));
+                        startActivity(new Intent(DietActivity.this, FriendListActivity.class));
                         break;
                     case 4: // 통계
-                        startActivity(new Intent(DietAddActivity.this, StatusActivity.class));
+                        startActivity(new Intent(DietActivity.this, StatusActivity.class));
                         break;
                 }
             }
