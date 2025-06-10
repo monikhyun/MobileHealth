@@ -11,7 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/home")
@@ -56,5 +59,36 @@ public class HomeController {
     @GetMapping("/profile/inbody/{userId}")
     public ResponseEntity<List<InBodyResponseDto>> getInBodyList(@PathVariable String userId) {
         return ResponseEntity.ok(inBodyService.getInBodyByUserId(userId));
+    }
+
+    // 인바디 기록 하기
+    @PostMapping("/profile/inbody/{userId}")
+    public ResponseEntity<Map<String, String>> recordInBody(
+            @PathVariable String userId,
+            @RequestBody InBodyResponseDto inBodyResponseDto) {
+
+        inBodyService.recordInBody(userId, inBodyResponseDto);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "ok");
+
+        return ResponseEntity.ok(response);
+    }
+
+    // 인바디 기록 수정
+    @PutMapping("/profile/inbody/{userId}")
+    public ResponseEntity<Map<String, String>> updateInBody(@PathVariable String userId, @RequestBody InBodyResponseDto inBodyResponseDto) {
+        inBodyService.editInBody(userId, inBodyResponseDto);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "ok");
+
+        return ResponseEntity.ok(response);
+    }
+
+    // 인바디 기록 한개 불러오기
+    @GetMapping("/profile/inbody/{userId}/{date}")
+    public ResponseEntity<InBodyResponseDto> getInBodyByDate(@PathVariable String userId, @PathVariable LocalDate date) {
+        InBodyResponseDto dto = inBodyService.getInBody(userId, date);
+        return ResponseEntity.ok(dto);
     }
 }

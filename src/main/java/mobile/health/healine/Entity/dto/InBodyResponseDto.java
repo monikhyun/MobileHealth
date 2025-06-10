@@ -1,4 +1,5 @@
 package mobile.health.healine.Entity.dto;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import mobile.health.healine.Entity.InBody;
 
@@ -14,6 +15,7 @@ public class InBodyResponseDto {
 
     private BigDecimal weight;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     private BigDecimal SMM;

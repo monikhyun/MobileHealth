@@ -29,6 +29,7 @@ public class InBodyServiceImpl implements InBodyService {
         Member member = memberRepository.findByUserId(userId);
         inBodyRepository.save(InBody.builder()
                 .member(member)
+                        .date(inBodyResponseDto.getDate())
                 .weight(inBodyResponseDto.getWeight())
                 .SMM(inBodyResponseDto.getSMM())
                 .LBM(inBodyResponseDto.getLBM())
@@ -59,9 +60,7 @@ public class InBodyServiceImpl implements InBodyService {
         Optional<InBody> inBody = inBodyRepository.findInBodyByMemberAndDate(member, localDate);
         if (inBody.isPresent()) {
             InBody entity = inBody.get();
-            InBodyResponseDto inBodyResponseDto = new InBodyResponseDto();
-            inBodyResponseDto.toDto(entity);
-            return inBodyResponseDto;
+            return new InBodyResponseDto().toDto(entity);
         }
         return InBodyResponseDto.builder().build();
     }
