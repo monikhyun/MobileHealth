@@ -201,7 +201,7 @@ public class DietActivity extends AppCompatActivity {
                                 int carbMeal = diet.getInt("carb");
                                 int proteinMeal = diet.getInt("protein");
                                 int fatMeal = diet.getInt("fat");
-                                String mealtime = diet.getString("mealtime");
+                                String mealtime = getKorean(diet.getString("mealtime"));
                                 BigDecimal kcal = BigDecimal.valueOf(diet.getDouble("calories"));
 
                                 View mealView = getLayoutInflater()
@@ -286,4 +286,20 @@ public class DietActivity extends AppCompatActivity {
         request.setShouldCache(false);
         queue.add(request);
     }
+    private String getKorean(String mealTime) {
+        switch (mealTime) {
+            case "BREAKFAST":
+                mealTime = "아침";
+                break;
+            case "LUNCH":
+                mealTime = "점심";
+                break;
+            case "DINNER":
+                mealTime = "저녁";
+                break;
+            default:
+                return mealTime;
+        }
+    }
+
 }
