@@ -235,17 +235,4 @@ public class DietAddActivity extends AppCompatActivity {
         // 선택된 버튼만 배경 강조
         selectedButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFB6C1")));
     }
-
-    private String getKorean(String mealTime) {
-        switch (mealTime) {
-            case "BREAKFAST":
-                return "아침";
-            case "LUNCH":
-                return "점심";
-            case "DINNER":
-                return "저녁";
-            default:
-                return mealTime;
-        }
-    }
 }
