@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:app/src/main/java/com/example/health/Auth/RegisterActivity.java
 package com.example.health.Auth;
+========
+package com.example.resister.Auth;
+>>>>>>>> feat/diet:app/src/main/java/com/example/resister/Auth/RegisterActivity.java
 
 import android.graphics.Color;
 import android.os.Bundle;

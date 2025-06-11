@@ -1,5 +1,10 @@
+<<<<<<<< HEAD:app/src/main/java/com/example/health/Exercise/AddedExerciseAdapter.java
 // src/main/java/com/example/health/Exercise/AddedExerciseAdapter.java
 package com.example.health.Exercise;
+========
+// AddedExerciseAdapter.java
+package com.example.resister.Request.Exercise;
+>>>>>>>> feat/diet:app/src/main/java/com/example/resister/Request/Exercise/AddedExerciseAdapter.java
 
 import android.view.LayoutInflater;
 import android.view.View;

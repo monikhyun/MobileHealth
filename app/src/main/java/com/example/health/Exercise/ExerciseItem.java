@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:app/src/main/java/com/example/health/Exercise/ExerciseItem.java
 package com.example.health.Exercise;
+========
+package com.example.resister.Request.Exercise;
+>>>>>>>> feat/diet:app/src/main/java/com/example/resister/Request/Exercise/ExerciseItem.java
 
 public  class ExerciseItem {
     public final String bodyPart;

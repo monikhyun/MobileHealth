@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:app/src/main/java/com/example/health/Request/Diet/DietInsertRequest.java
 package com.example.health.Request.Diet;
+========
+package com.example.resister.Request.Diet;
+>>>>>>>> feat/diet:app/src/main/java/com/example/resister/Request/Diet/DietInsertRequest.java
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;

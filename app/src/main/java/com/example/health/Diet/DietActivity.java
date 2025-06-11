@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:app/src/main/java/com/example/health/Diet/DietActivity.java
 package com.example.health.Diet;
+========
+package com.example.resister.Diet;
+>>>>>>>> feat/diet:app/src/main/java/com/example/resister/Diet/DietActivity.java
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,11 +26,16 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+<<<<<<<< HEAD:app/src/main/java/com/example/health/Diet/DietActivity.java
 import com.example.health.Friend.FriendListActivity;
 import com.example.health.R;
 import com.example.health.Exercise.ExerciseListActivity;
 import com.example.health.Auth.MainActivity;
 import com.example.health.Stats.StatusActivity;
+========
+import com.example.health.R;
+import com.example.resister.Auth.MainActivity;
+>>>>>>>> feat/diet:app/src/main/java/com/example/resister/Diet/DietActivity.java
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -49,7 +58,10 @@ public class DietActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> dietAddLauncher;
     private boolean shouldRefresh = false;
     private Spinner topDropdownSpinner;
+<<<<<<<< HEAD:app/src/main/java/com/example/health/Diet/DietActivity.java
     private boolean isFirst = true;
+========
+>>>>>>>> feat/diet:app/src/main/java/com/example/resister/Diet/DietActivity.java
     ImageView iconWorkout,icon_meal, icon_freinds,icon_stats,icon_home;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +92,7 @@ public class DietActivity extends AppCompatActivity {
         );
         adapter.setDropDownViewResource(R.layout.spinner_item_bold);
         topDropdownSpinner.setAdapter(adapter);
+<<<<<<<< HEAD:app/src/main/java/com/example/health/Diet/DietActivity.java
         topDropdownSpinner.setSelection(2);
         topDropdownSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -88,6 +101,11 @@ public class DietActivity extends AppCompatActivity {
                     isFirst = false;
                     return;
                 }
+========
+        topDropdownSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+>>>>>>>> feat/diet:app/src/main/java/com/example/resister/Diet/DietActivity.java
                 switch (position) {
                     case 0: // 홈
                         startActivity(new Intent(DietActivity.this, MainActivity.class));
@@ -209,7 +227,7 @@ public class DietActivity extends AppCompatActivity {
                                 int carbMeal = diet.getInt("carb");
                                 int proteinMeal = diet.getInt("protein");
                                 int fatMeal = diet.getInt("fat");
-                                String mealtime = diet.getString("mealtime");
+                                String mealtime = getKorean(diet.getString("mealtime"));
                                 BigDecimal kcal = BigDecimal.valueOf(diet.getDouble("calories"));
 
                                 View mealView = getLayoutInflater()
@@ -294,4 +312,20 @@ public class DietActivity extends AppCompatActivity {
         request.setShouldCache(false);
         queue.add(request);
     }
+    private String getKorean(String mealTime) {
+        switch (mealTime) {
+            case "BREAKFAST":
+                mealTime = "아침";
+                break;
+            case "LUNCH":
+                mealTime = "점심";
+                break;
+            case "DINNER":
+                mealTime = "저녁";
+                break;
+            default:
+                return mealTime;
+        }
+    }
+
 }

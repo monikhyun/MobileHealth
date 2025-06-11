@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:app/src/main/java/com/example/health/Request/Exercise/ExerciseListRequest.java
 package com.example.health.Request.Exercise;
+========
+package com.example.resister.Request.Exercise;
+>>>>>>>> feat/diet:app/src/main/java/com/example/resister/Request/Exercise/ExerciseListRequest.java
 
 import androidx.annotation.Nullable;
 

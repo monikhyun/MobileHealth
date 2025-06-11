@@ -1,4 +1,8 @@
+<<<<<<<< HEAD:app/src/main/java/com/example/health/Diet/DietAddActivity.java
 package com.example.health.Diet;
+========
+package com.example.resister.Diet;
+>>>>>>>> feat/diet:app/src/main/java/com/example/resister/Diet/DietAddActivity.java
 
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -23,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+<<<<<<<< HEAD:app/src/main/java/com/example/health/Diet/DietAddActivity.java
 import com.example.health.Friend.FriendListActivity;
 import com.example.health.R;
 import com.example.health.Exercise.ExerciseListActivity;
@@ -30,6 +35,12 @@ import com.example.health.Auth.MainActivity;
 import com.example.health.Request.Diet.DietInsertRequest;
 import com.example.health.Request.Diet.DietUpdateRequest;
 import com.example.health.Stats.StatusActivity;
+========
+import com.example.health.R;
+import com.example.resister.Auth.MainActivity;
+import com.example.resister.Request.Diet.DietInsertRequest;
+import com.example.resister.Request.Diet.DietUpdateRequest;
+>>>>>>>> feat/diet:app/src/main/java/com/example/resister/Diet/DietAddActivity.java
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -43,7 +54,10 @@ public class DietAddActivity extends AppCompatActivity {
 
     private String mealtime = "";
 
+<<<<<<<< HEAD:app/src/main/java/com/example/health/Diet/DietAddActivity.java
     private boolean isFirst = true;
+========
+>>>>>>>> feat/diet:app/src/main/java/com/example/resister/Diet/DietAddActivity.java
     private Spinner topDropdownSpinner;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +96,7 @@ public class DietAddActivity extends AppCompatActivity {
         );
         adapter.setDropDownViewResource(R.layout.spinner_item_bold);
         topDropdownSpinner.setAdapter(adapter);
+<<<<<<<< HEAD:app/src/main/java/com/example/health/Diet/DietAddActivity.java
         topDropdownSpinner.setSelection(2);
         topDropdownSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -90,6 +105,11 @@ public class DietAddActivity extends AppCompatActivity {
                     isFirst = false;
                     return;
                 }
+========
+        topDropdownSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+>>>>>>>> feat/diet:app/src/main/java/com/example/resister/Diet/DietAddActivity.java
                 switch (position) {
                     case 0: // 홈
                         startActivity(new Intent(DietAddActivity.this, MainActivity.class));
