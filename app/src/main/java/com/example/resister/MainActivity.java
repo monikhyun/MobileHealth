@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.resister.Diet.ExerciseListActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView tvId;

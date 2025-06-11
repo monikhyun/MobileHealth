@@ -1,10 +1,10 @@
-package com.example.resister;
+package com.example.resister.Exercise;
 
 import android.content.Intent;
 import android.view.View;
 import com.android.volley.Response;
 import org.json.JSONArray;
-import android.content.SharedPreferences;
+
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -23,21 +23,17 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.resister.Request.ExerciseAddRequest;
-import com.example.resister.Request.ExerciseListRequest;
+import com.example.resister.ExerciseAdapter;
+import com.example.resister.Diet.ExerciseListActivity;
+import com.example.resister.Request.Exercise.ExerciseAddRequest;
+import com.example.resister.Request.Exercise.ExerciseListRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-
-import android.content.Intent;
 
 import org.json.JSONException;
 import org.json.JSONObject;

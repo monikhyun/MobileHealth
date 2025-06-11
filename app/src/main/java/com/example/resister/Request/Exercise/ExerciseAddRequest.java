@@ -1,4 +1,4 @@
-package com.example.resister.Request;
+package com.example.resister.Request.Exercise;
 
 import androidx.annotation.Nullable;
 

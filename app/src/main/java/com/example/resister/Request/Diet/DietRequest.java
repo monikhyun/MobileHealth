@@ -1,4 +1,4 @@
-package com.example.resister.Request;
+package com.example.resister.Request.Diet;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;

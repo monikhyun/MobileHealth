@@ -1,8 +1,7 @@
-package com.example.resister.Request;
+package com.example.resister.Request.Exercise;
 
 import androidx.annotation.Nullable;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 

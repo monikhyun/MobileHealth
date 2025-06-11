@@ -1,6 +1,8 @@
-package com.example.resister;
+package com.example.resister.Diet;
 
-import com.example.resister.ExerciseItem;
+import com.example.resister.AddedExerciseAdapter;
+import com.example.resister.Exercise.ExerciseAddListActivity;
+import com.example.resister.Exercise.ExerciseDetailActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.resister.ExerciseItem;
 
 import org.json.JSONException;
 import org.json.JSONObject;

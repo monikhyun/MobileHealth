@@ -24,10 +24,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.health.R;
-import com.example.resister.ExerciseListActivity;
 import com.example.resister.MainActivity;
-import com.example.resister.Request.DietInsertRequest;
-import com.example.resister.Request.DietUpdateRequest;
+import com.example.resister.Request.Diet.DietInsertRequest;
+import com.example.resister.Request.Diet.DietUpdateRequest;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
