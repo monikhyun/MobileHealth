@@ -53,7 +53,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    ImageView iconWorkout,icon_meal, icon_freinds,icon_stats,icon_home;
+    ImageView iconWorkout,icon_meal, icon_freinds,icon_stats,icon_home, profile;
     TextView totalV,runTime,stepCountText,distanceText;
 
     LineChart lineChart;
@@ -96,23 +96,7 @@ public class MainActivity extends AppCompatActivity {
         }
         profile = findViewById(R.id.btn_profile);
 
-        Spinner spinner = findViewById(R.id.topDropdownSpinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.menu_items,
-                R.layout.spinner_item_bold
-        );
-        adapter.setDropDownViewResource(R.layout.spinner_item_bold);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selected = parent.getItemAtPosition(position).toString();
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
         // 1) SharedPreferences 열기
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
