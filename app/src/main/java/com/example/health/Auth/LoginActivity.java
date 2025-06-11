@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:app/src/main/java/com/example/health/Auth/LoginActivity.java
 package com.example.health.Auth;
-========
-package com.example.resister.Auth;
->>>>>>>> feat/diet:app/src/main/java/com/example/resister/Auth/LoginActivity.java
 
 import android.content.Intent;
 import android.content.SharedPreferences;

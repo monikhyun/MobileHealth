@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:app/src/main/java/com/example/health/Diet/DietActivity.java
 package com.example.health.Diet;
-========
-package com.example.resister.Diet;
->>>>>>>> feat/diet:app/src/main/java/com/example/resister/Diet/DietActivity.java
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,16 +22,11 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-<<<<<<<< HEAD:app/src/main/java/com/example/health/Diet/DietActivity.java
 import com.example.health.Friend.FriendListActivity;
 import com.example.health.R;
 import com.example.health.Exercise.ExerciseListActivity;
 import com.example.health.Auth.MainActivity;
 import com.example.health.Stats.StatusActivity;
-========
-import com.example.health.R;
-import com.example.resister.Auth.MainActivity;
->>>>>>>> feat/diet:app/src/main/java/com/example/resister/Diet/DietActivity.java
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -58,11 +49,9 @@ public class DietActivity extends AppCompatActivity {
     private ActivityResultLauncher<Intent> dietAddLauncher;
     private boolean shouldRefresh = false;
     private Spinner topDropdownSpinner;
-<<<<<<<< HEAD:app/src/main/java/com/example/health/Diet/DietActivity.java
     private boolean isFirst = true;
-========
->>>>>>>> feat/diet:app/src/main/java/com/example/resister/Diet/DietActivity.java
-    ImageView iconWorkout,icon_meal, icon_freinds,icon_stats,icon_home;
+    ImageView iconWorkout, icon_meal, icon_freinds, icon_stats, icon_home;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +59,7 @@ public class DietActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         userId = prefs.getString("USER_ID", null);
+
         icon_home = findViewById(R.id.icon_home);
         icon_freinds = findViewById(R.id.icon_friends);
         iconWorkout = findViewById(R.id.icon_workout);
@@ -83,6 +73,7 @@ public class DietActivity extends AppCompatActivity {
                         shouldRefresh = true;
                     }
                 });
+
         topDropdownSpinner = findViewById(R.id.topDropdownSpinner);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -92,7 +83,6 @@ public class DietActivity extends AppCompatActivity {
         );
         adapter.setDropDownViewResource(R.layout.spinner_item_bold);
         topDropdownSpinner.setAdapter(adapter);
-<<<<<<<< HEAD:app/src/main/java/com/example/health/Diet/DietActivity.java
         topDropdownSpinner.setSelection(2);
         topDropdownSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -101,11 +91,6 @@ public class DietActivity extends AppCompatActivity {
                     isFirst = false;
                     return;
                 }
-========
-        topDropdownSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
->>>>>>>> feat/diet:app/src/main/java/com/example/resister/Diet/DietActivity.java
                 switch (position) {
                     case 0: // 홈
                         startActivity(new Intent(DietActivity.this, MainActivity.class));
@@ -123,53 +108,23 @@ public class DietActivity extends AppCompatActivity {
                         break;
                 }
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
+
         findViewById(R.id.buttonAddMeal).setOnClickListener(v -> {
             Intent intent = new Intent(DietActivity.this, DietAddActivity.class);
             dietAddLauncher.launch(intent);
         });
 
         fetchDietData(getToday());
-        icon_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DietActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-        iconWorkout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DietActivity.this, ExerciseListActivity.class);
-                startActivity(intent);
-            }
-        });
-        icon_meal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DietActivity.this, DietActivity.class);
-                startActivity(intent);
-            }
-        });
 
-        icon_freinds.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DietActivity.this, FriendListActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        icon_stats.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DietActivity.this, StatusActivity.class);
-                startActivity(intent);
-            }
-        });
+        icon_home.setOnClickListener(v -> startActivity(new Intent(DietActivity.this, MainActivity.class)));
+        iconWorkout.setOnClickListener(v -> startActivity(new Intent(DietActivity.this, ExerciseListActivity.class)));
+        icon_meal.setOnClickListener(v -> startActivity(new Intent(DietActivity.this, DietActivity.class)));
+        icon_freinds.setOnClickListener(v -> startActivity(new Intent(DietActivity.this, FriendListActivity.class)));
+        icon_stats.setOnClickListener(v -> startActivity(new Intent(DietActivity.this, StatusActivity.class)));
     }
 
     @Override
@@ -245,10 +200,8 @@ public class DietActivity extends AppCompatActivity {
                                 mealView.setOnClickListener(v -> {
                                     Intent intent = new Intent(DietActivity.this, DietAddActivity.class);
                                     intent.putExtra("mode", "edit");
-                                    intent.putExtra("dietId",dietId);
+                                    intent.putExtra("dietId", dietId);
                                     try {
-                                        Log.d("DietDebug", "diet JSON: " + diet.toString());
-                                        intent.putExtra("dietId", diet.getLong("id"));
                                         intent.putExtra("name", diet.getString("name"));
                                         intent.putExtra("carb", diet.getInt("carb"));
                                         intent.putExtra("protein", diet.getInt("protein"));
@@ -257,7 +210,6 @@ public class DietActivity extends AppCompatActivity {
                                         intent.putExtra("mealtime", diet.getString("mealtime"));
                                     } catch (JSONException e) {
                                         Log.e("DietActivity", "Failed to pass diet info", e);
-                                        return;
                                     }
                                     dietAddLauncher.launch(intent);
                                 });
@@ -268,7 +220,7 @@ public class DietActivity extends AppCompatActivity {
                             }
                         }
 
-                        // MPAndroidChart 파이차트 갱신
+                        // 파이차트 그리기
                         PieChart pieChart = findViewById(R.id.meal_chart_view);
                         List<PieEntry> entries = new ArrayList<>();
                         entries.add(new PieEntry((float) finalCarb, "탄수화물"));
@@ -277,9 +229,9 @@ public class DietActivity extends AppCompatActivity {
 
                         PieDataSet dataSet = new PieDataSet(entries, "");
                         dataSet.setColors(
-                                Color.parseColor("#FFA7A7"), // 탄수화물
-                                Color.parseColor("#B2EBF4"), // 단백질
-                                Color.parseColor("#FAED7D")  // 지방
+                                Color.parseColor("#FFA7A7"),
+                                Color.parseColor("#B2EBF4"),
+                                Color.parseColor("#FAED7D")
                         );
                         dataSet.setValueTextSize(13f);
                         dataSet.setValueTextColor(Color.WHITE);
@@ -288,18 +240,18 @@ public class DietActivity extends AppCompatActivity {
                         PieData pieData = new PieData(dataSet);
                         pieData.setValueFormatter(new PercentFormatter(pieChart));
 
-                        pieChart.setUsePercentValues(true);// 백분율(%)
-                        pieChart.setDrawCenterText(false);; // 가운데 텍스트
-                        pieChart.setHoleRadius(32f); // 가운데 구멍의 반지름
-                        pieChart.setTransparentCircleRadius(40f); // 구멍 주위의 투명 원 반지름
-                        pieChart.setEntryLabelColor(Color.BLACK); // 엔트리 라벨 색상
-                        pieChart.setEntryLabelTextSize(12f); // 엔트리 크기
-                        pieChart.setData(pieData); // 바인딩
-                        pieChart.getDescription().setEnabled(false); // 오른쪽 하단 Description 텍스트 제거
-                        pieChart.getLegend().setEnabled(false); // 범례(legend) 숨김
-                        pieChart.invalidate(); // 다시 그리기
+                        pieChart.setUsePercentValues(true);
+                        pieChart.setDrawCenterText(false);
+                        pieChart.setHoleRadius(32f);
+                        pieChart.setTransparentCircleRadius(40f);
+                        pieChart.setEntryLabelColor(Color.BLACK);
+                        pieChart.setEntryLabelTextSize(12f);
+                        pieChart.setData(pieData);
+                        pieChart.getDescription().setEnabled(false);
+                        pieChart.getLegend().setEnabled(false);
+                        pieChart.invalidate();
 
-                        // 합계 텍스트 업데이트
+                        // 합계 텍스트 표시
                         ((TextView) findViewById(R.id.valueCarb)).setText(String.valueOf((int) finalCarb));
                         ((TextView) findViewById(R.id.valueProtein)).setText(String.valueOf((int) finalProtein));
                         ((TextView) findViewById(R.id.valueFat)).setText(String.valueOf((int) finalFat));
@@ -312,20 +264,17 @@ public class DietActivity extends AppCompatActivity {
         request.setShouldCache(false);
         queue.add(request);
     }
+
     private String getKorean(String mealTime) {
         switch (mealTime) {
             case "BREAKFAST":
-                mealTime = "아침";
-                break;
+                return "아침";
             case "LUNCH":
-                mealTime = "점심";
-                break;
+                return "점심";
             case "DINNER":
-                mealTime = "저녁";
-                break;
+                return "저녁";
             default:
                 return mealTime;
         }
     }
-
 }

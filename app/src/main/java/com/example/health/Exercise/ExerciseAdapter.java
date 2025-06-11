@@ -1,9 +1,4 @@
-// ExerciseAdapter.java
-<<<<<<<< HEAD:app/src/main/java/com/example/health/Exercise/ExerciseAdapter.java
 package com.example.health.Exercise;
-========
-package com.example.resister.Request.Exercise;
->>>>>>>> feat/diet:app/src/main/java/com/example/resister/Request/Exercise/ExerciseAdapter.java
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,13 +10,8 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-<<<<<<<< HEAD:app/src/main/java/com/example/health/Exercise/ExerciseAdapter.java
 import com.example.health.DTO.ExerciseDto;
 import com.example.health.R;
-========
-import com.example.resister.DTO.ExerciseDto;
->>>>>>>> feat/diet:app/src/main/java/com/example/resister/Request/Exercise/ExerciseAdapter.java
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 

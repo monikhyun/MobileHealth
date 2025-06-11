@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:app/src/main/java/com/example/health/Diet/DietAddActivity.java
 package com.example.health.Diet;
-========
-package com.example.resister.Diet;
->>>>>>>> feat/diet:app/src/main/java/com/example/resister/Diet/DietAddActivity.java
 
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -27,7 +23,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
-<<<<<<<< HEAD:app/src/main/java/com/example/health/Diet/DietAddActivity.java
 import com.example.health.Friend.FriendListActivity;
 import com.example.health.R;
 import com.example.health.Exercise.ExerciseListActivity;
@@ -35,12 +30,6 @@ import com.example.health.Auth.MainActivity;
 import com.example.health.Request.Diet.DietInsertRequest;
 import com.example.health.Request.Diet.DietUpdateRequest;
 import com.example.health.Stats.StatusActivity;
-========
-import com.example.health.R;
-import com.example.resister.Auth.MainActivity;
-import com.example.resister.Request.Diet.DietInsertRequest;
-import com.example.resister.Request.Diet.DietUpdateRequest;
->>>>>>>> feat/diet:app/src/main/java/com/example/resister/Diet/DietAddActivity.java
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -49,16 +38,13 @@ import java.util.Locale;
 
 public class DietAddActivity extends AppCompatActivity {
     private EditText editName, editCal, editCarb, editProtein, editFat;
-    ImageView iconWorkout,icon_meal, icon_freinds,icon_stats,icon_home;
     private Button btnSubmit, btnCancel, btnBreakfast, btnLunch, btnDinner;
+    private Spinner topDropdownSpinner;
+    private boolean isFirst = true;
+    ImageView iconWorkout,icon_meal, icon_freinds,icon_stats,icon_home;
 
     private String mealtime = "";
 
-<<<<<<<< HEAD:app/src/main/java/com/example/health/Diet/DietAddActivity.java
-    private boolean isFirst = true;
-========
->>>>>>>> feat/diet:app/src/main/java/com/example/resister/Diet/DietAddActivity.java
-    private Spinner topDropdownSpinner;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +82,7 @@ public class DietAddActivity extends AppCompatActivity {
         );
         adapter.setDropDownViewResource(R.layout.spinner_item_bold);
         topDropdownSpinner.setAdapter(adapter);
-<<<<<<<< HEAD:app/src/main/java/com/example/health/Diet/DietAddActivity.java
+
         topDropdownSpinner.setSelection(2);
         topDropdownSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -105,11 +91,6 @@ public class DietAddActivity extends AppCompatActivity {
                     isFirst = false;
                     return;
                 }
-========
-        topDropdownSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
->>>>>>>> feat/diet:app/src/main/java/com/example/resister/Diet/DietAddActivity.java
                 switch (position) {
                     case 0: // 홈
                         startActivity(new Intent(DietAddActivity.this, MainActivity.class));
@@ -118,7 +99,6 @@ public class DietAddActivity extends AppCompatActivity {
                         startActivity(new Intent(DietAddActivity.this, ExerciseListActivity.class));
                         break;
                     case 2: // 식단
-                        startActivity(new Intent(DietAddActivity.this, DietActivity.class));
                         break;
                     case 3: // 친구
                         startActivity(new Intent(DietAddActivity.this, FriendListActivity.class));
@@ -255,5 +235,17 @@ public class DietAddActivity extends AppCompatActivity {
         // 선택된 버튼만 배경 강조
         selectedButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFB6C1")));
     }
-}
 
+    private String getKorean(String mealTime) {
+        switch (mealTime) {
+            case "BREAKFAST":
+                return "아침";
+            case "LUNCH":
+                return "점심";
+            case "DINNER":
+                return "저녁";
+            default:
+                return mealTime;
+        }
+    }
+}

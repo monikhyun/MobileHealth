@@ -1,11 +1,6 @@
-<<<<<<<< HEAD:app/src/main/java/com/example/health/DTO/ExerciseRecordDto.java
 package com.example.health.DTO;
-========
-package com.example.resister.DTO;
->>>>>>>> feat/diet:app/src/main/java/com/example/resister/DTO/ExerciseRecordDto.java
 
 import java.math.BigDecimal;
-
 public class ExerciseRecordDto {
     private Integer setCount;
     private Integer count;
