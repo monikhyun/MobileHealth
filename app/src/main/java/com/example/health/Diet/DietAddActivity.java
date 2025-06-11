@@ -5,8 +5,13 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 import android.content.Intent;
 
@@ -17,29 +22,29 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.health.Friend.FriendListActivity;
 import com.example.health.R;
+import com.example.health.Exercise.ExerciseListActivity;
+import com.example.health.Auth.MainActivity;
 import com.example.health.Request.Diet.DietInsertRequest;
 import com.example.health.Request.Diet.DietUpdateRequest;
+import com.example.health.Stats.StatusActivity;
 
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 public class DietAddActivity extends AppCompatActivity {
     private EditText editName, editCal, editCarb, editProtein, editFat;
+    ImageView iconWorkout,icon_meal, icon_freinds,icon_stats,icon_home;
     private Button btnSubmit, btnCancel, btnBreakfast, btnLunch, btnDinner;
 
     private String mealtime = "";
 
+    private boolean isFirst = true;
+    private Spinner topDropdownSpinner;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,10 +64,54 @@ public class DietAddActivity extends AppCompatActivity {
         btnBreakfast = findViewById(R.id.btnBreakfast);
         btnLunch = findViewById(R.id.btnLunch);
         btnDinner = findViewById(R.id.btnDinner);
+        icon_home = findViewById(R.id.icon_home);
+        icon_freinds = findViewById(R.id.icon_friends);
+        iconWorkout = findViewById(R.id.icon_workout);
+        icon_meal = findViewById(R.id.icon_meal);
+        icon_stats = findViewById(R.id.icon_stats);
 
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         String userID = prefs.getString("USER_ID", null);  // 없으면 null 반환
 
+        topDropdownSpinner = findViewById(R.id.topDropdownSpinner);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.menu_items,
+                R.layout.spinner_item_bold
+        );
+        adapter.setDropDownViewResource(R.layout.spinner_item_bold);
+        topDropdownSpinner.setAdapter(adapter);
+        topDropdownSpinner.setSelection(2);
+        topDropdownSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (isFirst){
+                    isFirst = false;
+                    return;
+                }
+                switch (position) {
+                    case 0: // 홈
+                        startActivity(new Intent(DietAddActivity.this, MainActivity.class));
+                        break;
+                    case 1: // 운동
+                        startActivity(new Intent(DietAddActivity.this, ExerciseListActivity.class));
+                        break;
+                    case 2: // 식단
+                        startActivity(new Intent(DietAddActivity.this, DietActivity.class));
+                        break;
+                    case 3: // 친구
+                        startActivity(new Intent(DietAddActivity.this, FriendListActivity.class));
+                        break;
+                    case 4: // 통계
+                        startActivity(new Intent(DietAddActivity.this, StatusActivity.class));
+                        break;
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
         if (userID != null) {
             // 정상적으로 꺼내진 경우
             Log.d("USER_ID", userID);
@@ -134,6 +183,45 @@ public class DietAddActivity extends AppCompatActivity {
         });
 
         btnCancel.setOnClickListener(v -> finish());
+
+
+        icon_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DietAddActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        iconWorkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DietAddActivity.this, ExerciseListActivity.class);
+                startActivity(intent);
+            }
+        });
+        icon_meal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DietAddActivity.this, DietActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        icon_freinds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DietAddActivity.this, FriendListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        icon_stats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DietAddActivity.this, StatusActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setMealtime(String time, Button selectedButton) {
