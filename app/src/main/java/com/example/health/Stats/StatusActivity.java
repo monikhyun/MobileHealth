@@ -1,5 +1,8 @@
 package com.example.health.Stats;
+
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Locale;
 
 import android.content.Intent;
@@ -11,12 +14,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -40,6 +45,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.android.gms.auth.api.signin.*;
+import com.google.android.gms.fitness.*;
+import com.google.android.gms.fitness.data.*;
+import com.google.android.gms.fitness.request.*;
+import com.google.android.gms.fitness.result.*;
+
+import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.List;
@@ -47,7 +60,10 @@ import java.util.List;
 public class StatusActivity extends AppCompatActivity {
     private String userId;
     boolean isFirst = true;
-    ImageView iconWorkout,icon_meal, icon_freinds,icon_stats,icon_home;
+    ImageView iconWorkout, icon_meal, icon_freinds, icon_stats, icon_home;
+
+    TextView runTime, kcalText;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +78,8 @@ public class StatusActivity extends AppCompatActivity {
         iconWorkout = findViewById(R.id.icon_workout);
         icon_meal = findViewById(R.id.icon_meal);
         icon_stats = findViewById(R.id.icon_stats);
-
+        runTime = findViewById(R.id.runTime);
+        kcalText = findViewById(R.id.KcalText);
         Spinner topDropdownSpinner = findViewById(R.id.topDropdownSpinner);
 
         ArrayAdapter<CharSequence> topAdapter = ArrayAdapter.createFromResource(
@@ -76,7 +93,7 @@ public class StatusActivity extends AppCompatActivity {
         topDropdownSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (isFirst){
+                if (isFirst) {
                     isFirst = false;
                     return;
                 }
@@ -85,7 +102,8 @@ public class StatusActivity extends AppCompatActivity {
                         startActivity(new Intent(StatusActivity.this, MainActivity.class));
                         break;
                     case 1: // 운동
-                        startActivity(new Intent(StatusActivity.this, ExerciseListActivity.class));;
+                        startActivity(new Intent(StatusActivity.this, ExerciseListActivity.class));
+                        ;
                         break;
                     case 2: // 식단
                         startActivity(new Intent(StatusActivity.this, DietActivity.class));
@@ -97,6 +115,7 @@ public class StatusActivity extends AppCompatActivity {
                         break;
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -117,7 +136,8 @@ public class StatusActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(android.widget.AdapterView<?> parent) { }
+            public void onNothingSelected(android.widget.AdapterView<?> parent) {
+            }
         });
 
         InBodyChartSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -132,6 +152,12 @@ public class StatusActivity extends AppCompatActivity {
 
             }
         });
+
+        // runTime 표시
+        setRunTimeText();
+        // Kcal계산 메서드
+        fetchKcal();
+
         iconWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -244,7 +270,7 @@ public class StatusActivity extends AppCompatActivity {
                     }
 
                     // BarDataSet 생성 및 값 포매터
-                    BarDataSet dataSet = new BarDataSet(entries,"");
+                    BarDataSet dataSet = new BarDataSet(entries, "");
                     dataSet.setValueFormatter(new ValueFormatter() {
                         @Override
                         public String getBarLabel(BarEntry barEntry) {
@@ -296,7 +322,7 @@ public class StatusActivity extends AppCompatActivity {
 
     private void fetchInBodyBarChart(String type) {
         // 인바디 API URL 구성 및 View 초기화
-        if (type.equals("fat_percent")){
+        if (type.equals("fat_percent")) {
             type = "fat";
         }
         String url = "http://10.0.2.2:8080/api/stats/inbody/" + type + "/" + userId;
@@ -526,18 +552,84 @@ public class StatusActivity extends AppCompatActivity {
                 return "all";
         }
     }
-
     // 바 차트 데이터 한글 라벨 변환
     private String getKoreanLabel(String key) {
         switch (key) {
-            case "weight": return "체중";
-            case "SMM": return "골격근량";
-            case "LBM": return "제지방량";
-            case "BMI": return "BMI";
-            case "fat": return "체지방률";
-            default: return key;
+            case "weight":
+                return "체중";
+            case "SMM":
+                return "골격근량";
+            case "LBM":
+                return "제지방량";
+            case "BMI":
+                return "BMI";
+            case "fat":
+                return "체지방률";
+            default:
+                return key;
         }
     }
+    private void fetchKcal(){
+        String url = "http://10.0.2.2:8080/api/stats/daily/" + userId;
 
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject dayObj = response.getJSONObject(i);
+                            String date = dayObj.getString("startDate");
+
+                            if (today.equals(date)) {
+                                // 운동 볼륨을 칼로리로 변환
+                                int volume = dayObj.getInt("total");
+                                int calories = volume / 100;
+
+                                kcalText.setText(calories + " kcal /일");
+                                break;
+                            }
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        kcalText.setText("불러오기 오류");
+                    }
+                },
+                error -> {
+                    error.printStackTrace();
+                    kcalText.setText("네트워크 오류");
+                }
+        );
+
+        queue.add(request);
+    }
+    private void setRunTimeText(){
+        String url = "http://10.0.2.2:8080/api/home/activity/" + userId;
+        // rumTime 가져오기
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        int minutes = response.getInt("totalExerciseMinutes");
+                        if (minutes < 60) {
+                            runTime.setText(minutes + "초");
+                        } else {
+                            runTime.setText(minutes / 60 + "분");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        runTime.setText("0분");
+                    }
+                },
+                error -> {
+                    error.printStackTrace();
+                    runTime.setText("0분");
+                });
+
+        queue.add(request);
+    }
 }
 

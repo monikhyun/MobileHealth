@@ -1,5 +1,4 @@
 package com.example.health.DTO;
-
 public class ExerciseDto {
     public final String bodyPart;
     public final String exerciseName;

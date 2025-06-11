@@ -1,7 +1,6 @@
 package com.example.health.DTO;
 
 import java.math.BigDecimal;
-
 public class ExerciseRecordDto {
     private Integer setCount;
     private Integer count;

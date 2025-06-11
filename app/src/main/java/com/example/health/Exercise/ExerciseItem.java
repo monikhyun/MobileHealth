@@ -1,5 +1,4 @@
 package com.example.health.Exercise;
-
 public  class ExerciseItem {
     public final String bodyPart;
     public final String exerciseName;

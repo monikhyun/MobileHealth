@@ -1,4 +1,3 @@
-// ExerciseAdapter.java
 package com.example.health.Exercise;
 
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.health.DTO.ExerciseDto;
 import com.example.health.R;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 

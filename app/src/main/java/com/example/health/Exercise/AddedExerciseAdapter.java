@@ -1,4 +1,3 @@
-// src/main/java/com/example/health/Exercise/AddedExerciseAdapter.java
 package com.example.health.Exercise;
 
 import android.view.LayoutInflater;

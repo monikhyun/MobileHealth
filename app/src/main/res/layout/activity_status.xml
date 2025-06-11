@@ -182,6 +182,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/KcalText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="/일"
@@ -196,6 +197,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/runTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1212"

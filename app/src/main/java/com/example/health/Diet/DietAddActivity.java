@@ -38,13 +38,13 @@ import java.util.Locale;
 
 public class DietAddActivity extends AppCompatActivity {
     private EditText editName, editCal, editCarb, editProtein, editFat;
-    ImageView iconWorkout,icon_meal, icon_freinds,icon_stats,icon_home;
     private Button btnSubmit, btnCancel, btnBreakfast, btnLunch, btnDinner;
+    private Spinner topDropdownSpinner;
+    private boolean isFirst = true;
+    ImageView iconWorkout,icon_meal, icon_freinds,icon_stats,icon_home;
 
     private String mealtime = "";
 
-    private boolean isFirst = true;
-    private Spinner topDropdownSpinner;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +82,7 @@ public class DietAddActivity extends AppCompatActivity {
         );
         adapter.setDropDownViewResource(R.layout.spinner_item_bold);
         topDropdownSpinner.setAdapter(adapter);
+
         topDropdownSpinner.setSelection(2);
         topDropdownSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -98,7 +99,6 @@ public class DietAddActivity extends AppCompatActivity {
                         startActivity(new Intent(DietAddActivity.this, ExerciseListActivity.class));
                         break;
                     case 2: // 식단
-                        startActivity(new Intent(DietAddActivity.this, DietActivity.class));
                         break;
                     case 3: // 친구
                         startActivity(new Intent(DietAddActivity.this, FriendListActivity.class));
@@ -236,4 +236,3 @@ public class DietAddActivity extends AppCompatActivity {
         selectedButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFB6C1")));
     }
 }
-
