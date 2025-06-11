@@ -1,5 +1,5 @@
 // AddedExerciseAdapter.java
-package com.example.resister;
+package com.example.resister.Request.Exercise;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
-import com.example.resister.ExerciseItem;
 
 public class AddedExerciseAdapter
         extends RecyclerView.Adapter<AddedExerciseAdapter.ViewHolder> {

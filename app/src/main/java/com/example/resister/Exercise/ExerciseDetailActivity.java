@@ -20,7 +20,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.resister.ExerciseRecordDto;
+import com.example.resister.DTO.ExerciseRecordDto;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

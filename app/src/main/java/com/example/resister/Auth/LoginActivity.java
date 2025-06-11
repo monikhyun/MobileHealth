@@ -1,4 +1,4 @@
-package com.example.resister;
+package com.example.resister.Auth;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

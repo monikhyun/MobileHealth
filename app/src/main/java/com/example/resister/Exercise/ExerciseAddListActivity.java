@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.resister.ExerciseAdapter;
+import com.example.resister.Request.Exercise.ExerciseAdapter;
 import com.example.resister.Diet.ExerciseListActivity;
 import com.example.resister.Request.Exercise.ExerciseAddRequest;
 import com.example.resister.Request.Exercise.ExerciseListRequest;

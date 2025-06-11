@@ -24,7 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.health.R;
-import com.example.resister.MainActivity;
+import com.example.resister.Auth.MainActivity;
 import com.example.resister.Request.Diet.DietInsertRequest;
 import com.example.resister.Request.Diet.DietUpdateRequest;
 

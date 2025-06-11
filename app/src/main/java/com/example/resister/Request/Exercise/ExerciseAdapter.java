@@ -1,5 +1,5 @@
 // ExerciseAdapter.java
-package com.example.resister;
+package com.example.resister.Request.Exercise;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,8 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.resister.DTO.ExerciseDto;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.example.resister;
+package com.example.resister.Request.Exercise;
 
 public  class ExerciseItem {
     public final String bodyPart;
