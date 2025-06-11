@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.graphics.Rect;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -158,8 +159,14 @@ public class ExerciseAddListActivity extends AppCompatActivity {
                         try {
                             localDate = LocalDate.parse(display, inputFmt);
                         } catch (DateTimeParseException e) {
-                            Toast.makeText(this,
-                                    "날짜 파싱 오류: " + display, Toast.LENGTH_SHORT).show();
+                            View toastView = LayoutInflater.from(this)
+                                    .inflate(R.layout.toast_friend_request, null);
+                            TextView tv = toastView.findViewById(R.id.text_toast_message);
+                            tv.setText("날짜 파싱 오류 : " + display);
+                            Toast t = new Toast(this);
+                            t.setView(toastView);
+                            t.setDuration(Toast.LENGTH_SHORT);
+                            t.show();
                             return;
                         }
                         String isoDate = localDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
@@ -170,13 +177,25 @@ public class ExerciseAddListActivity extends AppCompatActivity {
                                 isoDate,
                                 item.exerciseName,
                                 response -> {
-                                    Toast.makeText(this,
-                                            "운동 추가 완료", Toast.LENGTH_SHORT).show();
+                                    View toastView = LayoutInflater.from(this)
+                                            .inflate(R.layout.toast_friend_request, null);
+                                    TextView tv = toastView.findViewById(R.id.text_toast_message);
+                                    tv.setText("운동 추가 완료");
+                                    Toast t = new Toast(this);
+                                    t.setView(toastView);
+                                    t.setDuration(Toast.LENGTH_SHORT);
+                                    t.show();
                                     // 선택된 날짜와 운동이 넘어간 뒤, 목록 화면으로 돌아감
                                 },
                                 error -> {
-                                    Toast.makeText(this,
-                                            "운동 추가 실패", Toast.LENGTH_SHORT).show();
+                                    View toastView = LayoutInflater.from(this)
+                                            .inflate(R.layout.toast_friend_request, null);
+                                    TextView tv = toastView.findViewById(R.id.text_toast_message);
+                                    tv.setText("운동 추가 실패");
+                                    Toast t = new Toast(this);
+                                    t.setView(toastView);
+                                    t.setDuration(Toast.LENGTH_SHORT);
+                                    t.show();
                                 }
                         );
                         Volley.newRequestQueue(this).add(addReq);
@@ -202,8 +221,14 @@ public class ExerciseAddListActivity extends AppCompatActivity {
             String userId = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
                     .getString("USER_ID", null);
             if (jwtToken == null || userId == null) {
-                Toast.makeText(this,
-                        "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
+                View toastView = LayoutInflater.from(this)
+                        .inflate(R.layout.toast_friend_request, null);
+                TextView tv = toastView.findViewById(R.id.text_toast_message);
+                tv.setText("로그인이 필요합니다.");
+                Toast t = new Toast(this);
+                t.setView(toastView);
+                t.setDuration(Toast.LENGTH_SHORT);
+                t.show();
                 return;
             }
             // 스피너/검색어 파라미터 준비
@@ -218,8 +243,14 @@ public class ExerciseAddListActivity extends AppCompatActivity {
                     bodyPartParam,
                     nameParam,
                     response -> finalAdapter.updateDataJSONArray(response),
-                    error -> Toast.makeText(this,
-                            "검색 실패", Toast.LENGTH_SHORT).show()
+                    error -> {View toastView = LayoutInflater.from(this)
+                            .inflate(R.layout.toast_friend_request, null);
+                        TextView tv = toastView.findViewById(R.id.text_toast_message);
+                        tv.setText("검색 실패");
+                        Toast t = new Toast(this);
+                        t.setView(toastView);
+                        t.setDuration(Toast.LENGTH_SHORT);
+                        t.show();}
             );
             Volley.newRequestQueue(this).add(searchReq);
         });
@@ -257,8 +288,14 @@ public class ExerciseAddListActivity extends AppCompatActivity {
                                     }
                                     adapter.updateDataJSONArray(arr);
                                 },
-                                err -> Toast.makeText(this,
-                                        "전체 운동 조회 실패", Toast.LENGTH_SHORT).show()
+                                err ->{View toastView = LayoutInflater.from(this)
+                                        .inflate(R.layout.toast_friend_request, null);
+                                    TextView tv = toastView.findViewById(R.id.text_toast_message);
+                                    tv.setText("전체 운동 조회 실패");
+                                    Toast t = new Toast(this);
+                                    t.setView(toastView);
+                                    t.setDuration(Toast.LENGTH_SHORT);
+                                    t.show();}
                         );
                         Volley.newRequestQueue(this).add(allReq);
                     },
@@ -267,8 +304,14 @@ public class ExerciseAddListActivity extends AppCompatActivity {
                         ExerciseListRequest allReq = ExerciseListRequest.getAll(
                                 jwtToken,
                                 arr -> adapter.updateDataJSONArray(arr),
-                                error -> Toast.makeText(this,
-                                        "운동 목록 조회 실패", Toast.LENGTH_SHORT).show()
+                                error -> {View toastView = LayoutInflater.from(this)
+                                        .inflate(R.layout.toast_friend_request, null);
+                                    TextView tv = toastView.findViewById(R.id.text_toast_message);
+                                    tv.setText("운동 목록 조회 실패");
+                                    Toast t = new Toast(this);
+                                    t.setView(toastView);
+                                    t.setDuration(Toast.LENGTH_SHORT);
+                                    t.show();}
                         );
                         Volley.newRequestQueue(this).add(allReq);
                     }

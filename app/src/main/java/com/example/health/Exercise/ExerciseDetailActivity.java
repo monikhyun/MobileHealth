@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.health.Auth.MainActivity;
 import com.example.health.DTO.ExerciseRecordDto;
 import com.example.health.Diet.DietActivity;
@@ -147,28 +148,37 @@ public class ExerciseDetailActivity extends AppCompatActivity {
 
                             ImageView iv = findViewById(R.id.image_exercise);
                             String imagePath = resp.optString("exerciseImagePath", null);
-                            if (imagePath != null) {
-                                int resId = getResources().getIdentifier(
-                                        imagePath, "drawable", getPackageName());
-                                if (resId != 0) {
-                                    iv.setImageResource(resId);
-                                } else {
-                                    iv.setImageResource(R.drawable.logo);
-                                }
+                            if (!imagePath.isEmpty()) {
+                                Glide.with(this)
+                                        .load(imagePath)
+                                        .into(iv);
                             } else {
                                 iv.setImageResource(R.drawable.logo);
                             }
                         });
                     },
                     error -> {
-                        Log.e("EXERCISE_META", "메타데이터 로드 실패", error);
-                        Toast.makeText(this, "메타데이터 로드 실패", Toast.LENGTH_SHORT).show();
+                        View toastView = LayoutInflater.from(this)
+                                .inflate(R.layout.toast_friend_request, null);
+                        TextView tv = toastView.findViewById(R.id.text_toast_message);
+                        tv.setText("메타데이터 로드 실패");
+                        Toast t = new Toast(this);
+                        t.setView(toastView);
+                        t.setDuration(Toast.LENGTH_SHORT);
+                        t.show();
                     }
             );
             requestQueue.add(req);
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this, "메타데이터 요청 생성 중 오류", Toast.LENGTH_SHORT).show();
+            View toastView = LayoutInflater.from(this)
+                    .inflate(R.layout.toast_friend_request, null);
+            TextView tv = toastView.findViewById(R.id.text_toast_message);
+            tv.setText("메타데이터 로드 실패");
+            Toast t = new Toast(this);
+            t.setView(toastView);
+            t.setDuration(Toast.LENGTH_SHORT);
+            t.show();
         }
     }
 
@@ -199,7 +209,14 @@ public class ExerciseDetailActivity extends AppCompatActivity {
                 String kgStr   = inputKg.getText().toString().trim();
                 String repsStr = inputReps.getText().toString().trim();
                 if (kgStr.isEmpty() || repsStr.isEmpty()) {
-                    Toast.makeText(this, "무게와 반복 수를 입력해주세요", Toast.LENGTH_SHORT).show();
+                    View toastView = LayoutInflater.from(this)
+                            .inflate(R.layout.toast_friend_request, null);
+                    TextView tv = toastView.findViewById(R.id.text_toast_message);
+                    tv.setText("무게와 반복 수를 입력해주세요");
+                    Toast t = new Toast(this);
+                    t.setView(toastView);
+                    t.setDuration(Toast.LENGTH_SHORT);
+                    t.show();
                     completeCheck.setChecked(false);
                     return;
                 }
@@ -222,14 +239,28 @@ public class ExerciseDetailActivity extends AppCompatActivity {
                         },
                         error -> {
                             Log.e("EXERCISE_SAVE", "저장 실패", error);
-                            Toast.makeText(this, "저장 실패", Toast.LENGTH_SHORT).show();
+                            View toastView = LayoutInflater.from(this)
+                                    .inflate(R.layout.toast_friend_request, null);
+                            TextView tv = toastView.findViewById(R.id.text_toast_message);
+                            tv.setText("저장 실패");
+                            Toast t = new Toast(this);
+                            t.setView(toastView);
+                            t.setDuration(Toast.LENGTH_SHORT);
+                            t.show();
                             completeCheck.setChecked(false);
                         }
                 );
                 requestQueue.add(recordReq);
             } catch (Exception ex) {
                 Log.e("EXERCISE_SAVE", "예외 발생", ex);
-                Toast.makeText(this, "입력값 오류", Toast.LENGTH_SHORT).show();
+                View toastView = LayoutInflater.from(this)
+                        .inflate(R.layout.toast_friend_request, null);
+                TextView tv = toastView.findViewById(R.id.text_toast_message);
+                tv.setText("입력 값 오류");
+                Toast t = new Toast(this);
+                t.setView(toastView);
+                t.setDuration(Toast.LENGTH_SHORT);
+                t.show();
                 completeCheck.setChecked(false);
             }
         });
@@ -295,7 +326,14 @@ public class ExerciseDetailActivity extends AppCompatActivity {
                 },
                 error -> {
                     Log.e("LOAD_RECORDS", "기록 조회 실패", error);
-                    Toast.makeText(this, "기록 조회 실패", Toast.LENGTH_SHORT).show();
+                    View toastView = LayoutInflater.from(this)
+                            .inflate(R.layout.toast_friend_request, null);
+                    TextView tv = toastView.findViewById(R.id.text_toast_message);
+                    tv.setText("기록 조회 실패");
+                    Toast t = new Toast(this);
+                    t.setView(toastView);
+                    t.setDuration(Toast.LENGTH_SHORT);
+                    t.show();
                     addSetView();
                 }
         );
@@ -329,14 +367,26 @@ public class ExerciseDetailActivity extends AppCompatActivity {
                     exerciseName,
                     dto.getSetCount(),
                     response -> {
-                        Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+                        View toastView = LayoutInflater.from(this)
+                                .inflate(R.layout.toast_friend_request, null);
+                        TextView tv = toastView.findViewById(R.id.text_toast_message);
+                        tv.setText(response);
+                        Toast t = new Toast(this);
+                        t.setView(toastView);
+                        t.setDuration(Toast.LENGTH_SHORT);
+                        t.show();
                         loadRecords();
                     },
                     error -> {
                         Log.e("DELETE_REQ", "삭제 실패", error);
-                        Toast.makeText(this,
-                                "삭제 실패: " + error.getMessage(),
-                                Toast.LENGTH_SHORT).show();
+                        View toastView = LayoutInflater.from(this)
+                                .inflate(R.layout.toast_friend_request, null);
+                        TextView tv = toastView.findViewById(R.id.text_toast_message);
+                        tv.setText("삭제 실패 : " + error.getMessage());
+                        Toast t = new Toast(this);
+                        t.setView(toastView);
+                        t.setDuration(Toast.LENGTH_SHORT);
+                        t.show();
                     }
             );
             requestQueue.add(delReq);
@@ -348,8 +398,14 @@ public class ExerciseDetailActivity extends AppCompatActivity {
                 String kgStr   = kg.getText().toString().trim();
                 String repsStr = reps.getText().toString().trim();
                 if (kgStr.isEmpty() || repsStr.isEmpty()) {
-                    Toast.makeText(this,
-                            "무게와 반복 수를 입력해주세요", Toast.LENGTH_SHORT).show();
+                    View toastView = LayoutInflater.from(this)
+                            .inflate(R.layout.toast_friend_request, null);
+                    TextView tv = toastView.findViewById(R.id.text_toast_message);
+                    tv.setText("무게와 반복 수를 입력해주세요");
+                    Toast t = new Toast(this);
+                    t.setView(toastView);
+                    t.setDuration(Toast.LENGTH_SHORT);
+                    t.show();
                     cb.setChecked(!isChecked);
                     return;
                 }
@@ -371,15 +427,28 @@ public class ExerciseDetailActivity extends AppCompatActivity {
                         },
                         error -> {
                             Log.e("EXERCISE_SAVE", "저장 실패", error);
-                            Toast.makeText(this,
-                                    "저장 실패", Toast.LENGTH_SHORT).show();
+                            View toastView = LayoutInflater.from(this)
+                                    .inflate(R.layout.toast_friend_request, null);
+                            TextView tv = toastView.findViewById(R.id.text_toast_message);
+                            tv.setText("저장 실패");
+                            Toast t = new Toast(this);
+                            t.setView(toastView);
+                            t.setDuration(Toast.LENGTH_SHORT);
+                            t.show();
                             cb.setChecked(!isChecked);
                         }
                 );
                 requestQueue.add(recordReq);
             } catch (Exception ex) {
                 Log.e("EXERCISE_SAVE", "예외 발생", ex);
-                Toast.makeText(this, "입력값 오류", Toast.LENGTH_SHORT).show();
+                View toastView = LayoutInflater.from(this)
+                        .inflate(R.layout.toast_friend_request, null);
+                TextView tv = toastView.findViewById(R.id.text_toast_message);
+                tv.setText("입력 값 오류");
+                Toast t = new Toast(this);
+                t.setView(toastView);
+                t.setDuration(Toast.LENGTH_SHORT);
+                t.show();
                 cb.setChecked(!isChecked);
             }
         });

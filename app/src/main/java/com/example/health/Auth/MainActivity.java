@@ -21,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.health.Diet.DietActivity;
 import com.example.health.Exercise.ExerciseListActivity;
 import com.example.health.Friend.FriendListActivity;
+import com.example.health.Home.MyPageActivity;
 import com.example.health.Stats.StatusActivity;
 
 import com.example.health.R;
@@ -93,8 +94,28 @@ public class MainActivity extends AppCompatActivity {
         } else {
             readFitData(account);
         }
+        profile = findViewById(R.id.btn_profile);
+
+        Spinner spinner = findViewById(R.id.topDropdownSpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.menu_items,
+                R.layout.spinner_item_bold
+        );
+        adapter.setDropDownViewResource(R.layout.spinner_item_bold);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selected = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
         // 1) SharedPreferences 열기
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+
         // 2) USER_ID 읽어오기 (없으면 null)
         String userID = prefs.getString("USER_ID", null);
         Spinner topDropdownSpinner = findViewById(R.id.topDropdownSpinner);
@@ -193,6 +214,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        findViewById(R.id.nav_stats).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, StatusActivity.class);
+            startActivity(intent);
+        });
         icon_meal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,6 +238,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, StatusActivity.class);
+                startActivity(intent);
+            }
+        });
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MyPageActivity.class);
                 startActivity(intent);
             }
         });
