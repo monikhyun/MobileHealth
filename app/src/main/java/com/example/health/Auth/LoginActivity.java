@@ -49,12 +49,10 @@ public class LoginActivity extends AppCompatActivity {
                 final String userID = etId.getText().toString();
                 final String userPasswd = etPasswd.getText().toString();
 
-                // 응답으로 NetworkResponse를 받도록 리스너 타입 변경
                 Response.Listener<NetworkResponse> responseListener = new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
                         try {
-                            // 1) 바디 파싱
                             String body = new String(response.data, StandardCharsets.UTF_8);
                             JSONObject jsonResponse = new JSONObject(body);
                             boolean success = jsonResponse.getBoolean("success");

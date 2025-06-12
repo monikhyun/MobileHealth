@@ -36,7 +36,6 @@ public class ExerciseTimeLogRecordRequest extends StringRequest {
     private final String jwtToken;
 
     private static String buildUrl(String userId, String isoDate, int seconds) throws Exception {
-        // seconds 는 Integer path variable 이므로 인코딩 불필요
         return "http://10.0.2.2:8080/api/exercise/timer/"
                 + URLEncoder.encode(userId, StandardCharsets.UTF_8.toString())
                 + "/" + isoDate

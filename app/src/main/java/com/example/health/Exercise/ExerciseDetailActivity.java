@@ -53,7 +53,10 @@ public class ExerciseDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // 액션바 숨기기
+        // 액션바(상단 제목 바)를 숨겨 전체화면 레이아웃 구성
+        // 이 화면은 상단에 날짜 텍스트(textDate)와 커스텀 아이콘(뒤로가기 등)을 직접 배치하여
+        // 기본 액션바(앱 타이틀, 메뉴 등)가 필요 없으므로 액션바를 숨깁니다.
+        // 이렇게 하면 앱의 디자인 일관성과 사용자 경험을 높일 수 있습니다.
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }

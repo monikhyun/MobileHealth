@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InBodyListRequest extends StringRequest {
-    // TODO: 서버 주소를 실제 엔드포인트에 맞춰 변경하세요
     private static final String BASE_URL = "http://10.0.2.2:8080/api/home/profile/inbody/";
     private final Map<String, String> headers = new HashMap<>();
 

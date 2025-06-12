@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 
 public class AddedExercisesRequest extends JsonArrayRequest {
 
-    // Base URL (자신의 환경에 맞게 수정)
+
     private static final String BASE_URL = "http://10.0.2.2:8080/api/exercise/add/todo/";
 
     public AddedExercisesRequest(

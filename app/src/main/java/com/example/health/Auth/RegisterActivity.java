@@ -165,7 +165,6 @@ public class RegisterActivity extends AppCompatActivity {
                 String userPassword = etPasswd.getText().toString();
                 String userName = etName.getText().toString();
 
-                //TODO. validate 값에 따라 중복체크 요청 후 종료 처리
                 if (userID.equals("") || userPassword.equals("") || userName.equals("")
                        || userGender.equals("")) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);

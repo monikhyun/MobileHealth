@@ -63,6 +63,9 @@ public class ExerciseListActivity extends AppCompatActivity {
     // 타이머 관련
     private Handler timerHandler = new Handler(Looper.getMainLooper());
     private boolean isTimerRunning = false;
+    // 운동 타이머에 사용되는 경과 시간 변수 (단위: 초)
+    // 운동이 시작되면 1초마다 증가하며, 중지 시 서버에 저장됨
+    // 이 변수는 타이머 UI(TextView)와 서버 기록 모두에 사용됨
     private int elapsedSeconds = 0;
 
     // 1초마다 호출될 Runnable
