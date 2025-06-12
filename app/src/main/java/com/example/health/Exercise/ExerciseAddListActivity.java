@@ -137,7 +137,7 @@ public class ExerciseAddListActivity extends AppCompatActivity {
             }
         });
 
-        // 어댑터 생성 (null-safe 버전)
+        // 어댑터 생성
         ExerciseAdapter adapter;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             adapter = new ExerciseAdapter(

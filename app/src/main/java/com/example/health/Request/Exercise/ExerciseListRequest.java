@@ -1,9 +1,12 @@
 package com.example.health.Request.Exercise;
 
+import android.content.Context;
+
 import androidx.annotation.Nullable;
 
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 
@@ -102,5 +105,9 @@ public class ExerciseListRequest extends JsonArrayRequest {
         } catch (UnsupportedEncodingException e) {
             return s;
         }
+    }
+
+    public void addToRequestQueue(Context ctx) {
+        Volley.newRequestQueue(ctx).add(this);
     }
 }

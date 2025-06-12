@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,6 +37,8 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.DataType;
@@ -79,12 +82,21 @@ public class MainActivity extends AppCompatActivity {
         fitnessOptions = FitnessOptions.builder()
                 .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
                 .addDataType(DataType.TYPE_DISTANCE_DELTA, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
                 .build();
 
-        GoogleSignInAccount account = GoogleSignIn.getAccountForExtension(this, fitnessOptions);
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
-        // 권한 확인 및 요청
-        if (!GoogleSignIn.hasPermissions(account, fitnessOptions)) {
+        if (account == null) {
+            Log.e("FitDebug", "account is null — 사용자 로그인이 필요함");
+
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .addExtension(fitnessOptions)
+                    .build();
+            GoogleSignInClient signInClient = GoogleSignIn.getClient(this, gso);
+            startActivityForResult(signInClient.getSignInIntent(), GOOGLE_FIT_PERMISSIONS_REQUEST_CODE);
+
+        } else if (!GoogleSignIn.hasPermissions(account, fitnessOptions)) {
             GoogleSignIn.requestPermissions(
                     this,
                     GOOGLE_FIT_PERMISSIONS_REQUEST_CODE,
@@ -99,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
 
         // 1) SharedPreferences 열기
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-
         // 2) USER_ID 읽어오기 (없으면 null)
         String userID = prefs.getString("USER_ID", null);
         Spinner topDropdownSpinner = findViewById(R.id.topDropdownSpinner);
@@ -339,33 +350,52 @@ public class MainActivity extends AppCompatActivity {
     }
     private void readFitData(GoogleSignInAccount account) {
         // 걸음 수
-        Fitness.getHistoryClient(this, account)
+        Fitness.getHistoryClient(getApplicationContext(), account)
                 .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
                 .addOnSuccessListener(dataSet -> {
                     int totalSteps = dataSet.isEmpty() ? 0 :
                             dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
                     stepCountText.setText(String.format("%,d", totalSteps));
-                });
+                })
+                .addOnFailureListener(e -> Log.e("FitData", "Failed to read steps", e));
 
         // 이동 거리
-        Fitness.getHistoryClient(this, account)
+        Fitness.getHistoryClient(getApplicationContext(), account)
                 .readDailyTotal(DataType.TYPE_DISTANCE_DELTA)
                 .addOnSuccessListener(dataSet -> {
                     float distance = dataSet.isEmpty() ? 0f :
                             dataSet.getDataPoints().get(0).getValue(Field.FIELD_DISTANCE).asFloat();
                     float distanceKm = distance / 1000f;
                     distanceText.setText(String.format("%.2f KM", distanceKm));
-                });
+                })
+                .addOnFailureListener(e -> Log.e("FitData", "Failed to read steps", e));
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @androidx.annotation.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GOOGLE_FIT_PERMISSIONS_REQUEST_CODE) {
-            GoogleSignInAccount account = GoogleSignIn.getAccountForExtension(this, fitnessOptions);
-            if (GoogleSignIn.hasPermissions(account, fitnessOptions)) {
-                readFitData(account);
+            GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+            if (account != null) {
+                if (GoogleSignIn.hasPermissions(account, fitnessOptions)) {
+                    Log.d("FitDebug", "권한 확인 완료, readFitData 실행");
+                    readFitData(account);
+                } else {
+                    Log.e("FitDebug", "onActivityResult: 권한 없음");
+                    // 권한 재요청할 수도 있음
+                }
+            } else {
+                Log.e("FitDebug", "onActivityResult: 로그인 실패 또는 취소됨");
             }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if (account != null && GoogleSignIn.hasPermissions(account, fitnessOptions)) {
+            readFitData(account);
         }
     }
 }

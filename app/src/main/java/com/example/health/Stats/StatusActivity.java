@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -81,6 +82,13 @@ public class StatusActivity extends AppCompatActivity {
         runTime = findViewById(R.id.runTime);
         kcalText = findViewById(R.id.KcalText);
         Spinner topDropdownSpinner = findViewById(R.id.topDropdownSpinner);
+
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if (account != null) {
+            String email = account.getEmail();
+            String name = account.getDisplayName();
+            // 필요한 정보 사용
+        }
 
         ArrayAdapter<CharSequence> topAdapter = ArrayAdapter.createFromResource(
                 this,
@@ -156,7 +164,7 @@ public class StatusActivity extends AppCompatActivity {
         // runTime 표시
         setRunTimeText();
         // Kcal계산 메서드
-        fetchKcal();
+        fetchKcal(account);
 
         iconWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -569,8 +577,19 @@ public class StatusActivity extends AppCompatActivity {
                 return key;
         }
     }
-    private void fetchKcal(){
-        String url = "http://10.0.2.2:8080/api/stats/daily/" + userId;
+    private void fetchKcal(GoogleSignInAccount account){
+        Fitness.getHistoryClient(this, account )
+                .readDailyTotal(DataType.TYPE_CALORIES_EXPENDED)
+                .addOnSuccessListener(dataSet -> {
+                    float calories = dataSet.isEmpty() ? 0f :
+                            dataSet.getDataPoints().get(0).getValue(Field.FIELD_CALORIES).asFloat();
+                    int caloriesInt = (int) calories;
+                    Log.d("FitCalories", "소모 칼로리: " + calories);
+                    kcalText.setText(caloriesInt+" kcal");
+                    // 원하는 TextView 등에 표시 가능
+                })
+                .addOnFailureListener(e -> Log.e("FitCalories", "칼로리 읽기 실패", e));
+        /*String url = "http://10.0.2.2:8080/api/stats/daily/" + userId;
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -604,7 +623,7 @@ public class StatusActivity extends AppCompatActivity {
                 }
         );
 
-        queue.add(request);
+        queue.add(request);*/
     }
     private void setRunTimeText(){
         String url = "http://10.0.2.2:8080/api/home/activity/" + userId;
