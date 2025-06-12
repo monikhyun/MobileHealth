@@ -141,6 +141,7 @@ public class DietActivity extends AppCompatActivity {
     }
 
     private void fetchDietData(String today) {
+        // 백엔드 서버 요청 부분
         String url = "http://10.0.2.2:8080/api/diet/" + userId + "?date=" + today;
 
         RequestQueue queue = Volley.newRequestQueue(this);

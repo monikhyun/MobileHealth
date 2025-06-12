@@ -270,12 +270,7 @@ public class StatusActivity extends AppCompatActivity {
                         else if (i % 3 == 1) colors.add(Color.parseColor("#FFD700"));
                         else colors.add(Color.parseColor("#87CEFA"));
                     }
-                    // 데이터 순서 및 레이블 설정 (월별은 역순 처리)
-                    if (mappedType.equals("monthly")) {
-                        Collections.reverse(entries);
-                        Collections.reverse(labels);
-                        Collections.reverse(colors);
-                    }
+
 
                     // BarDataSet 생성 및 값 포매터
                     BarDataSet dataSet = new BarDataSet(entries, "");
