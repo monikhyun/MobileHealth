@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:padding="24dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="130dp"
+            android:paddingTop="32dp"
+            android:paddingBottom="32dp"
+            android:src="@drawable/logo" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="회원가입"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center"/>
+        <!-- 아이디 입력 -->
+        <EditText
+            android:id="@+id/etId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="아이디 입력"
+            android:inputType="textPersonName" />
+
+        <!-- 중복 확인 버튼 -->
+        <Button
+            android:id="@+id/btnValidate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/pink"
+            android:text="아이디 중복 확인"
+            android:textColor="@color/black"/>
+
+        <!-- 비밀번호 입력 -->
+        <EditText
+            android:id="@+id/etPasswd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="비밀번호 입력"
+            android:inputType="textPassword" />
+
+        <!-- 이름 입력 -->
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="닉네임 입력"
+            android:inputType="textPersonName" />
+
+        <!-- 중복 확인 버튼 -->
+        <Button
+            android:id="@+id/btnValidate2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/pink"
+            android:text="닉네임 중복 확인"
+            android:textColor="@color/black"/>
+
+        <!-- 성별 라디오 그룹 -->
+        <RadioGroup
+            android:id="@+id/rgroupGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="남성" />
+
+            <RadioButton
+                android:id="@+id/radioFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="여성" />
+        </RadioGroup>
+        <!-- 회원가입 버튼 -->
+        <Button
+            android:id="@+id/btnMembership"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="회원가입"
+            android:backgroundTint="@color/pink"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="20dp"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="#FEF7FF"
+        android:paddingVertical="8dp"
+        android:paddingLeft="26dp"
+        android:paddingRight="4dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="28dp"
+        android:orientation="horizontal">
+        <Spinner
+            android:id="@+id/topDropdownSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
+            android:layout_marginEnd="11dp"
+            android:backgroundTint="@android:color/black"
+            android:dropDownHorizontalOffset="0dp"
+            android:dropDownVerticalOffset="4dp"
+            android:gravity="center"
+            android:spinnerMode="dropdown" />
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/btn_profile"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_profile"
+            android:layout_marginStart="8dp"/>
+
+        <ImageView
+            android:id="@+id/btn_alarm"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_alarm"
+            android:layout_marginStart="8dp"/>
+
+        <ImageView
+            android:id="@+id/btn_setting"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_setting"/>
+    </LinearLayout>
+
+
+    <!-- 스크롤 가능한 본문 -->
+    <ScrollView
+        android:id="@+id/scrollContent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintBottom_toTopOf="@id/navigationBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="식단 기록"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- 식사 시간 선택 버튼 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:elevation="4dp"
+                android:background="@drawable/rounded_container"
+                android:layout_marginBottom="16dp">
+
+                <Button
+                    android:id="@+id/btnBreakfast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#A0A0A0"
+                    android:text="아침"
+                    android:textColor="@android:color/white"
+                    android:elevation="6dp"/>
+
+                <Button
+                    android:id="@+id/btnLunch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="#A0A0A0"
+                    android:text="점심"
+                    android:textColor="@android:color/white"
+                    android:elevation="6dp"/>
+
+                <Button
+                    android:id="@+id/btnDinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#A0A0A0"
+                    android:text="저녁"
+                    android:textColor="@android:color/white"
+                    android:elevation="6dp"/>
+            </LinearLayout>
+
+            <!-- 입력 폼 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/rounded_container"
+                android:elevation="4dp">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="이름"
+                    android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/editMealName"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/edit_box_bg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="칼로리"
+                    android:layout_marginTop="12dp"
+                    android:textStyle="bold"/>
+                <EditText
+                    android:id="@+id/editCalorie"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/edit_box_bg"
+                    android:inputType="number"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="탄수화물"
+                    android:layout_marginTop="12dp"
+                    android:textStyle="bold"/>
+                <EditText
+                    android:id="@+id/editCarb"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/edit_box_bg"
+                    android:inputType="number"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="단백질"
+                    android:layout_marginTop="12dp"
+                    android:textStyle="bold"/>
+                <EditText
+                    android:id="@+id/editProtein"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/edit_box_bg"
+                    android:inputType="number"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="지방"
+                    android:layout_marginTop="12dp"
+                    android:textStyle="bold"/>
+                <EditText
+                    android:id="@+id/editFat"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/edit_box_bg"
+                    android:inputType="number"/>
+            </LinearLayout>
+
+            <!-- 버튼 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="24dp">
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#A0A0A0"
+                    android:text="취소"
+                    android:textColor="@android:color/white"
+                    android:elevation="6dp"/>
+
+                <Button
+                    android:id="@+id/buttonSubmit"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:backgroundTint="#FFB6C1"
+                    android:text="확인"
+                    android:textColor="@android:color/white"
+                    android:elevation="6dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 하단 네비게이션 바: 기존 navigationBar 재활용 -->
+    <LinearLayout
+        android:id="@+id/navigationBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#F9F9F9"
+        android:paddingVertical="8dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- 홈 -->
+        <LinearLayout
+            android:id="@+id/nav_home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="4dp">
+
+            <ImageView
+                android:id="@+id/icon_home"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_home"
+                app:tint="#A0A0A0" />
+
+            <TextView
+                android:id="@+id/text_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="홈"
+                android:textSize="12sp"
+                android:textColor="#000000"/>
+        </LinearLayout>
+
+        <!-- 운동 -->
+        <LinearLayout
+            android:id="@+id/nav_workout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="4dp">
+
+            <ImageView
+                android:id="@+id/icon_workout"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_exercise"
+                app:tint="#FF7C8C" />
+
+            <TextView
+                android:id="@+id/text_workout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="운동"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#000000"/>
+        </LinearLayout>
+
+        <!-- 식단 -->
+        <LinearLayout
+            android:id="@+id/nav_meal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="4dp">
+
+            <ImageView
+                android:id="@+id/icon_meal"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_diet_selected"
+                app:tint="#A0A0A0" />
+
+            <TextView
+                android:id="@+id/text_meal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="식단"
+                android:textSize="12sp"
+                android:textColor="#000000"/>
+        </LinearLayout>
+
+        <!-- 친구 -->
+        <LinearLayout
+            android:id="@+id/nav_friends"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="4dp">
+
+            <ImageView
+                android:id="@+id/icon_friends"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_friends"
+                app:tint="#A0A0A0" />
+
+            <TextView
+                android:id="@+id/text_friends"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="친구"
+                android:textSize="12sp"
+                android:textColor="#000000"/>
+        </LinearLayout>
+
+        <!-- 통계 -->
+        <LinearLayout
+            android:id="@+id/nav_stats"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingVertical="4dp">
+
+            <ImageView
+                android:id="@+id/icon_stats"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_stats"
+                app:tint="#A0A0A0" />
+
+            <TextView
+                android:id="@+id/text_stats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="통계"
+                android:textSize="12sp"
+                android:textColor="#000000"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

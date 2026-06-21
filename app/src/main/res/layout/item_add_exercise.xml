@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    android:background="@drawable/exercise_item_bg"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:gravity="center_vertical"
+    >
+
+    <!-- 부위 표시 (ex: 등) -->
+    <TextView
+        android:id="@+id/text_part"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="등"
+        android:textSize="14sp"
+        android:background="@drawable/part_label_bg"
+        android:textColor="@android:color/black"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="4dp"
+        android:layout_marginEnd="12dp"/>
+
+    <!-- 운동 이름 -->
+    <TextView
+        android:id="@+id/text_exercise_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="원 암 덤벨 로우"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+    <ImageButton
+        android:id="@+id/btn_favorite"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@color/white"
+        android:src="@drawable/ic_favorite_false"
+        android:scaleType="centerInside"
+        android:padding="6dp"
+        android:layout_marginStart="16dp"
+        android:contentDescription="세트 삭제"/>
+
+</LinearLayout>

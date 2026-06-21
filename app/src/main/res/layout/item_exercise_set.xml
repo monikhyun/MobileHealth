@@ -1,0 +1,139 @@
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/set_item_bg"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginHorizontal="12dp"
+    android:padding="12dp"
+    android:elevation="2dp"
+    android:clipToPadding="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 세트 타이틀 행 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="세트"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="KG"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="회"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="완료"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <View
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <!-- 입력 행 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="4dp">
+        <!-- 세트 번호 -->
+        <TextView
+            android:layout_width="48dp"
+            android:layout_height="36dp"
+            android:gravity="center"
+            android:text="1"
+            android:id="@+id/text_set_number"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/edit_box_bg"
+            android:textColor="#000000"
+            android:textSize="16sp"/>
+
+        <!-- KG 입력 -->
+        <EditText
+            android:layout_width="48dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="24dp"
+            android:background="@drawable/edit_box_bg"
+            android:inputType="number"
+            android:text=""
+            android:id="@+id/input_kg"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="#000000"/>
+
+        <!-- 회 입력 -->
+        <EditText
+            android:layout_width="48dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="24dp"
+            android:background="@drawable/edit_box_bg"
+            android:inputType="number"
+            android:text=""
+            android:gravity="center"
+            android:id="@+id/input_reps"
+            android:textStyle="bold"
+            android:textColor="#000000"/>
+
+        <!-- 완료 체크 -->
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="24dp"
+            android:layout_gravity="center"
+            android:background="@drawable/edit_box_bg"
+            android:descendantFocusability="blocksDescendants"
+            android:clickable="false"
+            android:focusable="false">
+
+            <CheckBox
+                android:id="@+id/check_complete"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@android:color/transparent"
+                android:button="?android:attr/listChoiceIndicatorMultiple"/>
+        </FrameLayout>
+        <ImageButton
+            android:id="@+id/btn_remove_set"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/remove_button"
+            android:src="@drawable/ic_remove"
+            android:scaleType="centerInside"
+            android:padding="6dp"
+            app:tint="@android:color/black"
+            android:layout_marginStart="16dp"
+            android:contentDescription="세트 삭제"/>
+    </LinearLayout>
+</LinearLayout>

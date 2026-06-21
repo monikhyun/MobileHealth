@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
+    <uses-permission android:name="android.permission.BODY_SENSORS"/>
+    <application
+
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Resister"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <activity
+            android:name=".Friend.FriendListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Auth.MainActivity"
+            android:exported="true"></activity> <!-- 로그인 액티비티 -->
+        <activity
+            android:name=".Auth.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- 회원가입 액티비티 -->
+        <activity
+            android:name=".Auth.RegisterActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Exercise.ExerciseDetailActivity"
+            android:exported="true"></activity>
+        <activity android:name=".Exercise.ExerciseListActivity"
+            android:exported="true"/>
+        <activity android:name=".Exercise.ExerciseAddListActivity" />
+        <activity android:name=".Home.MyPageActivity"/>
+        <activity android:name=".Home.EditPageActivity"/>
+        <activity android:name=".Home.InBodyRecordActivity"/>
+        <activity android:name=".Home.InBodyEditActivity"/>
+        <activity
+            android:name=".Diet.DietActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Diet.DietAddActivity"
+            android:exported="true" />
+        <activity android:name=".Stats.StatusActivity"
+            android:exported="true"/>
+    </application>
+
+</manifest>

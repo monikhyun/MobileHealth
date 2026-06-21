@@ -1,0 +1,24 @@
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/button_card_bg"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingVertical="10dp"
+    android:layout_marginHorizontal="16dp"
+    android:elevation="4dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginBottom="12dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageButton
+        android:id="@+id/btn_add_set"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_add_white"
+        android:background="@drawable/round_button"
+        app:tint="@android:color/white"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"/>
+</LinearLayout>
